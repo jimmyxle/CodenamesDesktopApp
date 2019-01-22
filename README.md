@@ -13,7 +13,8 @@ Please read carefully the guide below to install and run properly the game. Thos
 
 
 **Technology used/Built with**
-
+Language used: -Java
+IDE: 
 
 
 **Rules/How to play**
