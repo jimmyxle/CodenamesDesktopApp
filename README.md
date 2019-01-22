@@ -7,14 +7,13 @@ Please read carefully the guide below to install and run the game properly. Thos
 
 ***Installation & Setup***  
 
-
-**About the game/info**  
-
-
-
 **Technology used/Built with**  
 Language used: -Java
 IDE: 
+
+
+**About the game**  
+
 
 
 **Rules/How to play**  
