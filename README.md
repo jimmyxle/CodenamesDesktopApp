@@ -3,7 +3,7 @@ Winter 2019 project for COMP 354
 Taught by Gregory Butler
 
 **Getting Started**  
-Please read carefully the guide below to install and run properly the game. Those instruction will help you run the game on your local machine for development and testing purpose.
+Please read carefully the guide below to install and run the game properly. Those instruction will help you run the game on your local machine for development and testing purpose.
 
 ***Installation & Setup***  
 
