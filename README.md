@@ -5,25 +5,24 @@ Taught by Gregory Butler
 **Getting Started**  
 Please read carefully the guide below to install and run properly the game. Those instruction will help you run the game on your local machine for development and testing purpose.
 
-***Installation & Setup***
+***Installation & Setup***  
 
 
-**About the game/info**
+**About the game/info**  
 
 
 
-**Technology used/Built with**
+**Technology used/Built with**  
 Language used: -Java
 IDE: 
 
 
-**Rules/How to play**
+**Rules/How to play**  
 
 
 
 
-**Authors**
-
+**Authors**  
 * Alexandre	Abrams
 * Alexandre	Briere
 * Yaacov	Cohen
