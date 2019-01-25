@@ -20,8 +20,6 @@ public class GameView extends StackPane {
     public interface Controller {
         void advanceTurn();
     }
-    
-    private final Controller controller;
 
     private final BorderPane root;
     private final BoardView  boardView;
@@ -29,7 +27,7 @@ public class GameView extends StackPane {
     private final StateView  stateView;
     
     public GameView(GameState game, Controller controller) {
-        this.controller = Objects.requireNonNull(controller, "controller");
+        Objects.requireNonNull(controller, "controller");
         
         root = new BorderPane();
         getChildren().add(root);
@@ -66,6 +64,7 @@ public class GameView extends StackPane {
         // bind elements to model, controller
         //--------------------------------------------------------------------------------------------------------------
         boardView.boardProperty().bind(game.boardProperty());
+        boardView.setRevealed(game.getChosenCards());
         boardView.keycardVisibleProperty().bind(showOverlay.selectedProperty());
         
         scoreView.redScoreProperty().bind(game.redScoreProperty());

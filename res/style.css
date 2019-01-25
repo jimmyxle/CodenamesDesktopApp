@@ -5,6 +5,10 @@
  *   https://docs.oracle.com/javase/8/javafx/api/javafx/scene/doc-files/cssref.html
  */
 
+/* 
+ * score display 
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
 .score-view {
 	/* nada */
 }
@@ -21,30 +25,63 @@
 	-fx-background-color: rgba(0, 0, 255, 0.5);
 }
 
+/* 
+ * board display 
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
 .board-view {
 	/* nada */
 }
 
-.board-view .team-region {
-	-fx-background-color: rgba(255, 0, 255, 0.5);
+.board-view .keycard-region {
+	-fx-border-style: solid inside;
+	-fx-border-width: 0.25em;
 }
 
-.board-view .team-region:red {
-	-fx-background-color: rgba(255, 0, 0, 0.5);
+.board-view .keycard-region:red {
+	-fx-border-color: crimson;
 }
 
-.board-view .team-region:blue {
-	-fx-background-color: rgba(0, 0, 255, 0.5);
+.board-view .keycard-region:blue {
+	-fx-border-color: blue;
 }
 
-.board-view .team-region:neutral {
-	-fx-background-color: rgba(255, 255, 0, 0.5);
+.board-view .keycard-region:neutral {
+	-fx-border-color: tan;
 }
 
-.board-view .team-region:assassin {
-	-fx-background-color: rgba(0, 0, 0, 0.5);
+.board-view .keycard-region:assassin {
+	-fx-border-color: black;
 }
 
+.board-view .codename-region {
+	/* nada */
+}
+
+.board-view .codename-region .overlay {
+	-fx-background-color: transparent;
+}
+
+.board-view .codename-region:red .overlay {
+	-fx-background-color: indianred;
+}
+
+.board-view .codename-region:blue .overlay {
+	-fx-background-color: cornflowerblue;
+}
+
+.board-view .codename-region:neutral .overlay {
+	-fx-background-color: antiquewhite;
+}
+
+.board-view .codename-region:assassin .overlay {
+	-fx-background-color: dimgray;
+}
+
+/* 
+ * state (current turn, action) display 
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
 .state-view {
 	/* nada */
 }

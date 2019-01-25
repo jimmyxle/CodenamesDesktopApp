@@ -1,5 +1,11 @@
 package ca.concordia.encs.comp354.model;
 
+/**
+ * Represents a game board configuration. Since the configuration does not change for the duration of the game, this 
+ * class should be immutable (which is the assumption the view code makes). A new configuration means a new Board.
+ * @author Nikita Leonidov
+ *
+ */
 public abstract class Board {
 
     /**

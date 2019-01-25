@@ -1,9 +1,12 @@
 package ca.concordia.encs.comp354.view;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import ca.concordia.encs.comp354.model.Board;
+import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.GameAction;
 import ca.concordia.encs.comp354.model.Team;
@@ -13,6 +16,8 @@ import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableSet;
 
 /**
  * Dummy implementation of GameState to feed fake model data to the GUI.
@@ -42,12 +47,30 @@ public class TestGameState extends GameState {
     
     private int actionIndex = 0;
     
+    private final ObservableSet<Coordinates> revealed = FXCollections.observableSet();
+    private final List<Coordinates>          hidden   = new ArrayList<>();
+    
     public TestGameState() {
         pushAction();
+        
+        // create a randomly ordered list of spaces to reveal
+        for (int x=0; x<5; x++) {
+            for (int y=0; y<5; y++) {
+                hidden.add(new Coordinates(x, y));
+            }
+        }
+        
+        Collections.shuffle(hidden);
     }
     
     public void advance() {
         actionIndex = (actionIndex+1)%actions.size();
+        
+        // show a random space
+        if (!hidden.isEmpty() && actionIndex!=0 && (actionIndex%3)==0) {
+            revealed.add(hidden.remove(hidden.size()-1));
+        }
+        
         pushAction();
     }
     
@@ -74,6 +97,11 @@ public class TestGameState extends GameState {
     @Override
     public ReadOnlyIntegerProperty blueScoreProperty() {
         return blueScore;
+    }
+
+    @Override
+    public ObservableSet<Coordinates> getChosenCards() {
+        return revealed;
     }
     
     private void pushAction() {
