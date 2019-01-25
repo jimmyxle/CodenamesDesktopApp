@@ -1,0 +1,58 @@
+/*
+ * Custom stylesheet for game elements.
+ * 
+ * For the complete JavaFX CSS reference, see:
+ *   https://docs.oracle.com/javase/8/javafx/api/javafx/scene/doc-files/cssref.html
+ */
+
+.score-view {
+	/* nada */
+}
+
+.score-view .score-readout {
+	-fx-padding: 0.25em;
+}
+
+.score-view .score-readout:red {
+	-fx-background-color: rgba(255, 0, 0, 0.5);
+}
+
+.score-view .score-readout:blue {
+	-fx-background-color: rgba(0, 0, 255, 0.5);
+}
+
+.board-view {
+	/* nada */
+}
+
+.board-view .team-region {
+	-fx-background-color: rgba(255, 0, 255, 0.5);
+}
+
+.board-view .team-region:red {
+	-fx-background-color: rgba(255, 0, 0, 0.5);
+}
+
+.board-view .team-region:blue {
+	-fx-background-color: rgba(0, 0, 255, 0.5);
+}
+
+.board-view .team-region:neutral {
+	-fx-background-color: rgba(255, 255, 0, 0.5);
+}
+
+.board-view .team-region:assassin {
+	-fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+.state-view {
+	/* nada */
+}
+
+.state-view:red {
+	-fx-background-color: rgba(255, 0, 0, 0.5);
+}
+
+.state-view:blue {
+	-fx-background-color: rgba(0, 0, 255, 0.5);
+}
