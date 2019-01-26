@@ -1,0 +1,95 @@
+/*
+ * Custom stylesheet for game elements.
+ * 
+ * For the complete JavaFX CSS reference, see:
+ *   https://docs.oracle.com/javase/8/javafx/api/javafx/scene/doc-files/cssref.html
+ */
+
+/* 
+ * score display 
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+.score-view {
+	/* nada */
+}
+
+.score-view .score-readout {
+	-fx-padding: 0.25em;
+}
+
+.score-view .score-readout:red {
+	-fx-background-color: rgba(255, 0, 0, 0.5);
+}
+
+.score-view .score-readout:blue {
+	-fx-background-color: rgba(0, 0, 255, 0.5);
+}
+
+/* 
+ * board display 
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+.board-view {
+	/* nada */
+}
+
+.board-view .keycard-region {
+	-fx-border-style: solid inside;
+	-fx-border-width: 0.25em;
+}
+
+.board-view .keycard-region:red {
+	-fx-border-color: crimson;
+}
+
+.board-view .keycard-region:blue {
+	-fx-border-color: blue;
+}
+
+.board-view .keycard-region:neutral {
+	-fx-border-color: tan;
+}
+
+.board-view .keycard-region:assassin {
+	-fx-border-color: black;
+}
+
+.board-view .codename-region {
+	/* nada */
+}
+
+.board-view .codename-region .overlay {
+	-fx-background-color: transparent;
+}
+
+.board-view .codename-region:red .overlay {
+	-fx-background-color: indianred;
+}
+
+.board-view .codename-region:blue .overlay {
+	-fx-background-color: cornflowerblue;
+}
+
+.board-view .codename-region:neutral .overlay {
+	-fx-background-color: antiquewhite;
+}
+
+.board-view .codename-region:assassin .overlay {
+	-fx-background-color: dimgray;
+}
+
+/* 
+ * state (current turn, action) display 
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+.state-view {
+	/* nada */
+}
+
+.state-view:red {
+	-fx-background-color: rgba(255, 0, 0, 0.5);
+}
+
+.state-view:blue {
+	-fx-background-color: rgba(0, 0, 255, 0.5);
+}
