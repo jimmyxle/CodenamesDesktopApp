@@ -1,23 +1,16 @@
-//============================
-//----------PACKAGE----------
-//============================
 package ca.concordia.encs.comp354.model;
 
 
-//============================
-//----------IMPORTS----------
-//============================
 import java.util.Objects;
 import java.util.List;
 
-//============================
-//------STATIC VARIABLES------
-//============================
-
-
-//============================
-//-----CODENAMEWORD CLASS-----
-//============================
+/**
+ * Represents a Codename Word. Each word has a clue word which the spy master is going to give as a clue to
+ * the operatives to guess. Each clue word has an associated word list, sorted in descending order by "weight" of
+ * relation to the clue word, this will be useful in creating a "guessing strategy" for the operatives.
+ * The AssociatedWord class is nested within this class.
+ * @author Zachary Hynes
+ */
 public class CodenameWord {
     //============================
     //---------VARIABLES---------
@@ -38,9 +31,6 @@ public class CodenameWord {
     //============================
     //----------METHODS----------
     //============================
-    //====================
-    //-GETTERS & SETTERS-
-    //====================
     public String getClueWord() {
         return clueWord;
     }
@@ -57,9 +47,6 @@ public class CodenameWord {
         AssociatedWords = associatedWords;
     }
 
-    //====================
-    //-----TO STRING-----
-    //====================
     @Override
     public String toString() {
         return "CodenameWord{" +
@@ -68,10 +55,6 @@ public class CodenameWord {
                 '}';
     }
 
-
-    //====================
-    //-------EQUALS-------
-    //====================
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,10 +64,10 @@ public class CodenameWord {
                 Objects.equals(AssociatedWords, that.AssociatedWords);
     }
 
-    //====================
-    //-------OTHER-------
-    //====================
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(clueWord, AssociatedWords);
+    }
 
     //============================
     //--------INNER CLASS--------
@@ -109,9 +92,6 @@ public class CodenameWord {
         //============================
         //----------METHODS----------
         //============================
-        //====================
-        //-GETTERS & SETTERS-
-        //====================
         public String getAssociatedWord() {
             return associatedWord;
         }
@@ -128,10 +108,6 @@ public class CodenameWord {
             this.weight = weight;
         }
 
-
-        //====================
-        //-----TO STRING-----
-        //====================
         @Override
         public String toString() {
             return "AssociatedWord{" +
@@ -140,10 +116,6 @@ public class CodenameWord {
                     '}';
         }
 
-
-        //====================
-        //-------EQUALS-------
-        //====================
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -153,19 +125,12 @@ public class CodenameWord {
                     Objects.equals(associatedWord, that.associatedWord);
         }
 
-
-        //====================
-        //-------OTHER-------
-        //====================
-
-
+        @Override
+        public int hashCode() {
+            return Objects.hash(associatedWord, weight);
+        }
     }//END OF AssociatedWord CLASS
 
-
-//    public void main(String[] args) {
-//        generateRandomCodenameList();
-//
-//    }//END OF main(String[] args) METHOD
 }//END OF CodenameWord CLASS
 
 
