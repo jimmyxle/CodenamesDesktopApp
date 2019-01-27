@@ -28,7 +28,7 @@ public class Cards {
     //============================
     //--------CONSTRUCTORS--------
     //============================
-    public Cards(String codename, List<CodenameWord.AssociatedWord> associatedWords, CardValue typeOfCard) {
+    private Cards(String codename, List<CodenameWord.AssociatedWord> associatedWords, CardValue typeOfCard) {
         this.codename = codename;
         this.associatedWords = associatedWords;
         this.typeOfCard = typeOfCard;
@@ -47,7 +47,7 @@ public class Cards {
         List<CodenameWord> wordList = generateRandomCodenameList();
         List<Cards> cardList = new ArrayList<>();
 
-        CardValue[] cardValues = getRandomCardTypes();
+        CardValue[] cardValues = generateKeyCard();
 
         int i = 0;
 
@@ -125,7 +125,6 @@ public class Cards {
      */
     private static List<CodenameWord> generateRandomCodenameList() {
         //generate 25 random numbers between 0 and 400
-        //TODO: for next iteration
 //        generateRandomNumber();
 
         //parse database for 25 words
@@ -302,7 +301,8 @@ public class Cards {
         return newCodenameObject;
     }//END OF parseCodenameObject(String str)
 
-    private static CardValue[] getRandomCardTypes() {
+    //TODO: verify with the team if this is the best place to generate the baords' key card
+    private static CardValue[] generateKeyCard() {
         CardValue[] cardValues = new CardValue[25];
 
         int reds = 9;
@@ -341,45 +341,45 @@ public class Cards {
     //====================
     //--------TEST--------
     //====================
-    public static void main(String[] args) {
-        List<CodenameWord> codenameWordList = generateRandomCodenameList();
-
-        //====================
-        //--------TEST--------
-        //====================
-//        //print out the codenameWordList
-//        System.out.println("CodeName Word List:");
-//        int count = 1;
-//        for (CodenameWord codeNameWord: codenameWordList) {
-//            System.out.println("Word " + count + ": " + codeNameWord);
-//            count++;
-//        }
-
-
-        //====================
-        //--------TEST--------
-        //====================
-//        //print ouf the list of Random Card Types
-//        CardValue[] values = getRandomCardTypes();
-//        for (CardValue value : values) {
-//            System.out.println(value.toString());
-//        }
-
-
-        //====================
-        //--------TEST--------
-        //====================
-//        //print out the card list
-//        System.out.println("Cards List:");
+//    public static void main(String[] args) {
+//        List<CodenameWord> codenameWordList = generateRandomCodenameList();
 //
-//        List<Cards> cardList = generate25Cards();
+//        //====================
+//        //--------TEST--------
+//        //====================
+////        //print out the codenameWordList
+////        System.out.println("CodeName Word List:");
+////        int count = 1;
+////        for (CodenameWord codeNameWord: codenameWordList) {
+////            System.out.println("Word " + count + ": " + codeNameWord);
+////            count++;
+////        }
 //
-//        int count = 1;
-//        for (Cards card: cardList) {
-//            System.out.println("Card " + count + ": " + card.getCodename() + ", " + card.getTypeOfCard() + ", " + card.isGuessed());
-//            count++;
-//        }
-
-    }//END OF main(String[] args)
+//
+//        //====================
+//        //--------TEST--------
+//        //====================
+////        //print ouf the list of Random Card Types for the key card
+////        CardValue[] values = generateKeyCard();
+////        for (CardValue value : values) {
+////            System.out.println(value.toString());
+////        }
+//
+//
+//        //====================
+//        //--------TEST--------
+//        //====================
+////        //print out the card list
+////        System.out.println("Cards List:");
+////
+////        List<Cards> cardList = generate25Cards();
+////
+////        int count = 1;
+////        for (Cards card: cardList) {
+////            System.out.println("Card " + count + ": " + card.getCodename() + ", " + card.getTypeOfCard() + ", " + card.isGuessed());
+////            count++;
+////        }
+//
+//    }//END OF main(String[] args)
 
 }//END OF Cards CLASS
