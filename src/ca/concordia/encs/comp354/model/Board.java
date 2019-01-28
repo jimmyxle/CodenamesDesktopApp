@@ -23,6 +23,26 @@ public class Board {
     //============================
     //--------CONSTRUCTORS--------
     //============================
+//    public Board() {
+////        try {
+//            List<Card> cardList = Card.generate25Cards();
+//
+//            if (cardList.size() < 25) {
+//                throw new IllegalArgumentException("Not enough cards to populate the board.");
+//            }
+//
+//            for (int i = 0; i < WIDTH; i++) {
+//                for (int j = 0; j < LENGTH; j++) {
+//                    this.board[i][j] = cardList.get((i*WIDTH) + j);
+//                }
+//            }
+////        } catch (IOException e) {
+////            //TODO: Figure out how to safely throw the exception to be handled higher up the call stack
+////            // or handle it here.
+////            System.out.println("Exception.... to be handled with at a future date!");
+////        }
+//    }
+
     //TODO: maybe it's best practice to set the default constructor to a null board, and create a init() function?
     // --well, this can get us something working for iteration 1 at least.
     public Board(List<Card> cardList) throws IllegalArgumentException {
