@@ -1,6 +1,11 @@
 package ca.concordia.encs.comp354.model;
 
 import java.util.List;
+
+//for testing
+import ca.concordia.encs.comp354.controller.Operative;
+import ca.concordia.encs.comp354.controller.SpyMaster;
+
 import java.io.IOException;
 import java.lang.IllegalArgumentException;
 
@@ -182,6 +187,15 @@ public class Board {
             System.out.println("\nAssociated Word i's Object for \"" + gameBoard.getWord(x,y) + "\": " + gameBoard.getAssociatedWordObject(x,y,i));
             System.out.println("\nAssociated Word i for \"" + gameBoard.getWord(x,y) + "\": " + gameBoard.getAssociatedWord(x,y,i));
             System.out.println("\nAssociated Word i's Weight for \"" + gameBoard.getWord(x,y) + "\": " + gameBoard.getAssociatedWordWeight(x,y,i));
+            
+            SpyMaster spy = new SpyMaster(CardValue.RED);
+            Operative op = new Operative(CardValue.RED, spy);
+            
+            String clue = spy.giveClue(gameBoard);
+            System.out.println("First clue: " + clue);
+            String guess = op.guessWord(gameBoard);
+            System.out.println("First guess: " + guess);
+            
     }//END OF main(String[] args)
 
 }//END OF Board class

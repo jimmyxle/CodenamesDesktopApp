@@ -1,6 +1,6 @@
-//@alexabrams
-
 package ca.concordia.encs.comp354.controller;
+
+import ca.concordia.encs.comp354.model.CardValue;
 
 /**
  * Base class for the players. Keeps track of where the spymaster/operative is picking linearly.
@@ -8,7 +8,7 @@ package ca.concordia.encs.comp354.controller;
  */
 public class Player {
 
-	private CardValue team;
+	protected CardValue team;
 	
 	//Base constructor, initializes the team of the player
 	public Player(CardValue color) {

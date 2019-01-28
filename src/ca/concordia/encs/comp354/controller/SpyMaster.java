@@ -1,5 +1,3 @@
-//alexabrams
-
 package ca.concordia.encs.comp354.controller;
 
 /**
@@ -7,7 +5,8 @@ package ca.concordia.encs.comp354.controller;
  * @author Alex Abrams
  */
 
-import java.util.Objects;
+import ca.concordia.encs.comp354.model.Board;
+import ca.concordia.encs.comp354.model.CardValue;
 
 public class SpyMaster extends Player {
 	static int linearCol = 0;
@@ -17,7 +16,6 @@ public class SpyMaster extends Player {
 	public SpyMaster(CardValue team) {
 		super(team);
 	}
-	
 	
 
     /**

@@ -1,6 +1,7 @@
-//@alexabrams
-
 package ca.concordia.encs.comp354.controller;
+
+import ca.concordia.encs.comp354.model.Board;
+import ca.concordia.encs.comp354.model.CardValue;
 
 /**
  * Operative class extends Player. Keeps track of number of Operatives, takes a spymaster as teammate and can return a guess
@@ -31,5 +32,8 @@ public class Operative extends Player {
 		return guess;
 	}
 	
+	public int getTeamMember() {
+		return teamMember;
+	}
 }
 
