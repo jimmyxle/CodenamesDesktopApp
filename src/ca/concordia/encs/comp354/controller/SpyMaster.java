@@ -3,8 +3,7 @@
 import java.util.Objects;
 
 public class SpyMaster extends Player {
-	static int linearCol = 0;
-	static int linearRow = 0;
+	
 
 	public SpyMaster(CardValue team) {
 		super(team);
