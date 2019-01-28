@@ -1,10 +1,8 @@
 package ca.concordia.encs.comp354.model;
 
 
-import com.sun.tools.javac.jvm.Code;
-
-import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,24 +13,22 @@ import java.util.Scanner;
  * parsed from a database text file.
  * @author Zachary Hynes
  */
-public class Cards {
+public class Card {
     //============================
     //---------VARIABLES---------
     //============================
-    private String codename;
-    private List<CodenameWord.AssociatedWord> associatedWords;
-    private CardValue typeOfCard;
-    private boolean isGuessed;
+    final private String codename;
+    final private List<CodenameWord.AssociatedWord> associatedWords;
+    final private CardValue typeOfCard;
 
 
     //============================
     //--------CONSTRUCTORS--------
     //============================
-    private Cards(String codename, List<CodenameWord.AssociatedWord> associatedWords, CardValue typeOfCard) {
+    private Card(String codename, List<CodenameWord.AssociatedWord> associatedWords, CardValue typeOfCard) {
         this.codename = codename;
         this.associatedWords = associatedWords;
         this.typeOfCard = typeOfCard;
-        this.isGuessed = false;
     }
 
 
@@ -40,19 +36,19 @@ public class Cards {
     //----------METHODS----------
     //============================
     /**
-     * Returns a list of 25 Codename Cards to be used to populate the board
-     * @return a list containing 25 Codename Cards
+     * Returns a list of 25 Codename Card to be used to populate the board
+     * @return a list containing 25 Codename Card
      */
-    public static List<Cards> generate25Cards() {
+    public static List<Card> generate25Cards() throws IOException {
         List<CodenameWord> wordList = generateRandomCodenameList();
-        List<Cards> cardList = new ArrayList<>();
+        List<Card> cardList = new ArrayList<>();
 
         CardValue[] cardValues = generateKeyCard();
 
         int i = 0;
 
         for (CodenameWord word : wordList) {
-            Cards newCard = new Cards(word.getClueWord(), word.getAssociatedWords(), cardValues[i]);
+            Card newCard = new Card(word.getClueWord(), word.getAssociatedWords(), cardValues[i]);
             cardList.add(newCard);
             i++;
         }
@@ -65,41 +61,20 @@ public class Cards {
         return codename;
     }
 
-    public void setCodename(String codename) {
-        this.codename = codename;
-    }
-
     public List<CodenameWord.AssociatedWord> getAssociatedWords() {
         return associatedWords;
-    }
-
-    public void setAssociatedWords(List<CodenameWord.AssociatedWord> associatedWords) {
-        this.associatedWords = associatedWords;
     }
 
     public CardValue getTypeOfCard() {
         return typeOfCard;
     }
 
-    public void setTypeOfCard(CardValue typeOfCard) {
-        this.typeOfCard = typeOfCard;
-    }
-
-    public boolean isGuessed() {
-        return isGuessed;
-    }
-
-    public void setGuessed(boolean guessed) {
-        isGuessed = guessed;
-    }
-
     @Override
     public String toString() {
-        return "Cards{" +
+        return "Card{" +
                 "codename='" + codename + '\'' +
                 ", associatedWords=" + associatedWords +
                 ", typeOfCard=" + typeOfCard +
-                ", isGuessed=" + isGuessed +
                 '}';
     }
 
@@ -107,23 +82,22 @@ public class Cards {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Cards cards = (Cards) o;
-        return isGuessed == cards.isGuessed &&
-                Objects.equals(codename, cards.codename) &&
-                Objects.equals(associatedWords, cards.associatedWords) &&
-                typeOfCard == cards.typeOfCard;
+        Card card = (Card) o;
+        return Objects.equals(codename, card.codename) &&
+                Objects.equals(associatedWords, card.associatedWords) &&
+                typeOfCard == card.typeOfCard;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(codename, associatedWords, typeOfCard, isGuessed);
+        return Objects.hash(codename, associatedWords, typeOfCard);
     }
 
     /**
      * Returns a list of 25 Codename Words to be used to create cards
      * @return a list containing 25 Codename Words
      */
-    private static List<CodenameWord> generateRandomCodenameList() {
+    private static List<CodenameWord> generateRandomCodenameList() throws IOException {
         //generate 25 random numbers between 0 and 400
 //        generateRandomNumber();
 
@@ -159,55 +133,18 @@ public class Cards {
         return random25;
     }//END OF generateRandomNumber()
 
-    private static String[] parseDatabaseFile() {
-        //============================
-        //------TEST FILE ACCESS------
-        //============================
-//        System.out.println("Testing access to files...");
-
-
-        //====================
-        //-----IO STREAMS-----
-        //====================
-        //Input
-        Scanner inputFromDatabase = null;
-        String inputPath = "./src/ca/concordia/encs/comp354/model/TextFiles/database.txt";
-
-        try {
-            //create new input stream connected to input file.
-            inputFromDatabase = new Scanner(new FileReader(inputPath));
-        } catch (FileNotFoundException e) {
-            System.out.println("Could not open input file for reading. Please check if file exists! Program will terminate after closing any opened files.");
-            System.exit(0);
-        } finally {
-            //Assure a closed input in the event of an exception being thrown.
-            assert inputFromDatabase != null;
-            inputFromDatabase.close();
-//            System.out.println("File opened successfully!");
-        }
-
-
+    private static String[] parseDatabaseFile() throws IOException {
         //====================
         //--PARSING DATABASE--
         //====================
+        String inputPath = "./src/ca/concordia/encs/comp354/model/TextFiles/database.txt";
         String[] words = new String[25];
 
-        try {
-            //create new input stream connected to input file.
-            inputFromDatabase = new Scanner(new FileReader(inputPath));
-
+        try (Scanner inputFromDatabase = new Scanner(new FileReader(inputPath))) {
             //use the 25 parsed lines to create 25 AssociatedWords Lists
             for (int i = 0; i < 25; i++) {
                 words[i] = inputFromDatabase.nextLine();
             }
-
-        } catch (FileNotFoundException e) {
-//            System.out.println("Could not open input file for reading. Please check if file exists! Program will terminate after closing any opened files.");
-            System.exit(0);
-        } finally {
-            //Assure a closed input in the event of an exception being thrown.
-            inputFromDatabase.close();
-//            System.out.println("File parsed successfully!");
         }
 
         //====================
@@ -294,11 +231,7 @@ public class Cards {
 //            count++;
 //        }
 
-
-        //create a new Codename Object and attach the AssociatedWordList
-        CodenameWord newCodenameObject = new CodenameWord(codeName, associatedWordList);
-
-        return newCodenameObject;
+        return new CodenameWord(codeName, associatedWordList);
     }//END OF parseCodenameObject(String str)
 
     //TODO: verify with the team if this is the best place to generate the baords' key card
@@ -370,16 +303,16 @@ public class Cards {
 //        //--------TEST--------
 //        //====================
 ////        //print out the card list
-////        System.out.println("Cards List:");
+////        System.out.println("Card List:");
 ////
-////        List<Cards> cardList = generate25Cards();
+////        List<Card> cardList = generate25Cards();
 ////
 ////        int count = 1;
-////        for (Cards card: cardList) {
+////        for (Card card: cardList) {
 ////            System.out.println("Card " + count + ": " + card.getCodename() + ", " + card.getTypeOfCard() + ", " + card.isGuessed());
 ////            count++;
 ////        }
 //
 //    }//END OF main(String[] args)
 
-}//END OF Cards CLASS
+}//END OF Card CLASS

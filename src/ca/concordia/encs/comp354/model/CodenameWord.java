@@ -1,6 +1,8 @@
 package ca.concordia.encs.comp354.model;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class CodenameWord {
     //---------VARIABLES---------
     //============================
     private String clueWord;
-    private List<AssociatedWord> AssociatedWords;
+    private List<AssociatedWord> associatedWords;
 
 
     //============================
@@ -24,7 +26,7 @@ public class CodenameWord {
     //============================
     CodenameWord(String clueWord, List<AssociatedWord> associatedWords) {
         this.clueWord = clueWord;
-        AssociatedWords = associatedWords;
+        this.associatedWords = Collections.unmodifiableList(new ArrayList<>(associatedWords));
     }
 
 
@@ -35,23 +37,15 @@ public class CodenameWord {
         return clueWord;
     }
 
-    public void setClueWord(String clueWord) {
-        this.clueWord = clueWord;
-    }
-
     public List<AssociatedWord> getAssociatedWords() {
-        return AssociatedWords;
-    }
-
-    public void setAssociatedWords(List<AssociatedWord> associatedWords) {
-        AssociatedWords = associatedWords;
+        return associatedWords;
     }
 
     @Override
     public String toString() {
         return "CodenameWord{" +
                 "clueWord='" + clueWord + '\'' +
-                ", AssociatedWords=" + AssociatedWords +
+                ", AssociatedWords=" + associatedWords +
                 '}';
     }
 
@@ -61,12 +55,12 @@ public class CodenameWord {
         if (o == null || getClass() != o.getClass()) return false;
         CodenameWord that = (CodenameWord) o;
         return Objects.equals(clueWord, that.clueWord) &&
-                Objects.equals(AssociatedWords, that.AssociatedWords);
+                Objects.equals(associatedWords, that.associatedWords);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(clueWord, AssociatedWords);
+        return Objects.hash(clueWord, associatedWords);
     }
 
     //============================
@@ -96,16 +90,8 @@ public class CodenameWord {
             return associatedWord;
         }
 
-        public void setAssociatedWord(String associatedWord) {
-            this.associatedWord = associatedWord;
-        }
-
         public int getWeight() {
             return weight;
-        }
-
-        public void setWeight(int weight) {
-            this.weight = weight;
         }
 
         @Override
