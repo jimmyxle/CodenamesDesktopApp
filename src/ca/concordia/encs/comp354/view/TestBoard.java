@@ -17,31 +17,32 @@ public class TestBoard extends Board {
 
     private final List<String>    words;
     private final List<CardValue> values;
-    
+
     public TestBoard() {
+        super(Collections.emptyList());
         words = new ArrayList<>();
         for (int i=0; i<25; i+=3) {
             words.add("foo");
             words.add("bar");
             words.add("baz");
         }
-        
+
         Collections.shuffle(words);
-        
+
         values = new ArrayList<>();
         values.add(CardValue.ASSASSIN);
         for (int i=0; i<7; i++) {
             values.add(CardValue.RED);
         }
-        
+
         for (int i=0; i<8; i++) {
             values.add(CardValue.BLUE);
         }
-        
+
         for (int i=values.size(); i<25; i++) {
             values.add(CardValue.NEUTRAL);
         }
-        
+
         Collections.shuffle(values);
     }
     
