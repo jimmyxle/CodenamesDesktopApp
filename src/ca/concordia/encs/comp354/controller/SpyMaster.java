@@ -25,19 +25,10 @@ public class SpyMaster extends Player {
      */
 	public String giveClue(Board board) {
 		CardValue color = board.getValue(linearRow, linearCol);
-		while (color != team) {
-			if (color != team) {
-				if (linearCol <= 4) {
-					linearCol++;
-				}
-				else {
-					linearCol = 0;
-					linearRow++;
-				}
-			}
+		while (team != color) {
+			nextCard();
 			color = board.getValue(linearRow, linearCol);
 		} 
-		
 		String codename = board.getWord(linearRow, linearCol);
 		String clue = board.getAssociatedWord(linearRow, linearCol, 0);
 		return clue;		
@@ -50,14 +41,15 @@ public class SpyMaster extends Player {
 	public int getCol() {
 		return linearCol;
 	}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+	
+	public static void nextCard() {
+		if (linearCol < 4 && linearRow < 4) {
+			linearCol++;
+		}
+		else if(linearCol == 4) {
+			linearCol = 0;
+			linearRow++;
+		}
+	}
+	
 }

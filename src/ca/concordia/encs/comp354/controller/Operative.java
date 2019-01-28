@@ -1,6 +1,10 @@
 package ca.concordia.encs.comp354.controller;
 
+import java.io.IOException;
+import java.util.List;
+
 import ca.concordia.encs.comp354.model.Board;
+import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.CardValue;
 
 /**
@@ -29,11 +33,41 @@ public class Operative extends Player {
      */
 	public String guessWord(Board board) {
 		String guess = board.getWord(teammate.getRow(), teammate.getCol());
+		SpyMaster.nextCard();
 		return guess;
 	}
 	
 	public int getTeamMember() {
 		return teamMember;
 	}
+	
+	
+	public static void main(String[] args) throws IOException {
+	    List<Card> cardList = Card.generate25Cards();
+	    Board gameBoard = new Board(cardList);
+	    //====================
+	    //--------TEST--------
+	    //====================
+	    //print out the card list, then return clue and guess for first 2 red cards
+	    System.out.println("Printing out the game board: ");
+	    System.out.println(gameBoard.toString());
+	    
+	    SpyMaster spy = new SpyMaster(CardValue.RED);
+	    Operative op = new Operative(CardValue.RED, spy);
+	    
+	    String clue = spy.giveClue(gameBoard);
+	    System.out.println("First clue: " + clue);
+	    String guess = op.guessWord(gameBoard);
+	    System.out.println("First guess: " + guess);
+	    
+	    clue = spy.giveClue(gameBoard);
+	    System.out.println("Second clue: " + clue);
+	    guess = op.guessWord(gameBoard);
+	    System.out.println("Second guess: " + guess);   
+	    
+	}
+
+
+
 }
 

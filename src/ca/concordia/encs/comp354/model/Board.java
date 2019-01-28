@@ -133,9 +133,6 @@ public class Board {
         return list.get(i);
     }
 
-
-
-    
     /**
      * @return the width of the board in tiles
      */
@@ -186,15 +183,8 @@ public class Board {
             System.out.println("\nAssociated Word List for \"" + gameBoard.getWord(x,y) + "\": " + gameBoard.getAssociatedWordList(x,y));
             System.out.println("\nAssociated Word i's Object for \"" + gameBoard.getWord(x,y) + "\": " + gameBoard.getAssociatedWordObject(x,y,i));
             System.out.println("\nAssociated Word i for \"" + gameBoard.getWord(x,y) + "\": " + gameBoard.getAssociatedWord(x,y,i));
-            System.out.println("\nAssociated Word i's Weight for \"" + gameBoard.getWord(x,y) + "\": " + gameBoard.getAssociatedWordWeight(x,y,i));
+            System.out.println("\nAssociated Word i's Weight for \"" + gameBoard.getWord(x,y) + "\": " + gameBoard.getAssociatedWordWeight(x,y,i));        
             
-            SpyMaster spy = new SpyMaster(CardValue.RED);
-            Operative op = new Operative(CardValue.RED, spy);
-            
-            String clue = spy.giveClue(gameBoard);
-            System.out.println("First clue: " + clue);
-            String guess = op.guessWord(gameBoard);
-            System.out.println("First guess: " + guess);
             
     }//END OF main(String[] args)
 
