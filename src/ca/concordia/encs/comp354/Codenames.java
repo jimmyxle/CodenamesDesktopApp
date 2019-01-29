@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
+import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
+import ca.concordia.encs.comp354.model.GameState;
+import ca.concordia.encs.comp354.model.Team;
 import ca.concordia.encs.comp354.view.GameView;
-import ca.concordia.encs.comp354.view.TestGameState;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -25,8 +27,8 @@ public class Codenames extends Application {
 	
 		// replace with implementations
 		List<Card> config = Card.generate25Cards(Paths.get("res/words.txt"));
-		TestGameState game = new TestGameState(config);
-		GameView.Controller testController = game::advance;
+		GameState game = new GameState(new Board(config), Team.RED);
+		GameView.Controller testController = ()->{};
 		
 		root.getChildren().add(new GameView(game, testController));
 

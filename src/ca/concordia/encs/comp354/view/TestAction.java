@@ -1,6 +1,7 @@
 package ca.concordia.encs.comp354.view;
 
 import ca.concordia.encs.comp354.model.GameAction;
+import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Team;
 
 /**
@@ -27,6 +28,11 @@ class TestAction extends GameAction {
     @Override
     public String getActionText() {
         return text;
+    }
+
+    @Override
+    protected void apply(GameState state) {
+        // nada
     }
 
 }
