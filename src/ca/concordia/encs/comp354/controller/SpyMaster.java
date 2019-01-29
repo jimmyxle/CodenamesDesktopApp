@@ -7,15 +7,15 @@ package ca.concordia.encs.comp354.controller;
 
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
-import ca.concordia.encs.comp354.model.CardValue;
 import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
+import ca.concordia.encs.comp354.model.Team;
 
 public class SpyMaster extends Player {
 	static int linearCol = 0;
 	static int linearRow = 0;
 	
 	//Constructor uses super
-	public SpyMaster(CardValue team) {
+	public SpyMaster(Team team) {
 		super(team);
 	}
 	
@@ -27,7 +27,7 @@ public class SpyMaster extends Player {
      */
 	public String giveClue(Board board) {
 	    Card card = board.getCard(linearRow, linearCol);
-		while (team != card.getValue()) {
+		while (getTeam().getValue() != card.getValue()) {
 			nextCard();
 			card = board.getCard(linearRow, linearCol);
 		}

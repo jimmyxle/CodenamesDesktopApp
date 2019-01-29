@@ -10,7 +10,7 @@ public enum Team {
         this.scoreValue = scoreValue;
     }
     
-    public CardValue value() {
+    public CardValue getValue() {
         return scoreValue;
     }
 }

@@ -1,18 +1,22 @@
 package ca.concordia.encs.comp354.controller;
 
-import ca.concordia.encs.comp354.model.CardValue;
+import ca.concordia.encs.comp354.model.Team;
 
 /**
- * Base class for the players. Keeps track of where the spymaster/operative is picking linearly.
+ * Base class for the players.
  * @author Alex Abrams
  */
 public class Player {
 
-	protected CardValue team;
+	private final Team team;
 	
 	//Base constructor, initializes the team of the player
-	public Player(CardValue color) {
-		team = color;
+	public Player(Team team) {
+		this.team = team;
+	}
+	
+	protected Team getTeam() {
+	    return team;
 	}
 
 }

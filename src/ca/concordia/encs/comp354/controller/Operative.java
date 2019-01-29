@@ -6,7 +6,7 @@ import java.util.List;
 
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
-import ca.concordia.encs.comp354.model.CardValue;
+import ca.concordia.encs.comp354.model.Team;
 
 /**
  * Operative class extends Player. Keeps track of number of Operatives, takes a spymaster as teammate and can return a guess
@@ -20,7 +20,7 @@ public class Operative extends Player {
 	
 	
 	//constructor
-	public Operative(CardValue team, SpyMaster teammate) {
+	public Operative(Team team, SpyMaster teammate) {
 		super(team);
 		this.teammate = teammate;
 		numOps++;
@@ -53,8 +53,8 @@ public class Operative extends Player {
 	    System.out.println("Printing out the game board: ");
 	    System.out.println(gameBoard.toString());
 	    
-	    SpyMaster spy = new SpyMaster(CardValue.RED);
-	    Operative op = new Operative(CardValue.RED, spy);
+	    SpyMaster spy = new SpyMaster(Team.RED);
+	    Operative op = new Operative(Team.RED, spy);
 	    
 	    String clue = spy.giveClue(gameBoard);
 	    System.out.println("First clue: " + clue);
