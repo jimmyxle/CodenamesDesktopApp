@@ -9,14 +9,15 @@ import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 
-public class SequentialSpyMasterStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
+public class RandomSpyMasterStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
     
     private final Random random = new Random();
 
     @Override
     public String giveClue(SpyMaster owner, ReadOnlyGameState state) {
         List<Coordinates> guesses = beginTurn(owner, state);
-        return guesses.isEmpty()? null : getAssociatedWord(state.boardProperty().get(), guesses.remove(0));
+        
+        return guesses.isEmpty()? null : getAssociatedWord(state.boardProperty().get(), guesses.remove(random.nextInt(guesses.size())));
     }
 
     private String getAssociatedWord(Board board, Coordinates coords) {
@@ -24,7 +25,7 @@ public class SequentialSpyMasterStrategy extends AbstractPlayerStrategy implemen
         List<AssociatedWord> words = card.getAssociatedWords();
         return words.get(random.nextInt(words.size())).getWord();
     }
-
+    
     @Override
     protected boolean isValidGuess(Player owner, Board board, int x, int y) {
         // valid iff card belongs to our team
