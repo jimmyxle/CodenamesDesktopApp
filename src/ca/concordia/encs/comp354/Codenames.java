@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
-import ca.concordia.encs.comp354.controller.GameEvent;
+import ca.concordia.encs.comp354.controller.*;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.GameState;
@@ -29,7 +29,14 @@ public class Codenames extends Application {
 		// replace with implementations
 		List<Card> config = Card.generate25Cards(Paths.get("res/words.txt"));
 		GameState game = new GameState(new Board(config), Team.RED);
-		GameView.Controller testController = ()->GameEvent.NONE;
+		GameView.Controller testController = 
+		        new GameController.Builder()
+		        .setModel(game)
+		        .setRedSpyMaster (new SpyMaster(Team.RED,  new SequentialSpyMasterStrategy()))
+		        .setRedOperative (new Operative(Team.RED,  new SequentialOperativeStrategy()))
+		        .setBlueSpyMaster(new SpyMaster(Team.BLUE, new RandomSpyMasterStrategy()))
+		        .setBlueOperative(new Operative(Team.BLUE, new RandomOperativeStrategy()))
+		        .create();
 		
 		root.getChildren().add(new GameView(game, testController));
 
