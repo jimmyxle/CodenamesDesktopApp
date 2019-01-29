@@ -1,3 +1,6 @@
+# Maven project instructions for Eclipse users
+https://github.com/jimmyxle/COMP354_CODENAMES/wiki/Setup%3A-For-Eclipse-Users
+
 # COMP354_CODENAMES
 Winter 2019 project for COMP 354
 Taught by Gregory Butler
