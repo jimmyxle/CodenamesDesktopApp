@@ -8,7 +8,7 @@ import java.util.List;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.Coordinates;
-import ca.concordia.encs.comp354.model.GameState;
+import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 import ca.concordia.encs.comp354.model.GameAction;
 import ca.concordia.encs.comp354.model.Team;
 import javafx.beans.property.IntegerProperty;
@@ -26,7 +26,7 @@ import javafx.collections.ObservableSet;
  * @author Nikita Leonidov
  *
  */
-public class TestGameState extends GameState {
+public class TestGameState implements ReadOnlyGameState {
 
     private final ObjectProperty<Board>      board  = new SimpleObjectProperty<>(this, "board");
     private final ObjectProperty<Team>       turn   = new SimpleObjectProperty<>(this, "turn",  Team.RED);

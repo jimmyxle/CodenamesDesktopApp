@@ -6,7 +6,7 @@ import ca.concordia.encs.comp354.model.Team;
  * Base class for the players.
  * @author Alex Abrams
  */
-public class Player {
+public abstract class Player {
 
 	private final Team team;
 	
@@ -15,7 +15,7 @@ public class Player {
 		this.team = team;
 	}
 	
-	protected Team getTeam() {
+	public final Team getTeam() {
 	    return team;
 	}
 

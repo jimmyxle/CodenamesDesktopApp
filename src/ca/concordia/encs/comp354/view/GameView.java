@@ -2,7 +2,7 @@ package ca.concordia.encs.comp354.view;
 
 import java.util.Objects;
 
-import ca.concordia.encs.comp354.model.GameState;
+import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
@@ -26,7 +26,7 @@ public class GameView extends StackPane {
     private final ScoreView  scoreView;
     private final StateView  stateView;
     
-    public GameView(GameState game, Controller controller) {
+    public GameView(ReadOnlyGameState game, Controller controller) {
         Objects.requireNonNull(controller, "controller");
         
         root = new BorderPane();

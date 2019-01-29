@@ -5,26 +5,29 @@ package ca.concordia.encs.comp354.controller;
  * @author Alex Abrams
  */
 
-import ca.concordia.encs.comp354.model.Board;
-import ca.concordia.encs.comp354.model.Card;
-import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
+import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 import ca.concordia.encs.comp354.model.Team;
 
 public class SpyMaster extends Player {
-	static int linearCol = 0;
-	static int linearRow = 0;
-	
+    
+    public interface Strategy {
+        String giveClue(SpyMaster owner, ReadOnlyGameState state);
+    }
+
+    private final Strategy strategy;
+    
 	//Constructor uses super
-	public SpyMaster(Team team) {
+	public SpyMaster(Team team, Strategy strategy) {
 		super(team);
+		this.strategy = strategy;
+	}
+	
+	public String giveClue(ReadOnlyGameState state) {
+	    return strategy.giveClue(this, state);
 	}
 	
 
-    /**
-     * Returns a clue based on the first unused codename that matches the objects team color
-     * @param current Board object
-     * @return the codename for the first untouched coordinate
-     */
+	/*
 	public String giveClue(Board board) {
 	    Card card = board.getCard(linearRow, linearCol);
 		while (getTeam().getValue() != card.getValue()) {
@@ -52,5 +55,6 @@ public class SpyMaster extends Player {
 			linearRow++;
 		}
 	}
+	*/
 	
 }
