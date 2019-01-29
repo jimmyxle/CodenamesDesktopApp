@@ -15,7 +15,7 @@ import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 public class SequentialOperativeStrategy extends AbstractPlayerStrategy implements Operative.Strategy {
 
     @Override
-    public Coordinates guessCard(Operative owner, ReadOnlyGameState state, String clue) {
+    public Coordinates guessCard(Operative owner, ReadOnlyGameState state, Clue clue) {
         List<Coordinates> guesses = beginTurn(owner, state);
         return guesses.isEmpty()? null : guesses.remove(0);
     }

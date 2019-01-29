@@ -29,7 +29,7 @@ abstract class AbstractPlayerStrategy {
         }
         
         // clear invalid guesses (have to do this each turn, since other team may have guessed one of our cards)
-        for (int i=guesses.size(); i>=0; i--) {
+        for (int i=guesses.size()-1; i>=0; i--) {
             if (marked.contains(guesses.get(i))) {
                 guesses.remove(i);
             }

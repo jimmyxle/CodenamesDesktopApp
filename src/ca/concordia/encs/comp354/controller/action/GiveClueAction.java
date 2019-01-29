@@ -1,5 +1,6 @@
 package ca.concordia.encs.comp354.controller.action;
 
+import ca.concordia.encs.comp354.controller.Clue;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import ca.concordia.encs.comp354.model.GameAction;
 import ca.concordia.encs.comp354.model.GameState;
@@ -13,21 +14,21 @@ import ca.concordia.encs.comp354.controller.SpyMaster;
  */
 public class GiveClueAction extends GameAction {
 
-    private String clue;
+    private Clue clue;
 
-    public GiveClueAction(Team team, String clue) {
+    public GiveClueAction(Team team, Clue clue) {
         super(team);
         this.clue = clue;
     }
 
     @Override
     public String getActionText() {
-        return "spymaster gave a clue: "+clue;
+        return "spymaster gave a clue: "+clue.getWord()+" "+clue.getGuesses();
     }
 
     @Override
     protected GameEvent apply(GameState state) {
-        // clues don't do anything!
+        state.lastClueProperty().set(clue);
         return GameEvent.NONE;
     }
 

@@ -28,7 +28,7 @@ public class Operative extends Player {
 	     * @param clue   the last clue produced by this player's spymaster
 	     * @return a guess, or <tt>null</tt> if no more guesses are possible
 	     */
-	    Coordinates guessCard(Operative owner, ReadOnlyGameState state, String clue);
+	    Coordinates guessCard(Operative owner, ReadOnlyGameState state, Clue clue);
 	}
 	
 	private final Strategy strategy;
@@ -39,7 +39,7 @@ public class Operative extends Player {
 		this.strategy = Objects.requireNonNull(strategy, "strategy");
 	}
 	
-	public Coordinates guessCard(ReadOnlyGameState state, String clue) {
+	public Coordinates guessCard(ReadOnlyGameState state, Clue clue) {
 		Coordinates ret = strategy.guessCard(this, state, clue);
 		if (ret==null) {
 		    throw new IllegalStateException("cannot produce another guess");
@@ -62,7 +62,7 @@ public class Operative extends Player {
 	    SpyMaster spy = new SpyMaster(Team.RED, new SequentialSpyMasterStrategy());
 	    Operative op = new Operative(Team.RED, new SequentialOperativeStrategy());
 	    
-	    String clue = spy.giveClue(state);
+	    Clue clue = spy.giveClue(state);
 	    System.out.println("First clue: " + clue);
 	    Coordinates guess = op.guessCard(state, clue);
 	    System.out.println("First guess: " + board.getCard(guess.getX(), guess.getY()).getCodename());

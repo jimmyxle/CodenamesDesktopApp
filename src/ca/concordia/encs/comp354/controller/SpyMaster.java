@@ -25,7 +25,7 @@ public class SpyMaster extends Player {
          * @param state  a read-only view of the current game state
          * @return a clue, or <tt>null</tt> if there are no more cards to guess
          */
-        String giveClue(SpyMaster owner, ReadOnlyGameState state);
+        Clue giveClue(SpyMaster owner, ReadOnlyGameState state);
     }
 
     private final Strategy strategy;
@@ -36,8 +36,8 @@ public class SpyMaster extends Player {
         this.strategy = Objects.requireNonNull(strategy, "strategy");
 	}
 	
-	public String giveClue(ReadOnlyGameState state) {
-	    String ret = strategy.giveClue(this, state);
+	public Clue giveClue(ReadOnlyGameState state) {
+	    Clue ret = strategy.giveClue(this, state);
 	    if (ret==null) {
 	        throw new IllegalStateException("cannot produce another clue");
 	    }

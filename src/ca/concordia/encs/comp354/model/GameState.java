@@ -2,6 +2,7 @@ package ca.concordia.encs.comp354.model;
 
 import java.util.Objects;
 
+import ca.concordia.encs.comp354.controller.Clue;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -22,9 +23,11 @@ public final class GameState implements ReadOnlyGameState {
     private final ObjectProperty<Board>      board  = new SimpleObjectProperty<>(this, "board");
     private final ObjectProperty<Team>       turn   = new SimpleObjectProperty<>(this, "turn",  Team.RED);
     private final ObjectProperty<GameAction> action = new SimpleObjectProperty<>(this, "action");
+    private final ObjectProperty<GameEvent>  event  = new SimpleObjectProperty<>(this, "event", GameEvent.NONE);
+    private final ObjectProperty<Clue>       clue   = new SimpleObjectProperty<>(this, "clue",  null);
     
-    private final IntegerProperty redScore  = new SimpleIntegerProperty(this, "redScore", 1);
-    private final IntegerProperty blueScore = new SimpleIntegerProperty(this, "redScore", 2);
+    private final IntegerProperty redScore  = new SimpleIntegerProperty(this, "redScore", 0);
+    private final IntegerProperty blueScore = new SimpleIntegerProperty(this, "redScore", 0);
     
     private final ReadOnlyIntegerProperty redObjective;
     private final ReadOnlyIntegerProperty blueObjective;
@@ -37,17 +40,17 @@ public final class GameState implements ReadOnlyGameState {
         turnProperty().set(Objects.requireNonNull(startingTurn, "startingTurn"));
         
         // count red, blue cards on board to determine objectives
-        IntegerProperty redCount  = new SimpleIntegerProperty(this, "redObjective",  0);
-        IntegerProperty blueCount = new SimpleIntegerProperty(this, "blueObjective", 0);
+        int redCount  = 0;
+        int blueCount = 0;
         
         for (int x=0; x<board.getWidth(); x++) {
             for (int y=0; y<board.getLength(); y++) {
                 switch (board.getCard(x, y).getValue()) {
                 case BLUE:
-                    blueCount.add(1);
+                    blueCount++;
                     break;
                 case RED:
-                    redCount.add(1);
+                    redCount++;
                     break;
                 default:
                     break;
@@ -55,8 +58,8 @@ public final class GameState implements ReadOnlyGameState {
             }
         }
         
-        redObjective = redCount;
-        blueObjective = blueCount;
+        redObjective  = new SimpleIntegerProperty(this, "redObjective",  redCount);
+        blueObjective = new SimpleIntegerProperty(this, "blueObjective", blueCount);
     }
     
     public Board getBoard() {
@@ -78,17 +81,38 @@ public final class GameState implements ReadOnlyGameState {
         return action;
     }
     
+    @Override
+    public ReadOnlyObjectProperty<GameEvent> lastEventProperty() {
+        return event;
+    }
+    
+    @Override
+    public ObjectProperty<Clue> lastClueProperty() {
+        return clue;
+    }
+    
     public GameEvent pushAction(GameAction value) {
         Objects.requireNonNull(value);
         action.set(value);
-        return value.apply(this);
+        event.set(value.apply(this));
+        return event.get();
     }
 
+    @Override
+    public int getRedScore() {
+        return redScoreProperty().get();
+    }
+    
     @Override
     public IntegerProperty redScoreProperty() {
         return redScore;
     }
 
+    @Override
+    public int getBlueScore() {
+        return blueScoreProperty().get();
+    }
+    
     @Override
     public IntegerProperty blueScoreProperty() {
         return blueScore;

@@ -19,16 +19,16 @@ public class RandomSpyMasterStrategy extends AbstractPlayerStrategy implements S
     private final Random random = new Random();
 
     @Override
-    public String giveClue(SpyMaster owner, ReadOnlyGameState state) {
+    public Clue giveClue(SpyMaster owner, ReadOnlyGameState state) {
         List<Coordinates> guesses = beginTurn(owner, state);
         
-        return guesses.isEmpty()? null : getAssociatedWord(state.boardProperty().get(), guesses.remove(random.nextInt(guesses.size())));
+        return guesses.isEmpty()? null : getAssociatedWord(state.boardProperty().get(), guesses.get(random.nextInt(guesses.size())));
     }
 
-    private String getAssociatedWord(Board board, Coordinates coords) {
+    private Clue getAssociatedWord(Board board, Coordinates coords) {
         Card card = board.getCard(coords);
         List<AssociatedWord> words = card.getAssociatedWords();
-        return words.get(random.nextInt(words.size())).getWord();
+        return new Clue(words.get(random.nextInt(words.size())).getWord(), 1);
     }
     
     @Override

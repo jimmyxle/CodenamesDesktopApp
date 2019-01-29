@@ -16,7 +16,7 @@ public class RandomOperativeStrategy extends AbstractPlayerStrategy implements O
     
     private final Random random = new Random();
     @Override
-    public Coordinates guessCard(Operative owner, ReadOnlyGameState state, String clue) {
+    public Coordinates guessCard(Operative owner, ReadOnlyGameState state, Clue clue) {
         List<Coordinates> guesses = beginTurn(owner, state);
         return guesses.isEmpty()? null : guesses.remove(random.nextInt(guesses.size()));
     }
