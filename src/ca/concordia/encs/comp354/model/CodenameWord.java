@@ -86,7 +86,7 @@ public class CodenameWord {
         //============================
         //----------METHODS----------
         //============================
-        public String getAssociatedWord() {
+        public String getWord() {
             return associatedWord;
         }
 

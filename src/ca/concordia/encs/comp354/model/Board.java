@@ -57,6 +57,15 @@ public class Board {
 
     /**
      * Returns the card at the given coordinates.
+     * @param coords  coordinates; x must be less than {@link #getWidth()}, y must be less than {@link #getLength()}
+     * @return the card at the given coordinates
+     */
+    public Card getCard(Coordinates coords) {
+        return getCard(coords.getX(), coords.getY());
+    }
+
+    /**
+     * Returns the card at the given coordinates.
      * @param x horizontal coordinate; must be less than {@link #getWidth()}
      * @param y vertical coordinate; must be less than {@link #getLength()}
      * @return the card at the given coordinates
@@ -115,7 +124,7 @@ public class Board {
         System.out.println("Word at [" + x + "][" + y + "]: " + card.getCodename() + "-" + card.getValue());
         System.out.println("\nAssociated Word List for \"" + card.getCodename() + "\": " + card.getAssociatedWords());
         System.out.println("\nAssociated Word i's Object for \"" + card.getCodename() + "\": " + card.getAssociatedWords().get(i));
-        System.out.println("\nAssociated Word i for \"" + card.getCodename() + "\": " + card.getAssociatedWords().get(i).getAssociatedWord());
+        System.out.println("\nAssociated Word i for \"" + card.getCodename() + "\": " + card.getAssociatedWords().get(i).getWord());
         System.out.println("\nAssociated Word i's Weight for \"" + card.getCodename() + "\": " + card.getAssociatedWords().get(i).getWeight());        
             
             

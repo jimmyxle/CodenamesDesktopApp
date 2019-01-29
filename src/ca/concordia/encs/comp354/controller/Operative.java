@@ -3,68 +3,73 @@ package ca.concordia.encs.comp354.controller;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
+import ca.concordia.encs.comp354.model.Coordinates;
+import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 import ca.concordia.encs.comp354.model.Team;
+import ca.concordia.encs.comp354.view.TestGameState;
 
 /**
- * Operative class extends Player. Keeps track of number of Operatives, takes a spymaster as teammate and can return a guess
+ * Operatives are Players that produce guesses from {@link SpyMaster}s' clues.
  * @author Alex Abrams
  */
 
 public class Operative extends Player {
-	private static int numOps = 0; //keep track of number of operatives
-	private int teamMember; //var for player number
-	private SpyMaster teammate;
 	
+	public interface Strategy {
+	    /**
+	     * Requests a guess from this strategy, given the current game state.
+	     * @param owner  the owning player object
+	     * @param state  a read-only view of the current game state
+	     * @param clue   the last clue produced by this player's spymaster
+	     * @return a guess, or <tt>null</tt> if no more guesses are possible
+	     */
+	    Coordinates guessCard(Operative owner, ReadOnlyGameState state, String clue);
+	}
+	
+	private final Strategy strategy;
 	
 	//constructor
-	public Operative(Team team, SpyMaster teammate) {
+	public Operative(Team team, Strategy strategy) {
 		super(team);
-		this.teammate = teammate;
-		numOps++;
-		teamMember = numOps;			
+		this.strategy = Objects.requireNonNull(strategy, "strategy");
 	}
 	
-	 /**
-     * Returns a guess based on the next untouched codename on the board
-     * @param current Board object
-     * @return the word associated with the last codename the Spymaster looked at. 
-     */
-	public String guessWord(Board board) {
-		String guess = board.getCard(teammate.getRow(), teammate.getCol()).getCodename();
-		SpyMaster.nextCard();
-		return guess;
-	}
-	
-	public int getTeamMember() {
-		return teamMember;
+	public Coordinates guessCard(ReadOnlyGameState state, String clue) {
+		Coordinates ret = strategy.guessCard(this, state, clue);
+		if (ret==null) {
+		    throw new IllegalStateException("cannot produce another guess");
+		}
+		return ret;
 	}
 	
 	
 	public static void main(String[] args) throws IOException {
 	    List<Card> cardList = Card.generate25Cards(Paths.get("res/words.txt"));
-	    Board gameBoard = new Board(cardList);
+	    TestGameState state = new TestGameState(cardList);
+	    Board board = state.boardProperty().get();
 	    //====================
 	    //--------TEST--------
 	    //====================
 	    //print out the card list, then return clue and guess for first 2 red cards
 	    System.out.println("Printing out the game board: ");
-	    System.out.println(gameBoard.toString());
+	    System.out.println(state.boardProperty().get().toString());
 	    
-	    SpyMaster spy = new SpyMaster(Team.RED);
-	    Operative op = new Operative(Team.RED, spy);
+	    SpyMaster spy = new SpyMaster(Team.RED, new SequentialSpyMasterStrategy());
+	    Operative op = new Operative(Team.RED, new SequentialOperativeStrategy());
 	    
-	    String clue = spy.giveClue(gameBoard);
+	    String clue = spy.giveClue(state);
 	    System.out.println("First clue: " + clue);
-	    String guess = op.guessWord(gameBoard);
-	    System.out.println("First guess: " + guess);
-	    
-	    clue = spy.giveClue(gameBoard);
-	    System.out.println("Second clue: " + clue);
-	    guess = op.guessWord(gameBoard);
-	    System.out.println("Second guess: " + guess);   
+	    Coordinates guess = op.guessCard(state, clue);
+	    System.out.println("First guess: " + board.getCard(guess.getX(), guess.getY()).getCodename());
+
+        clue = spy.giveClue(state);
+        System.out.println("Second clue: " + clue);
+        guess = op.guessCard(state, clue);
+        System.out.println("Second guess: " + board.getCard(guess.getX(), guess.getY()).getCodename());
 	    
 	}
 

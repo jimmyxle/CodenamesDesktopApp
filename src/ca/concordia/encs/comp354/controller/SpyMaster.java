@@ -1,7 +1,9 @@
 package ca.concordia.encs.comp354.controller;
 
+import java.util.Objects;
+
 /**
- * SpyMaster class extends Player. Adds functionality to return a clue.
+ * SpyMasters are Players that produce clues for consumption by {@link Operative}s.
  * @author Alex Abrams
  */
 
@@ -11,6 +13,12 @@ import ca.concordia.encs.comp354.model.Team;
 public class SpyMaster extends Player {
     
     public interface Strategy {
+        /**
+         * Requests a clue from this strategy, given the current game state.
+         * @param owner  the owning player object
+         * @param state  a read-only view of the current game state
+         * @return a clue, or <tt>null</tt> if there are no more cards to guess
+         */
         String giveClue(SpyMaster owner, ReadOnlyGameState state);
     }
 
@@ -19,42 +27,14 @@ public class SpyMaster extends Player {
 	//Constructor uses super
 	public SpyMaster(Team team, Strategy strategy) {
 		super(team);
-		this.strategy = strategy;
+        this.strategy = Objects.requireNonNull(strategy, "strategy");
 	}
 	
 	public String giveClue(ReadOnlyGameState state) {
-	    return strategy.giveClue(this, state);
+	    String ret = strategy.giveClue(this, state);
+	    if (ret==null) {
+	        throw new IllegalStateException("cannot produce another clue");
+	    }
+	    return ret;
 	}
-	
-
-	/*
-	public String giveClue(Board board) {
-	    Card card = board.getCard(linearRow, linearCol);
-		while (getTeam().getValue() != card.getValue()) {
-			nextCard();
-			card = board.getCard(linearRow, linearCol);
-		}
-		AssociatedWord clue = card.getAssociatedWords().get(0);
-		return clue.getAssociatedWord();		
-	}
-	
-	public int getRow() {
-		return linearRow;
-	}
-	
-	public int getCol() {
-		return linearCol;
-	}
-	
-	public static void nextCard() {
-		if (linearCol < 4 && linearRow < 4) {
-			linearCol++;
-		}
-		else if(linearCol == 4) {
-			linearCol = 0;
-			linearRow++;
-		}
-	}
-	*/
-	
 }
