@@ -10,6 +10,11 @@ import java.util.Objects;
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 import ca.concordia.encs.comp354.model.Team;
 
+/**
+ * Spymasters are players that produce clues for {@link Operative}s.
+ * @author Nikita Leonidov
+ *
+ */
 public class SpyMaster extends Player {
     
     public interface Strategy {

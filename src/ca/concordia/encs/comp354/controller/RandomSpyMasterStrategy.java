@@ -9,6 +9,11 @@ import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 
+/**
+ * With this strategy, a spymaster picks a clue for a random card on the board.
+ * @author Nikita Leonidov
+ *
+ */
 public class RandomSpyMasterStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
     
     private final Random random = new Random();

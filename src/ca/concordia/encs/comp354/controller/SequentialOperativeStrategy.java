@@ -6,6 +6,11 @@ import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 
+/**
+ * With this strategy, an operative picks his next card sequentially, starting from the top-left corner of the board.
+ * @author Nikita Leonidov
+ *
+ */
 public class SequentialOperativeStrategy extends AbstractPlayerStrategy implements Operative.Strategy {
 
     @Override

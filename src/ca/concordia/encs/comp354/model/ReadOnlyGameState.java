@@ -4,6 +4,11 @@ import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.ObservableSet;
 
+/**
+ * A read-only view of a {@link GameState}.
+ * @author Nikita Leonidov
+ *
+ */
 public interface ReadOnlyGameState {
 
     /**
@@ -35,4 +40,8 @@ public interface ReadOnlyGameState {
      * @return a read-only view of the card coordinates that have been revealed so far
      */
     public ObservableSet<Coordinates> getChosenCards();
+
+    ReadOnlyIntegerProperty redObjectiveProperty();
+
+    ReadOnlyIntegerProperty blueObjectiveProperty();
 }

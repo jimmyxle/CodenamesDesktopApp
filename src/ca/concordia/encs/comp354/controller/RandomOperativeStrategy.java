@@ -7,6 +7,11 @@ import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 
+/**
+ * With this strategy, an operative picks his next card at random.
+ * @author Nikita Leonidov
+ *
+ */
 public class RandomOperativeStrategy extends AbstractPlayerStrategy implements Operative.Strategy {
     
     private final Random random = new Random();

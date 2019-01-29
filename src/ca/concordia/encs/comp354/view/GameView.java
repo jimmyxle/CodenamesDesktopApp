@@ -2,6 +2,7 @@ package ca.concordia.encs.comp354.view;
 
 import java.util.Objects;
 
+import ca.concordia.encs.comp354.controller.GameEvent;
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -18,7 +19,7 @@ import javafx.scene.layout.StackPane;
 public class GameView extends StackPane {
     
     public interface Controller {
-        void advanceTurn();
+        GameEvent advanceTurn();
     }
 
     private final BorderPane root;

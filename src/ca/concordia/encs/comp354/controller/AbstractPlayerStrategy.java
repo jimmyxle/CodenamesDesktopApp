@@ -8,6 +8,11 @@ import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 
+/**
+ * Handy base class for {@link Player} subclass strategies.
+ * @author Nikita Leonidov
+ *
+ */
 abstract class AbstractPlayerStrategy {
     
     private List<Coordinates> guesses;

@@ -8,13 +8,14 @@ import java.util.Objects;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.Coordinates;
+import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 import ca.concordia.encs.comp354.model.Team;
-import ca.concordia.encs.comp354.view.TestGameState;
 
 /**
  * Operatives are Players that produce guesses from {@link SpyMaster}s' clues.
  * @author Alex Abrams
+ * @author Nikita Leonidov
  */
 
 public class Operative extends Player {
@@ -49,7 +50,7 @@ public class Operative extends Player {
 	
 	public static void main(String[] args) throws IOException {
 	    List<Card> cardList = Card.generate25Cards(Paths.get("res/words.txt"));
-	    TestGameState state = new TestGameState(cardList);
+	    GameState state = new GameState(new Board(cardList), Team.RED);
 	    Board board = state.boardProperty().get();
 	    //====================
 	    //--------TEST--------
