@@ -15,8 +15,21 @@ import javafx.collections.ObservableSet;
 
 /**
  * Represents the game model. Specifies no behaviour, other than checking that mutator inputs are valid.
+ * The view should only receive instances of this class as {@link ReadOnlyGameState}s, ensuring that only
+ * the controller has authority to mutate the object.
+ * 
  * @author Nikita Leonidov
  *
+ */
+/*
+ * NB: passing a GameState without upcasting to ReadOnlyGameState means that the receiving method will 
+ * have a _mutable view_ of the model. If one of the property accessors defined in this class returns a 
+ * read only property, there is a good reason for this, and suggests that its value must be modified by 
+ * some other method.
+ * 
+ * Whenever you add a property to this class, make sure that a read-only way of accessing the property
+ * and/or its value is also present in ReadOnlyGameState. Lastly, be sure to add the appropriate 
+ * @Override annotations to the corresponding definitions in this class.
  */
 public final class GameState implements ReadOnlyGameState {
 
