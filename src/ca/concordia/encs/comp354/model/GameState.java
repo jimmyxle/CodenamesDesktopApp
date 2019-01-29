@@ -72,6 +72,11 @@ public final class GameState implements ReadOnlyGameState {
     }
 
     @Override
+    public Team getTurn() {
+        return turnProperty().get();
+    }
+    
+    @Override
     public ObjectProperty<Team> turnProperty() {
         return turn;
     }

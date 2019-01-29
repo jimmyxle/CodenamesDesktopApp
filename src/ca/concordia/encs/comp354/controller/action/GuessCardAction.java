@@ -65,7 +65,7 @@ public class GuessCardAction extends GameAction {
             return GameEvent.END_TURN;
         }
         
-        return GameEvent.NONE;
+        return card.getValue() != state.getTurn().getValue() ? GameEvent.END_TURN : GameEvent.NONE;
     }
 
 }

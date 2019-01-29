@@ -18,7 +18,13 @@ public interface ReadOnlyGameState {
      * @return the active board configuration
      */
     ReadOnlyObjectProperty<Board> boardProperty();
-
+    
+    /**
+     * Equivalent to <tt>{@link #turnProperty()}.get()</tt>
+     * @return an integer value representing the current team
+     */
+    Team getTurn();
+    
     /**
      * @return the team currently guessing
      */
