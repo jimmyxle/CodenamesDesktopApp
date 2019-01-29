@@ -75,6 +75,10 @@ public class GameView extends StackPane {
         stateView.actionProperty().bind(game.lastActionProperty());
         
         advance.setOnAction(event->controller.advanceTurn());
+        advance.disableProperty().bind(
+            game.redScoreProperty().greaterThanOrEqualTo(game.redObjectiveProperty())
+            .or(game.blueScoreProperty().greaterThanOrEqualTo(game.blueObjectiveProperty()))
+        );
         
     }
     
