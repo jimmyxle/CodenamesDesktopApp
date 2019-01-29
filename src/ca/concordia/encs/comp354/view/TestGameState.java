@@ -103,7 +103,7 @@ public class TestGameState implements ReadOnlyGameState {
 
     @Override
     public ObservableSet<Coordinates> getChosenCards() {
-        return revealed;
+        return FXCollections.unmodifiableObservableSet(revealed);
     }
     
     private void pushAction() {
