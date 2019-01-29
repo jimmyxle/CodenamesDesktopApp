@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import ca.concordia.encs.comp354.model.Board;
+import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.GameAction;
@@ -27,7 +28,7 @@ import javafx.collections.ObservableSet;
  */
 public class TestGameState extends GameState {
 
-    private final ObjectProperty<Board>      board  = new SimpleObjectProperty<>(this, "board", new TestBoard());
+    private final ObjectProperty<Board>      board  = new SimpleObjectProperty<>(this, "board");
     private final ObjectProperty<Team>       turn   = new SimpleObjectProperty<>(this, "turn",  Team.RED);
     private final ObjectProperty<GameAction> action = new SimpleObjectProperty<>(this, "action");
     
@@ -50,7 +51,8 @@ public class TestGameState extends GameState {
     private final ObservableSet<Coordinates> revealed = FXCollections.observableSet();
     private final List<Coordinates>          hidden   = new ArrayList<>();
     
-    public TestGameState() {
+    public TestGameState(List<Card> boardConfig) {
+        board.set(new Board(boardConfig));
         pushAction();
         
         // create a randomly ordered list of spaces to reveal

@@ -6,7 +6,9 @@ package ca.concordia.encs.comp354.controller;
  */
 
 import ca.concordia.encs.comp354.model.Board;
+import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.CardValue;
+import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
 
 public class SpyMaster extends Player {
 	static int linearCol = 0;
@@ -24,14 +26,13 @@ public class SpyMaster extends Player {
      * @return the codename for the first untouched coordinate
      */
 	public String giveClue(Board board) {
-		CardValue color = board.getValue(linearRow, linearCol);
-		while (team != color) {
+	    Card card = board.getCard(linearRow, linearCol);
+		while (team != card.getValue()) {
 			nextCard();
-			color = board.getValue(linearRow, linearCol);
-		} 
-		String codename = board.getWord(linearRow, linearCol);
-		String clue = board.getAssociatedWord(linearRow, linearCol, 0);
-		return clue;		
+			card = board.getCard(linearRow, linearCol);
+		}
+		AssociatedWord clue = card.getAssociatedWords().get(0);
+		return clue.getAssociatedWord();		
 	}
 	
 	public int getRow() {

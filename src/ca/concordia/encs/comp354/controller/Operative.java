@@ -1,6 +1,7 @@
 package ca.concordia.encs.comp354.controller;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 
 import ca.concordia.encs.comp354.model.Board;
@@ -32,7 +33,7 @@ public class Operative extends Player {
      * @return the word associated with the last codename the Spymaster looked at. 
      */
 	public String guessWord(Board board) {
-		String guess = board.getWord(teammate.getRow(), teammate.getCol());
+		String guess = board.getCard(teammate.getRow(), teammate.getCol()).getCodename();
 		SpyMaster.nextCard();
 		return guess;
 	}
@@ -43,7 +44,7 @@ public class Operative extends Player {
 	
 	
 	public static void main(String[] args) throws IOException {
-	    List<Card> cardList = Card.generate25Cards();
+	    List<Card> cardList = Card.generate25Cards(Paths.get("res/words.txt"));
 	    Board gameBoard = new Board(cardList);
 	    //====================
 	    //--------TEST--------

@@ -1,7 +1,10 @@
 package ca.concordia.encs.comp354;
 
+import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 
+import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.view.GameView;
 import ca.concordia.encs.comp354.view.TestGameState;
 import javafx.application.Application;
@@ -12,7 +15,7 @@ import javafx.stage.Stage;
 public class Codenames extends Application {
 
 	@Override
-	public void start(Stage stage) throws Exception {
+	public void start(Stage stage) throws IOException {
 		// set up a simple interface
 		//--------------------------------------------------------------------------------------------------------------
 		final StackPane root  = new StackPane();
@@ -21,7 +24,8 @@ public class Codenames extends Application {
 		scene.getStylesheets().add("file:///"+Paths.get("res/style.css").toAbsolutePath().toString().replace('\\', '/'));
 	
 		// replace with implementations
-		TestGameState game = new TestGameState();
+		List<Card> config = Card.generate25Cards(Paths.get("res/words.txt"));
+		TestGameState game = new TestGameState(config);
 		GameView.Controller testController = game::advance;
 		
 		root.getChildren().add(new GameView(game, testController));

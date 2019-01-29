@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import ca.concordia.encs.comp354.model.Board;
+import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.CardValue;
 import ca.concordia.encs.comp354.model.Coordinates;
 import javafx.beans.property.BooleanProperty;
@@ -212,13 +213,14 @@ public class BoardView extends StackPane {
             // child nodes
             for (int x=0; x<val.getWidth(); x++) {
                 for (int y=0; y<val.getLength(); y++) {
+                    final Card k = val.getCard(x, y);
                     // create codename card
-                    CodenameRegion reg = new CodenameRegion(val.getWord(x, y), val.getValue(x, y));
+                    CodenameRegion reg = new CodenameRegion(k.getCodename(), k.getValue());
                     codenames.put(new Coordinates(x, y), reg);
                     tiles.add(reg, x, y);
                     
                     // create keycard element
-                    teams.add(new KeycardRegion(val.getValue(x, y)), x, y);
+                    teams.add(new KeycardRegion(k.getValue()), x, y);
                 }
             }
         }
