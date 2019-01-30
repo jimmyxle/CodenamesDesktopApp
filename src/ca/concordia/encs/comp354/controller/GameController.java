@@ -2,6 +2,7 @@ package ca.concordia.encs.comp354.controller;
 
 import ca.concordia.encs.comp354.controller.action.GiveClueAction;
 import ca.concordia.encs.comp354.controller.action.GuessCardAction;
+import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.GameAction;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Team;
@@ -120,13 +121,16 @@ public class GameController implements GameView.Controller {
     	 */
     	
     	
-    	if (model.lastEventProperty().get().isTerminal())
+    	if (model.getLastEvent().isTerminal()) {
     		return;
+    	}
+    	
+    	final Team turn = model.getTurn();
     	
     	if (spyMasterNext)
     	{
-    		SpyMaster currentSpy = model.getTurn().equals(Team.RED)? redSpyMaster : blueSpyMaster; 
-    		model.pushAction(new GiveClueAction(Team.RED, currentSpy.giveClue(model)));
+    		SpyMaster currentSpy = turn==Team.RED? redSpyMaster : blueSpyMaster; 
+    		model.pushAction(new GiveClueAction(turn, currentSpy.giveClue(model)));
     		guesses = 0;
     		
     		spyMasterNext = false;
@@ -134,14 +138,15 @@ public class GameController implements GameView.Controller {
     	
     	else
     	{
-    		Operative currentOp = model.getTurn().equals(Team.RED)? redOperative: blueOperative;
-    		model.pushAction(new GuessCardAction (model.getTurn(),model.getBoard(), currentOp.guessCard(model, model.lastClueProperty().getValue())));
+    		Operative currentOp = turn.equals(Team.RED)? redOperative: blueOperative;
+    		Coordinates guess = currentOp.guessCard(model, model.lastClueProperty().get());
+    		model.pushAction(new GuessCardAction (turn,model.getBoard(), guess));
     		
     		guesses++;
     		
     		if (guesses >= model.lastClueProperty().get().getGuesses())
     		{
-    			model.turnProperty().setValue(model.getTurn()==Team.RED? Team.BLUE: Team.RED);
+    			model.turnProperty().setValue(turn==Team.RED? Team.BLUE: Team.RED);
     			
     			spyMasterNext = true;
     		
