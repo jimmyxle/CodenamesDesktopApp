@@ -36,6 +36,12 @@ public interface ReadOnlyGameState {
     ReadOnlyObjectProperty<GameAction> lastActionProperty();
     
     /**
+     * Equivalent to <tt>{@link #lastEventProperty()}.get()</tt>
+     * @return the last game event that took place (turn ended, game over)
+     */
+    GameEvent getLastEvent();
+    
+    /**
      * @return the last game event that took place (turn ended, game over)
      */
     ReadOnlyObjectProperty<GameEvent> lastEventProperty();

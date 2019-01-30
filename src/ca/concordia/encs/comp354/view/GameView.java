@@ -4,14 +4,13 @@ import java.util.Objects;
 
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 import javafx.beans.InvalidationListener;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.beans.Observable;
 
 /**
  * A graphical interface for an active game.
@@ -23,18 +22,20 @@ public class GameView extends StackPane {
     public interface Controller {
         void advanceTurn();
     }
+    
+    private final ReadOnlyGameState game;
 
     private final BorderPane root;
     private final BoardView  boardView;
     private final ScoreView  scoreView;
     private final StateView  stateView;
+    private final Button     advance;
     
-    private final BooleanProperty canAdvance = new SimpleBooleanProperty(this, "canAdvance", true);
+    private final InvalidationListener advanceFreeze = this::onAdvanceChanged;
     
     public GameView(ReadOnlyGameState game, Controller controller) {
         Objects.requireNonNull(controller, "controller");
-        
-        
+        this.game = Objects.requireNonNull(game, "game state");
         
         root = new BorderPane();
         getChildren().add(root);
@@ -61,7 +62,7 @@ public class GameView extends StackPane {
         final HBox bottom = new HBox();
         stateView = new StateView();
         
-        final Button advance = new Button("Advance");
+        advance = new Button("Advance");
         bottom.getChildren().addAll(stateView, advance);
         
         HBox.setHgrow(stateView, Priority.ALWAYS);
@@ -77,11 +78,23 @@ public class GameView extends StackPane {
         scoreView.redScoreProperty().bind(game.redScoreProperty());
         scoreView.blueScoreProperty().bind(game.blueScoreProperty());
         
-        stateView.turnProperty().bind(game.turnProperty());
         stateView.actionProperty().bind(game.lastActionProperty());
         
-        advance.setOnAction(event->controller.advanceTurn());
+        game.redScoreProperty()     .addListener(advanceFreeze);
+        game.redObjectiveProperty() .addListener(advanceFreeze);
+        game.blueScoreProperty()    .addListener(advanceFreeze);
+        game.blueObjectiveProperty().addListener(advanceFreeze);
+        game.lastEventProperty()    .addListener(advanceFreeze);
         
+        advance.setOnAction(event->controller.advanceTurn());
+    }
+    
+    private void onAdvanceChanged(Observable ignore) {
+    	advance.setDisable(
+			game.getRedScore()  >= game.redObjectiveProperty().get() ||
+			game.getBlueScore() >= game.blueObjectiveProperty().get() ||
+			game.getLastEvent().isTerminal()
+		);
     }
     
 }

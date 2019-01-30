@@ -18,12 +18,6 @@ import javafx.scene.layout.StackPane;
 public class StateView extends StackPane {
     
     private static final String STYLE_CLASS = "state-view";
-
-    private final ObjectProperty<Team>  turn  = new SimpleObjectProperty<Team>(this, "turn") {
-        @Override protected void invalidated() {
-            updateState();
-        }
-    };
     
     private final ObjectProperty<GameAction> action = new SimpleObjectProperty<GameAction>(this, "action") {
         @Override protected void invalidated() {
@@ -38,18 +32,6 @@ public class StateView extends StackPane {
         getStyleClass().add(STYLE_CLASS);
         
         getChildren().add(label);
-    }
-    
-    public void setTurn(Team value) {
-        turnProperty().set(value);
-    }
-    
-    public Team getTurn() {
-        return turnProperty().get();
-    }
-    
-    public ObjectProperty<Team> turnProperty() {
-        return turn;
     }
     
     public void setAction(GameAction value) {
@@ -67,7 +49,7 @@ public class StateView extends StackPane {
     protected void updateState() {
         
         GameAction action = getAction();
-        Team       turn   = action==null? getTurn() : action.getTeam();
+        Team       turn   = action==null? Team.RED : action.getTeam();
         
         String turnText = turn==null?   "???" : turn.toString();
         String actText  = action==null? "???" : action.getActionText();

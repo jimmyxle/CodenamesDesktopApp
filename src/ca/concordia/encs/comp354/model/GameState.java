@@ -100,6 +100,11 @@ public final class GameState implements ReadOnlyGameState {
     }
     
     @Override
+    public GameEvent getLastEvent() {
+    	return lastEventProperty().get();
+    }
+    
+    @Override
     public ReadOnlyObjectProperty<GameEvent> lastEventProperty() {
         return event;
     }
