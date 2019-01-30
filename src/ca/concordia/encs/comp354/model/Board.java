@@ -2,12 +2,9 @@ package ca.concordia.encs.comp354.model;
 
 import java.util.List;
 
-//for testing
-import ca.concordia.encs.comp354.controller.Operative;
-import ca.concordia.encs.comp354.controller.SpyMaster;
-
 import java.io.IOException;
 import java.lang.IllegalArgumentException;
+import java.nio.file.Paths;
 
 /**
  * Represents a game board configuration. Since the configuration does not change for the duration of the game, this 
@@ -59,81 +56,26 @@ public class Board {
     }
 
     /**
-     * Returns the word at the given coordinates.
-     * @param x horizontal coordinate; must be less than {@link #getWidth()}
-     * @param y vertical coordinate; must be less than {@link #getLength()}
-     * @return the word on the card at the given coordinates
+     * Returns the card at the given coordinates.
+     * @param coords  coordinates; x must be less than {@link #getWidth()}, y must be less than {@link #getLength()}
+     * @return the card at the given coordinates
      */
-    public String getWord(int x, int y) {
-        return board[x][y].getCodename();
-    }
-    
-    /**
-     * Returns value of the card at the given coordinates.
-     * @param x horizontal coordinate; must be less than {@link #getWidth()}
-     * @param y vertical coordinate; must be less than {@link #getLength()}
-     * @return a value representing the team colour at the given coordinates on the board
-     */
-    public CardValue getValue(int x, int y) {
-        return board[x][y].getTypeOfCard();
+    public Card getCard(Coordinates coords) {
+        return getCard(coords.getX(), coords.getY());
     }
 
     /**
-     * Returns associated word list of the card at the given coordinates.
+     * Returns the card at the given coordinates.
      * @param x horizontal coordinate; must be less than {@link #getWidth()}
      * @param y vertical coordinate; must be less than {@link #getLength()}
-     * @return the associated word list of the word at the given coordinates on the board
+     * @return the card at the given coordinates
      */
-    public List<CodenameWord.AssociatedWord> getAssociatedWordList(int x, int y) {
-        return board[x][y].getAssociatedWords();
+    public Card getCard(int x, int y) {
+        return board[x][y];
     }
 
     /**
-     * Returns a specific associated word of the card at the given coordinates.
-     * @param x horizontal coordinate; must be less than {@link #getWidth()}
-     * @param y vertical coordinate; must be less than {@link #getLength()}
-     * //TODO: if we change the number of words in the associated word list / database, this value should
-     *          be linked to the length of the associated word list - potential update issue -
-     * @param i index of the associated word; must be less than getAssociatedWordList(int, int).length
-     * @return the associated word list of the word at the given coordinates on the board
-     */
-    public String getAssociatedWord (int x, int y, int i) {
-        List<CodenameWord.AssociatedWord> list = board[x][y].getAssociatedWords();
 
-        return list.get(i).getAssociatedWord();
-    }
-
-    /**
-     * Returns a specific associated word weight of the card at the given coordinates.
-     * @param x horizontal coordinate; must be less than {@link #getWidth()}
-     * @param y vertical coordinate; must be less than {@link #getLength()}
-     * //TODO: if we change the number of words in the associated word list / database, this value should
-     *          be linked to the length of the associated word list - potential update issue -
-     * @param i index of the associated word; must be less than getAssociatedWordList(int, int).length
-     * @return the associated word list of the word at the given coordinates on the board
-     */
-    public int getAssociatedWordWeight (int x, int y, int i) {
-        List<CodenameWord.AssociatedWord> list = board[x][y].getAssociatedWords();
-
-        return list.get(i).getWeight();
-    }
-
-    /**
-     * Returns a specific associated word object of the card at the given coordinates.
-     * @param x horizontal coordinate; must be less than {@link #getWidth()}
-     * @param y vertical coordinate; must be less than {@link #getLength()}
-     * //TODO: if we change the number of words in the associated word list / database, this value should
-     *          be linked to the length of the associated word list - potential update issue -
-     * @param i index of the associated word; must be less than {@link #getAssociatedWordList(int, int).length}
-     * @return the associated word list of the word at the given coordinates on the board
-     */
-    public CodenameWord.AssociatedWord getAssociatedWordObject(int x, int y, int i) {
-        List<CodenameWord.AssociatedWord> list = board[x][y].getAssociatedWords();
-
-        return list.get(i);
-    }
-
-    /**
      * @return the width of the board in tiles
      */
     public int getWidth() {
@@ -154,7 +96,7 @@ public class Board {
 
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < LENGTH; j++) {
-                str.append(this.board[i][j].getCodename() + "-" + this.board[i][j].getTypeOfCard() + "\t\t");
+                str.append(this.board[i][j].getCodename() + "-" + this.board[i][j].getValue() + "\t\t");
             }
             str.append("\n");
         }
@@ -166,24 +108,26 @@ public class Board {
     //--------TEST--------
     //====================
     public static void main(String[] args) throws IOException {
-            List<Card> cardList = Card.generate25Cards();
-            Board gameBoard = new Board(cardList);
-            //====================
-            //--------TEST--------
-            //====================
-            //print out the card list
-            System.out.println("Printing out the game board: ");
-            System.out.println(gameBoard.toString());
+        List<Card> cardList = Card.generate25Cards(Paths.get("res/words.txt"));
+        Board gameBoard = new Board(cardList);
+        //====================
+        //--------TEST--------
+        //====================
+        //print out the card list
+        System.out.println("Printing out the game board: ");
+        System.out.println(gameBoard.toString());
 
-            int x = 3;
-            int y = 4;
-            int i = 9;
+        int x = 3;
+        int y = 4;
+        int i = 9;
 
-            System.out.println("Word at [" + x + "][" + y + "]: " + gameBoard.getWord(x,y) + "-" + gameBoard.getValue(x,y));
-            System.out.println("\nAssociated Word List for \"" + gameBoard.getWord(x,y) + "\": " + gameBoard.getAssociatedWordList(x,y));
-            System.out.println("\nAssociated Word i's Object for \"" + gameBoard.getWord(x,y) + "\": " + gameBoard.getAssociatedWordObject(x,y,i));
-            System.out.println("\nAssociated Word i for \"" + gameBoard.getWord(x,y) + "\": " + gameBoard.getAssociatedWord(x,y,i));
-            System.out.println("\nAssociated Word i's Weight for \"" + gameBoard.getWord(x,y) + "\": " + gameBoard.getAssociatedWordWeight(x,y,i));        
+        Card card = gameBoard.getCard(x, y);
+        System.out.println("Word at [" + x + "][" + y + "]: " + card.getCodename() + "-" + card.getValue());
+        System.out.println("\nAssociated Word List for \"" + card.getCodename() + "\": " + card.getAssociatedWords());
+        System.out.println("\nAssociated Word i's Object for \"" + card.getCodename() + "\": " + card.getAssociatedWords().get(i));
+        System.out.println("\nAssociated Word i for \"" + card.getCodename() + "\": " + card.getAssociatedWords().get(i).getWord());
+        System.out.println("\nAssociated Word i's Weight for \"" + card.getCodename() + "\": " + card.getAssociatedWords().get(i).getWeight());        
+
             
             
     }//END OF main(String[] args)

@@ -1,6 +1,11 @@
 package ca.concordia.encs.comp354.model;
 
-public class Coordinates {
+/**
+ * Coordinates for a card on the board.
+ * @author Nikita Leonidov
+ *
+ */
+public final class Coordinates {
     private final int x, y;
     
     public Coordinates(int x, int y) {
@@ -14,6 +19,11 @@ public class Coordinates {
     
     public int getY() {
         return y;
+    }
+
+    @Override
+    public String toString() {
+        return "Coordinates [x=" + x + ", y=" + y + "]";
     }
 
     @Override

@@ -1,55 +1,47 @@
 package ca.concordia.encs.comp354.controller;
 
+import java.util.Objects;
+
 /**
- * SpyMaster class extends Player. Adds functionality to return a clue.
+ * SpyMasters are Players that produce clues for consumption by {@link Operative}s.
  * @author Alex Abrams
  */
 
-import ca.concordia.encs.comp354.model.Board;
-import ca.concordia.encs.comp354.model.CardValue;
+import ca.concordia.encs.comp354.model.ReadOnlyGameState;
+import ca.concordia.encs.comp354.model.Team;
 
+/**
+ * Spymasters are players that produce clues for {@link Operative}s.
+ * @author Alex Abrams
+ * @author Nikita Leonidov
+ *
+ */
 public class SpyMaster extends Player {
-	static int linearCol = 0;
-	static int linearRow = 0;
-	
-	//Constructor uses super
-	public SpyMaster(CardValue team) {
-		super(team);
-	}
-	
+    
+    public interface Strategy {
+        /**
+         * Requests a clue from this strategy, given the current game state.
+         * @param owner  the owning player object
+         * @param state  a read-only view of the current game state
+         * @return a clue, or <tt>null</tt> if there are no more cards to guess
+         */
+        Clue giveClue(SpyMaster owner, ReadOnlyGameState state);
+    }
 
-    /**
-     * Returns a clue based on the first unused codename that matches the objects team color
-     * @param current Board object
-     * @return the codename for the first untouched coordinate
-     */
-	public String giveClue(Board board) {
-		CardValue color = board.getValue(linearRow, linearCol);
-		while (team != color) {
-			nextCard();
-			color = board.getValue(linearRow, linearCol);
-		} 
-		String codename = board.getWord(linearRow, linearCol);
-		String clue = board.getAssociatedWord(linearRow, linearCol, 0);
-		return clue;		
+    private final Strategy strategy;
+    
+	//Constructor uses super
+	public SpyMaster(Team team, Strategy strategy) {
+		super(team);
+        this.strategy = Objects.requireNonNull(strategy, "strategy");
 	}
 	
-	public int getRow() {
-		return linearRow;
+	public Clue giveClue(ReadOnlyGameState state) {
+	    Clue ret = strategy.giveClue(this, state);
+	    if (ret==null) {
+	        throw new IllegalStateException("cannot produce another clue");
+	    }
+	    return ret;
 	}
-	
-	public int getCol() {
-		return linearCol;
-	}
-	
-	public static void nextCard() {
-		if (linearCol < 4 && linearRow < 4) {
-			linearCol++;
-		}
-		else if(linearCol == 4) {
-			linearCol = 0;
-			linearRow++;
-		}
-	}
-	
 }
+

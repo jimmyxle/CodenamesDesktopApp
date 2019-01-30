@@ -1,10 +1,13 @@
 package ca.concordia.encs.comp354.model;
 
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -27,7 +30,7 @@ public class Card {
     //============================
     private Card(String codename, List<CodenameWord.AssociatedWord> associatedWords, CardValue typeOfCard) {
         this.codename = codename;
-        this.associatedWords = associatedWords;
+        this.associatedWords = Collections.unmodifiableList(new ArrayList<>(associatedWords));
         this.typeOfCard = typeOfCard;
     }
 
@@ -37,10 +40,11 @@ public class Card {
     //============================
     /**
      * Returns a list of 25 Codename Card to be used to populate the board
+     * @param the path to the database file from which to read codenames
      * @return a list containing 25 Codename Card
      */
-    public static List<Card> generate25Cards() throws IOException {
-        List<CodenameWord> wordList = generateRandomCodenameList();
+    public static List<Card> generate25Cards(Path databaseFile) throws IOException {
+        List<CodenameWord> wordList = generateRandomCodenameList(databaseFile);
         List<Card> cardList = new ArrayList<>();
 
         CardValue[] cardValues = generateKeyCard();
@@ -65,7 +69,7 @@ public class Card {
         return associatedWords;
     }
 
-    public CardValue getTypeOfCard() {
+    public CardValue getValue() {
         return typeOfCard;
     }
 
@@ -97,12 +101,12 @@ public class Card {
      * Returns a list of 25 Codename Words to be used to create cards
      * @return a list containing 25 Codename Words
      */
-    private static List<CodenameWord> generateRandomCodenameList() throws IOException {
+    private static List<CodenameWord> generateRandomCodenameList(Path databaseFile) throws IOException {
         //generate 25 random numbers between 0 and 400
 //        generateRandomNumber();
 
         //parse database for 25 words
-        String[] words = parseDatabaseFile();
+        String[] words = parseDatabaseFile(databaseFile);
 
         //turn the 25 words into 25 CodenameWord Objects
         List<CodenameWord> codenameWordList = generateCodenameWordList(words);
@@ -110,41 +114,19 @@ public class Card {
         return codenameWordList;
     }//END OF generateRandomCodenameList()
 
-    //TODO: for next iteration
-    private static int[] generateRandomNumber() {
-        int[] random25 = new int[25];
-
-        //populate the random array
-        for (int i = 0; i < 25; i++) {
-            random25[i] = (int) (Math.random() * 400);
-
-            System.out.println(random25[i]);
-        }
-
-        //verify if there are doubles
-        for (int i = 0; i < 25; i++) {
-            for (int j = 0; j < 25-i; j++) {
-                if (random25[i] == random25[j]) {
-                    //generate a new array of random numbers
-                }
-            }
-        }
-
-        return random25;
-    }//END OF generateRandomNumber()
-
-    private static String[] parseDatabaseFile() throws IOException {
+    private static String[] parseDatabaseFile(Path databaseFile) throws IOException {
         //====================
         //--PARSING DATABASE--
         //====================
-        String inputPath = "./src/ca/concordia/encs/comp354/model/TextFiles/database.txt";
         String[] words = new String[25];
 
-        try (Scanner inputFromDatabase = new Scanner(new FileReader(inputPath))) {
+        try (Scanner inputFromDatabase = new Scanner(Files.newBufferedReader(databaseFile))) {
             //use the 25 parsed lines to create 25 AssociatedWords Lists
             for (int i = 0; i < 25; i++) {
                 words[i] = inputFromDatabase.nextLine();
             }
+        } catch (NoSuchElementException e) {
+            throw new IOException("database file must have at least 25 elements", e);
         }
 
         //====================

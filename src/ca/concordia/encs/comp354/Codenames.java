@@ -1,9 +1,15 @@
 package ca.concordia.encs.comp354;
 
+import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 
+import ca.concordia.encs.comp354.controller.*;
+import ca.concordia.encs.comp354.model.Board;
+import ca.concordia.encs.comp354.model.Card;
+import ca.concordia.encs.comp354.model.GameState;
+import ca.concordia.encs.comp354.model.Team;
 import ca.concordia.encs.comp354.view.GameView;
-import ca.concordia.encs.comp354.view.TestGameState;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -12,7 +18,7 @@ import javafx.stage.Stage;
 public class Codenames extends Application {
 
 	@Override
-	public void start(Stage stage) throws Exception {
+	public void start(Stage stage) throws IOException {
 		// set up a simple interface
 		//--------------------------------------------------------------------------------------------------------------
 		final StackPane root  = new StackPane();
@@ -21,8 +27,16 @@ public class Codenames extends Application {
 		scene.getStylesheets().add("file:///"+Paths.get("res/style.css").toAbsolutePath().toString().replace('\\', '/'));
 	
 		// replace with implementations
-		TestGameState game = new TestGameState();
-		GameView.Controller testController = game::advance;
+		List<Card> config = Card.generate25Cards(Paths.get("res/words.txt"));
+		GameState game = new GameState(new Board(config), Team.RED);
+		GameView.Controller testController = 
+		        new GameController.Builder()
+		        .setModel(game)
+		        .setRedSpyMaster (new SpyMaster(Team.RED,  new SequentialSpyMasterStrategy()))
+		        .setRedOperative (new Operative(Team.RED,  new SequentialOperativeStrategy()))
+		        .setBlueSpyMaster(new SpyMaster(Team.BLUE, new RandomSpyMasterStrategy()))
+		        .setBlueOperative(new Operative(Team.BLUE, new RandomOperativeStrategy()))
+		        .create();
 		
 		root.getChildren().add(new GameView(game, testController));
 
