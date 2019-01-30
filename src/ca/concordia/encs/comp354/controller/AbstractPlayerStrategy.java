@@ -40,8 +40,8 @@ abstract class AbstractPlayerStrategy {
 
     private void rebuildGuesses(Player owner, Board board) {
         guesses = new ArrayList<>();
-        for (int x=0; x<board.getWidth(); x++) {
-            for (int y=0; y<board.getLength(); y++) {
+        for (int y=0; y<board.getWidth(); y++) {
+            for (int x=0; x<board.getLength(); x++) {
                 if (isValidGuess(owner, board, x, y)) {
                     guesses.add(new Coordinates(x, y));
                 }
