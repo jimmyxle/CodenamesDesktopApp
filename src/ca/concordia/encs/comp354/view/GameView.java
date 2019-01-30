@@ -3,6 +3,9 @@ package ca.concordia.encs.comp354.view;
 import java.util.Objects;
 
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
@@ -26,8 +29,12 @@ public class GameView extends StackPane {
     private final ScoreView  scoreView;
     private final StateView  stateView;
     
+    private final BooleanProperty canAdvance = new SimpleBooleanProperty(this, "canAdvance", true);
+    
     public GameView(ReadOnlyGameState game, Controller controller) {
         Objects.requireNonNull(controller, "controller");
+        
+        
         
         root = new BorderPane();
         getChildren().add(root);
@@ -74,10 +81,6 @@ public class GameView extends StackPane {
         stateView.actionProperty().bind(game.lastActionProperty());
         
         advance.setOnAction(event->controller.advanceTurn());
-        advance.disableProperty().bind(
-            game.redScoreProperty().greaterThanOrEqualTo(game.redObjectiveProperty())
-            .or(game.blueScoreProperty().greaterThanOrEqualTo(game.blueObjectiveProperty()))
-        );
         
     }
     

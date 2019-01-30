@@ -22,6 +22,7 @@ public class GameController implements GameView.Controller {
     private Operative redOperative;
     private SpyMaster blueSpyMaster;
     private Operative blueOperative;
+    private int guesses;
     
     /** is the next player to move the spymaster? */
     private boolean spyMasterNext = true;
@@ -109,50 +110,15 @@ public class GameController implements GameView.Controller {
          */
     	
     	/*
-    	if (turn == 0)
-    	{
-    		model.turnProperty().setValue(Team.RED);
-    		spyMasterNext = true;
-        	model.pushAction(new GiveClueAction(Team.RED, redSpyMaster.giveClue(model)));
-        	spyMasterNext = false;
-        	
-        	while (guesses < model.lastClueProperty().get().getGuesses() && model.getTurn() == Team.RED && model.lastEventProperty().getValue().isTerminal() == false)
-        	{
-        		model.pushAction(new GuessCardAction(Team.RED, model.getBoard(), redOperative.guessCard(model, model.lastClueProperty().getValue())));
-        		
-        		if (model.lastEventProperty().getValue() == GameEvent.END_TURN)
-        			break;
-        		guesses++;
-        	}
-        	
-        	guesses = 0;
-        	turn = 1;
-    		
-    	}
-    	else
-    	{
-    		model.turnProperty().setValue(Team.BLUE);
-        	spyMasterNext = true;
-        	
-        	model.pushAction(new GiveClueAction(Team.BLUE, blueSpyMaster.giveClue(model)));
-        	
-        	spyMasterNext = false;
-        	
-        	
-        	while (guesses < model.lastClueProperty().getValue().getGuesses() && model.getTurn() == Team.BLUE && model.lastEventProperty().getValue().isTerminal() == false)
-        	{
-        		model.pushAction(new GuessCardAction(Team.BLUE, model.getBoard(), blueOperative.guessCard(model, model.lastClueProperty().getValue())));
-        		
-        		if (model.lastEventProperty().getValue() == GameEvent.END_TURN)
-        			break;
-        			
-        		guesses++;
-        	}
-        	
-        	guesses = 0;
-        	turn = 0;
-    	}
-    	*/
+    	 * red turn
+    	 * - spymaster: x, y
+    	 * - operative guess 1
+    	 * - operative guess 2
+    	 * ...
+    	 * - operative guess y
+    	 * 
+    	 */
+    	
     	
     	if (model.lastEventProperty().get().isTerminal())
     		return;
@@ -161,6 +127,9 @@ public class GameController implements GameView.Controller {
     	{
     		SpyMaster currentSpy = model.getTurn().equals(Team.RED)? redSpyMaster : blueSpyMaster; 
     		model.pushAction(new GiveClueAction(Team.RED, currentSpy.giveClue(model)));
+    		guesses = 0;
+    		
+    		spyMasterNext = false;
     	}
     	
     	else
@@ -168,11 +137,19 @@ public class GameController implements GameView.Controller {
     		Operative currentOp = model.getTurn().equals(Team.RED)? redOperative: blueOperative;
     		model.pushAction(new GuessCardAction (model.getTurn(),model.getBoard(), currentOp.guessCard(model, model.lastClueProperty().getValue())));
     		
-    		model.turnProperty().setValue(model.getTurn()==Team.RED? Team.BLUE: Team.RED);
+    		guesses++;
+    		
+    		if (guesses >= model.lastClueProperty().get().getGuesses())
+    		{
+    			model.turnProperty().setValue(model.getTurn()==Team.RED? Team.BLUE: Team.RED);
+    			
+    			spyMasterNext = true;
+    		
+    		}
     		
     	}
     	
-    	spyMasterNext = !spyMasterNext;
+    	
     	
     	
     }

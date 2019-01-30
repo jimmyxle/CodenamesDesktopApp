@@ -66,8 +66,8 @@ public class StateView extends StackPane {
 
     protected void updateState() {
         
-        Team       turn   = getTurn();
         GameAction action = getAction();
+        Team       turn   = action==null? getTurn() : action.getTeam();
         
         String turnText = turn==null?   "???" : turn.toString();
         String actText  = action==null? "???" : action.getActionText();
