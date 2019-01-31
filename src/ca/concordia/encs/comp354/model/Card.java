@@ -227,6 +227,8 @@ public class Card {
 
         int cardsLeft = 0;
         int random;
+        
+        //TODO: refactor to use Collections.Shuffle()
 
         while (cardsLeft < 25) {
             random = (int) (Math.random() * 4 + 1);
