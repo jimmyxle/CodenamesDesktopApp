@@ -75,6 +75,7 @@ public class Board {
     }
 
     /**
+
      * @return the width of the board in tiles
      */
     public int getWidth() {
@@ -126,6 +127,7 @@ public class Board {
         System.out.println("\nAssociated Word i's Object for \"" + card.getCodename() + "\": " + card.getAssociatedWords().get(i));
         System.out.println("\nAssociated Word i for \"" + card.getCodename() + "\": " + card.getAssociatedWords().get(i).getWord());
         System.out.println("\nAssociated Word i's Weight for \"" + card.getCodename() + "\": " + card.getAssociatedWords().get(i).getWeight());        
+
             
             
     }//END OF main(String[] args)

@@ -44,3 +44,4 @@ public class SpyMaster extends Player {
 	    return ret;
 	}
 }
+
