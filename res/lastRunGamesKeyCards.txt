@@ -1,0 +1,80 @@
+Keycard 0: 
+			B R R R N 
+			N B B B B 
+			R R B B N 
+			N N A R B 
+			N N R R R 
+			
+
+Keycard 1: 
+			B B B R R 
+			B B N B B 
+			N N N A R 
+			R R R N N 
+			B R N R R 
+			
+
+Keycard 2: 
+			A B R B R 
+			B N N B R 
+			R N N R B 
+			R N N B B 
+			N R B R R 
+			
+
+Keycard 3: 
+			R B N R A 
+			B N R B N 
+			B N R R R 
+			N N B B B 
+			R B R R N 
+			
+
+Keycard 4: 
+			R A N B R 
+			N R R N N 
+			N B R R B 
+			B B R B R 
+			B R B N N 
+			
+
+Keycard 5: 
+			B A R B R 
+			R R R B N 
+			R B N N B 
+			N N B B R 
+			R R B N N 
+			
+
+Keycard 6: 
+			R N N N R 
+			R R R R B 
+			N R B N R 
+			N B B B B 
+			B A B R N 
+			
+
+Keycard 7: 
+			B R A N R 
+			B R N B R 
+			B R R N R 
+			N N B N R 
+			B R N B B 
+			
+
+Keycard 8: 
+			R N N R R 
+			B B R B N 
+			N R R B R 
+			R B N B N 
+			B R N A B 
+			
+
+Keycard 9: 
+			N R N R B 
+			B R R R N 
+			R N R R B 
+			A B B B N 
+			B N N B R 
+			
+
