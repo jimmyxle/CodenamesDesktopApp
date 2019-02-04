@@ -39,7 +39,7 @@ public class Keycard {
      * @return a Keycard containing 25 CardValues (RED/BLUE/NEUTRAL/ASSASSIN)
      */
     static Keycard generateKeyCard() {
-        ArrayList<CardValue> cardValues = new ArrayList<>();
+        List<CardValue> cardValues = new ArrayList<>();
 
         //TODO: We assume the starting team is red - this needs to be changed in further iterations.
         int startingTeam = 9;
@@ -66,6 +66,9 @@ public class Keycard {
 
         //Shuffle the list
         Collections.shuffle(cardValues);
+
+        //make list unmodifiable
+        cardValues = Collections.unmodifiableList(cardValues);
 
         //create a new keyCard object
         Keycard newKeycard = new Keycard(cardValues);
