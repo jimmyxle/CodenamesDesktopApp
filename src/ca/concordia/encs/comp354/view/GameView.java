@@ -25,13 +25,16 @@ public class GameView extends StackPane {
     
     private final ReadOnlyGameState game;
 
-    private final BorderPane root;
-    private final BoardView  boardView;
-    private final ScoreView  scoreView;
-    private final StateView  stateView;
-    private final Button     advance;
+    private final BorderPane    root;
+    private final BoardView     boardView;
+    private final ScoreView     scoreView;
+    private final StateView     stateView;
+    private final GameEventView gameEventView;
+    private final TurnView      turnView;
+    private final Button        advance;
     
     private final InvalidationListener advanceFreeze = this::onAdvanceChanged;
+
     
     public GameView(ReadOnlyGameState game, Controller controller) {
         Objects.requireNonNull(controller, "controller");
@@ -42,10 +45,17 @@ public class GameView extends StackPane {
         
         // create game view elements
         //--------------------------------------------------------------------------------------------------------------
-        // centre: board
+        // centre: board, game over
+        StackPane centre = new StackPane();
         boardView = new BoardView();
         boardView.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        root.setCenter(boardView);
+        
+        gameEventView = new GameEventView();
+        turnView = new TurnView();
+        
+        centre.getChildren().addAll(boardView, turnView, gameEventView);
+        
+        root.setCenter(centre);
         
         // top: score, show overlay
         final HBox top = new HBox();
@@ -74,6 +84,9 @@ public class GameView extends StackPane {
         boardView.boardProperty().bind(game.boardProperty());
         boardView.setRevealed(game.getChosenCards());
         boardView.keycardVisibleProperty().bind(showOverlay.selectedProperty());
+        
+        gameEventView.stepProperty().bind(game.lastStepProperty());
+        turnView.turnProperty().bind(game.turnProperty());
         
         scoreView.redScoreProperty().bind(game.redScoreProperty());
         scoreView.blueScoreProperty().bind(game.blueScoreProperty());

@@ -29,7 +29,7 @@ public class GuessCardAction extends GameAction {
 
     @Override
     public String getActionText() {
-        return "operative guessed: "+card.getCodename();
+        return getTeam()+" operative guessed: "+card.getCodename();
     }
 
     @Override
@@ -42,19 +42,20 @@ public class GuessCardAction extends GameAction {
         Card  card  = board.getCard(coords);
         
         state.chooseCard(coords);
+        adjust(state.guessesRemainingProperty(), -1);
         
         switch (card.getValue()) {
         case RED:
-            state.redScoreProperty().set(state.redScoreProperty().get()+1);
-            if (state.redObjectiveProperty().get() == state.redScoreProperty().get()) {
-                return GameEvent.GAME_OVER_OBJECTIVE;
+            final int redScore = adjust(state.redScoreProperty(), +1);
+            if (state.redObjectiveProperty().get() == redScore) {
+                return GameEvent.GAME_OVER_RED_WON;
             }
             break;
             
         case BLUE:
-            state.blueScoreProperty().set(state.blueScoreProperty().get()+1);
-            if (state.blueObjectiveProperty().get() == state.blueScoreProperty().get()) {
-                return GameEvent.GAME_OVER_OBJECTIVE;
+            final int blueScore = adjust(state.blueScoreProperty(), +1);
+            if (state.blueObjectiveProperty().get() == blueScore) {
+                return GameEvent.GAME_OVER_BLUE_WON;
             }
             break;
             
@@ -67,5 +68,44 @@ public class GuessCardAction extends GameAction {
         
         return card.getValue() != state.getTurn().getValue() ? GameEvent.END_TURN : GameEvent.NONE;
     }
+
+    @Override
+    protected void undo(GameState gameState) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((card == null) ? 0 : card.hashCode());
+        result = prime * result + ((coords == null) ? 0 : coords.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        GuessCardAction other = (GuessCardAction) obj;
+        if (card == null) {
+            if (other.card != null)
+                return false;
+        } else if (!card.equals(other.card))
+            return false;
+        if (coords == null) {
+            if (other.coords != null)
+                return false;
+        } else if (!coords.equals(other.coords))
+            return false;
+        return true;
+    }
+    
+    
 
 }

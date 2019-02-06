@@ -78,6 +78,33 @@
 	-fx-background-color: dimgray;
 }
 
+/*
+ * Game over
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+.game-over, .next-turn {
+ 	-fx-alignment: center;
+ 	-fx-text-alignment: center;
+ 	-fx-font-size: 3em;
+ 	-fx-font-weight: bolder;
+ 	-fx-background-color: rgba(0, 0, 0, 0.75);
+ }
+ .game-over .text, .next-turn .text {
+ 	-fx-stroke: black;
+ 	-fx-stroke-width: 0.15em;
+ }
+ .game-over:red, .next-turn:red {
+ 	-fx-text-fill: linear-gradient(to bottom, red, black);
+ }
+ 
+ .game-over:blue, .next-turn:blue {
+ 	-fx-text-fill: linear-gradient(to bottom, cornflowerblue, black);
+ }
+ 
+ .game-over:assassin {
+ 	-fx-text-fill: linear-gradient(to bottom, slategrey, black);
+ }
+
 /* 
  * state (current turn, action) display 
  * ---------------------------------------------------------------------------------------------------------------------

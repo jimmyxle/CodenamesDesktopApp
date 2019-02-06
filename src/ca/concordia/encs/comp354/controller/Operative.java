@@ -50,7 +50,7 @@ public class Operative extends Player {
 	
 	public static void main(String[] args) throws IOException {
 	    List<Card> cardList = Card.generate25Cards(Paths.get("res/words.txt"));
-	    GameState state = new GameState(new Board(cardList), Team.RED);
+	    GameState state = new GameState(new Board(cardList));
 	    Board board = state.boardProperty().get();
 	    //====================
 	    //--------TEST--------
