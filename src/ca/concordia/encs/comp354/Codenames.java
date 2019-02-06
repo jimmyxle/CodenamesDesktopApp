@@ -2,6 +2,7 @@ package ca.concordia.encs.comp354;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -32,8 +33,7 @@ public class Codenames extends Application {
 		final StackPane root  = new StackPane();
 		final Scene     scene = new Scene(root, 512, 512);
 		
-		scene.getStylesheets()
-		    .add("file:///"+Paths.get("res/style.css").toAbsolutePath().toString().replace('\\', '/'));
+		scene.getStylesheets().add(stylesheet("res/style.css"));
 	
 		// replace with implementations
 		List<Card> config = Card.generate25Cards(Paths.get("res/words.txt"));
@@ -68,6 +68,10 @@ public class Codenames extends Application {
 	            out.append(k.getText()+"\n");
 	        }
 	    }
+	}
+	
+	private static String stylesheet(String path) throws MalformedURLException {
+	    return Paths.get(path).toAbsolutePath().toUri().toURL().toExternalForm();
 	}
 	
 	public static void main(String[] args) {
