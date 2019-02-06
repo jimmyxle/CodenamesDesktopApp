@@ -1,80 +1,80 @@
 Keycard 0: 
-			N R R R B 
-			R R R B N 
-			B B B A B 
-			N N N R R 
-			R N B N B 
+			N N R B N 
+			R R N N B 
+			N B R R A 
+			R B B N B 
+			R R B R B 
 			
 
 Keycard 1: 
-			B B B N R 
-			B R N R R 
-			R N B B N 
-			N R B N N 
-			R R B R A 
+			A B N N B 
+			N B R N N 
+			R N R R B 
+			N B R B R 
+			B R R B R 
 			
 
 Keycard 2: 
-			R R R N N 
-			N R N B B 
-			N B R R R 
-			B N R B B 
-			B A N R B 
+			R R R R R 
+			N B R B N 
+			B B B N N 
+			B B R R A 
+			R N B N N 
 			
 
 Keycard 3: 
-			B R R R B 
-			R B N N B 
-			B A N R R 
-			R N B B B 
-			N N R R N 
+			N R R N R 
+			R N A N B 
+			R B B R B 
+			B R N N R 
+			B B B R N 
 			
 
 Keycard 4: 
-			N B B N N 
-			R R B B R 
-			R B R N B 
-			B N N A R 
-			B R R N R 
+			B B R R R 
+			R B N N N 
+			R R B N A 
+			B B N B R 
+			N B R R N 
 			
 
 Keycard 5: 
-			B R N N N 
-			B R B R B 
-			N R N N B 
-			A R B R N 
-			R R R B B 
+			N N R R R 
+			B B B B R 
+			N N R R N 
+			R B B N A 
+			B B R N R 
 			
 
 Keycard 6: 
-			R N R B B 
-			B N N R R 
-			B R N B B 
-			R B N A N 
-			N R B R R 
+			N N B B B 
+			R R R R R 
+			N B N N B 
+			B N R B R 
+			R R B A N 
 			
 
 Keycard 7: 
-			N N N B A 
-			R R R R B 
-			B R N R R 
-			N B B N N 
-			B B R R B 
+			B R N B R 
+			A R N R N 
+			B N N R R 
+			R N B R N 
+			B B B B R 
 			
 
 Keycard 8: 
-			N R R N N 
-			B R B B R 
-			R N N N R 
-			B B B R A 
-			B R R B N 
+			R N B N R 
+			B R N R A 
+			R B B R R 
+			N B N B B 
+			N N B R R 
 			
 
 Keycard 9: 
-			R B R R R 
-			R N B N N 
-			N B R B B 
-			N R N R B 
-			N B A B R 
+			B B R R R 
+			N N B N A 
+			B R N N N 
+			R B N R B 
+			R B R R B 
 			
 
