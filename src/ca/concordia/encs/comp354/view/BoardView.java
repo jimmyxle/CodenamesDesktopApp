@@ -73,8 +73,7 @@ public class BoardView extends StackPane {
         getStyleClass().clear();
         getStyleClass().add(BOARD_VIEW_STYLE_CLASS);
         
-        this.getChildren().add(tiles);
-        this.getChildren().add(teams);
+        this.getChildren().addAll(tiles, teams);
     }
     
     public void setBoard(Board value) {
@@ -132,7 +131,7 @@ public class BoardView extends StackPane {
             
             getStyleClass().clear();
             getStyleClass().add(CODENAME_REGION_STYLE_CLASS);
-            getChildren().addAll(label, markedRegion);
+            getChildren().addAll(markedRegion, label);
         }
         
         void setMarked(boolean v) {

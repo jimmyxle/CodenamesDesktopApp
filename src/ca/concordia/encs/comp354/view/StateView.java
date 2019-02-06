@@ -51,10 +51,8 @@ public class StateView extends StackPane {
         GameAction action = getAction();
         Team       turn   = action==null? Team.RED : action.getTeam();
         
-        String turnText = turn==null?   "???" : turn.toString();
-        String actText  = action==null? "???" : action.getActionText();
-        
-        label.setText(turnText+" "+actText);
+        String actText = action==null? "???" : action.getActionText();
+        label.setText(actText);
         
         for (Team k : Team.values()) {
             pseudoClassStateChanged(PseudoClass.getPseudoClass(k.name().toLowerCase(Locale.ENGLISH)), false);

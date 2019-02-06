@@ -1,5 +1,6 @@
 package ca.concordia.encs.comp354.model;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import ca.concordia.encs.comp354.controller.Clue;
@@ -11,6 +12,8 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener.Change;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 
 /**
@@ -33,11 +36,13 @@ import javafx.collections.ObservableSet;
  */
 public final class GameState implements ReadOnlyGameState {
 
-    private final ObjectProperty<Board>      board  = new SimpleObjectProperty<>(this, "board");
-    private final ObjectProperty<Team>       turn   = new SimpleObjectProperty<>(this, "turn",  Team.RED);
-    private final ObjectProperty<GameAction> action = new SimpleObjectProperty<>(this, "action");
-    private final ObjectProperty<GameEvent>  event  = new SimpleObjectProperty<>(this, "event", GameEvent.NONE);
-    private final ObjectProperty<Clue>       clue   = new SimpleObjectProperty<>(this, "clue",  null);
+    private final ObjectProperty<Board>      board   = new SimpleObjectProperty<>(this, "board",   null);
+    private final ObjectProperty<Team>       turn    = new SimpleObjectProperty<>(this, "turn",    null);
+    private final ObjectProperty<GameAction> action  = new SimpleObjectProperty<>(this, "action",  null);
+    private final ObjectProperty<GameEvent>  event   = new SimpleObjectProperty<>(this, "event",   GameEvent.NONE);
+    private final ObjectProperty<Clue>       clue    = new SimpleObjectProperty<>(this, "clue",    null);
+    private final IntegerProperty            guesses = new SimpleIntegerProperty (this, "guesses", 0);
+    private final ObjectProperty<GameStep>   step    = new SimpleObjectProperty<>(this, "step",    null);
     
     private final IntegerProperty redScore  = new SimpleIntegerProperty(this, "redScore", 0);
     private final IntegerProperty blueScore = new SimpleIntegerProperty(this, "redScore", 0);
@@ -48,9 +53,11 @@ public final class GameState implements ReadOnlyGameState {
     private final ObservableSet<Coordinates> chosen         = FXCollections.observableSet();
     private final ObservableSet<Coordinates> readOnlyChosen = FXCollections.unmodifiableObservableSet(chosen);
     
-    public GameState(Board board, Team startingTurn) {
+    private final ObservableList<GameStep> history         = FXCollections.observableList(new ArrayList<>());
+    private final ObservableList<GameStep> readOnlyHistory = FXCollections.unmodifiableObservableList(history);
+    
+    public GameState(Board board) {
         this.board.set(Objects.requireNonNull(board, "board"));
-        turnProperty().set(Objects.requireNonNull(startingTurn, "startingTurn"));
         
         // count red, blue cards on board to determine objectives
         int redCount  = 0;
@@ -73,6 +80,14 @@ public final class GameState implements ReadOnlyGameState {
         
         redObjective  = new SimpleIntegerProperty(this, "redObjective",  redCount);
         blueObjective = new SimpleIntegerProperty(this, "blueObjective", blueCount);
+        
+        getHistory().addListener((Change<?> c)->{
+            if (!getHistory().isEmpty()) {
+                step.set(getHistory().get(getHistory().size()-1));
+            } else {
+                step.set(null);
+            }
+        });
     }
     
     public Board getBoard() {
@@ -113,14 +128,57 @@ public final class GameState implements ReadOnlyGameState {
     public ObjectProperty<Clue> lastClueProperty() {
         return clue;
     }
+
+    @Override
+    public IntegerProperty guessesRemainingProperty() {
+        return guesses;
+    }
+
+    @Override
+    public boolean hasGuesses() {
+        return guessesRemainingProperty().get() > 0;
+    }
     
     public GameEvent pushAction(GameAction value) {
         Objects.requireNonNull(value);
+        
+        // add action to model, execute action, add event to model
         action.set(value);
         event.set(value.apply(this));
+        
+        // log game step
+        GameStep step = new GameStep(action.get(), event.get(), redScore.get(), blueScore.get(), history.size());
+        history.add(step);
+        System.out.println(step.getText());
+        
         return event.get();
     }
 
+    public GameAction popAction() {
+        // undo most recent action
+        GameAction ret = history.remove(history.size()-1).getAction();
+        ret.undo(this);
+        
+        // re-apply previous action
+        if (!history.isEmpty()) {
+            GameAction next = history.remove(history.size()-1).getAction();
+            pushAction(next);
+        }
+        
+        // lastly, return the undone action
+        return ret;
+    }
+    
+    @Override
+    public ObservableList<GameStep> getHistory() {
+        return readOnlyHistory;
+    }
+
+    @Override
+    public ReadOnlyObjectProperty<GameStep> lastStepProperty() {
+        return step;
+    }
+    
     @Override
     public int getRedScore() {
         return redScoreProperty().get();

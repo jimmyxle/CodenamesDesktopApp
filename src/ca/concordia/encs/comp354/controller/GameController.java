@@ -1,5 +1,6 @@
 package ca.concordia.encs.comp354.controller;
 
+import ca.concordia.encs.comp354.controller.action.ChangeTurnAction;
 import ca.concordia.encs.comp354.controller.action.GiveClueAction;
 import ca.concordia.encs.comp354.controller.action.GuessCardAction;
 import ca.concordia.encs.comp354.model.Coordinates;
@@ -23,10 +24,10 @@ public class GameController implements GameView.Controller {
     private Operative redOperative;
     private SpyMaster blueSpyMaster;
     private Operative blueOperative;
-    private int guesses;
     
     /** is the next player to move the spymaster? */
     private boolean spyMasterNext = true;
+    public Team initialTurn;
     
     public static final class Builder {
         private GameState model;
@@ -34,7 +35,13 @@ public class GameController implements GameView.Controller {
         private Operative redOperative;
         private SpyMaster blueSpyMaster;
         private Operative blueOperative;
+        
+        private Team initialTurn = Team.RED;
        
+        public Builder setInitialTurn(Team team) {
+            initialTurn  = requireNonNull(team);
+            return this;
+        }
         
         public Builder setModel(GameState value) {
             model = value;
@@ -68,11 +75,14 @@ public class GameController implements GameView.Controller {
         public GameController create() {
             GameController ret = new GameController();
             
-            ret.model         = requireNonNull(model, "model");
+            ret.model         = requireNonNull(model,         "model");
             ret.redSpyMaster  = requireNonNull(redSpyMaster,  "redSpyMaster");
             ret.redOperative  = requireNonNull(redOperative,  "redOperative");
             ret.blueSpyMaster = requireNonNull(blueSpyMaster, "blueSpyMaster");
             ret.blueOperative = requireNonNull(blueOperative, "blueOperative");
+            ret.initialTurn   = initialTurn;
+            
+            ret.initialize();
             
             return ret;
         }
@@ -84,7 +94,12 @@ public class GameController implements GameView.Controller {
         }
     }
 
-    private GameController() {}
+    private GameController() {
+    }
+    
+    private void initialize() {
+        model.pushAction(new ChangeTurnAction(initialTurn));
+    }
     
     @Override
     public void advanceTurn() {
@@ -127,35 +142,20 @@ public class GameController implements GameView.Controller {
     	
     	final Team turn = model.getTurn();
     	
-    	if (spyMasterNext)
-    	{
+    	if (spyMasterNext) {
     		SpyMaster currentSpy = turn==Team.RED? redSpyMaster : blueSpyMaster; 
     		model.pushAction(new GiveClueAction(turn, currentSpy.giveClue(model)));
-    		guesses = 0;
-    		
     		spyMasterNext = false;
-    	}
-    	
-    	else
-    	{
+    	} else {
     		Operative currentOp = turn.equals(Team.RED)? redOperative: blueOperative;
     		Coordinates guess = currentOp.guessCard(model, model.lastClueProperty().get());
     		model.pushAction(new GuessCardAction (turn,model.getBoard(), guess));
     		
-    		guesses++;
-    		
-    		if (guesses >= model.lastClueProperty().get().getGuesses())
-    		{
-    			model.turnProperty().setValue(turn==Team.RED? Team.BLUE: Team.RED);
-    			
+	        // advance to next turn iff guesses remain & last action did not end game
+    		if (!model.hasGuesses() && !model.getLastEvent().isTerminal()) {
+    			model.pushAction(new ChangeTurnAction(turn==Team.RED? Team.BLUE: Team.RED));
     			spyMasterNext = true;
-    		
     		}
-    		
-    	}
-    	
-    	
-    	
-    	
+    	}	
     }
 }
