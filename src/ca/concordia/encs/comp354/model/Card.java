@@ -66,6 +66,9 @@ public class Card {
             i++;
         }
 
+        //make the cardList unmodifiable
+        cardList = Collections.unmodifiableList(cardList);
+
         return cardList;
 
     }//END OF generate25Cards()
