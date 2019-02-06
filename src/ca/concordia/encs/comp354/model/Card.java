@@ -39,20 +39,29 @@ public class Card {
     //----------METHODS----------
     //============================
     /**
-     * Returns a list of 25 Codename Card to be used to populate the board
-     * @param the path to the database file from which to read codenames
+     * Returns a list of 25 Codename Cards to be used to populate the board. Teams are assigned based off
+     * of a random KeyCard picked from a list of 10 randomly created KeyCards.
+     * @param databaseFile path to the database file from which to read codenames
      * @return a list containing 25 Codename Card
      */
     public static List<Card> generate25Cards(Path databaseFile) throws IOException {
         List<CodenameWord> wordList = generateRandomCodenameList(databaseFile);
         List<Card> cardList = new ArrayList<>();
 
-        CardValue[] cardValues = generateKeyCard();
+        List<Keycard> keyCards = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            Keycard keyCard = Keycard.generateKeyCard();
+            keyCards.add(keyCard);
+        }
+
+        int random = (int) (Math.random() * 10);
+        Keycard randomKeycard = keyCards.get(random);
+
 
         int i = 0;
-
         for (CodenameWord word : wordList) {
-            Card newCard = new Card(word.getClueWord(), word.getAssociatedWords(), cardValues[i]);
+            Card newCard = new Card(word.getClueWord(), word.getAssociatedWords(), randomKeycard.getCardValue(i));
             cardList.add(newCard);
             i++;
         }
@@ -109,9 +118,7 @@ public class Card {
         String[] words = parseDatabaseFile(databaseFile);
 
         //turn the 25 words into 25 CodenameWord Objects
-        List<CodenameWord> codenameWordList = generateCodenameWordList(words);
-
-        return codenameWordList;
+        return generateCodenameWordList(words);
     }//END OF generateRandomCodenameList()
 
     private static String[] parseDatabaseFile(Path databaseFile) throws IOException {
@@ -254,6 +261,7 @@ public class Card {
 
         return cardValues;
     }
+
 
     //====================
     //--------TEST--------
