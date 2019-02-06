@@ -23,6 +23,8 @@ public abstract class GameAction {
     
     protected abstract GameEvent apply(GameState state);
 
+    protected abstract void undo(GameState gameState);
+
     @Override
     public int hashCode() {
         final int prime = 31;

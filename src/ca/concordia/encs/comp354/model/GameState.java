@@ -134,6 +134,21 @@ public final class GameState implements ReadOnlyGameState {
         return event.get();
     }
 
+    public GameAction popAction() {
+        // undo most recent action
+        GameAction ret = history.remove(history.size()-1).getAction();
+        ret.undo(this);
+        
+        // re-apply previous action
+        if (!history.isEmpty()) {
+            GameAction next = history.remove(history.size()-1).getAction();
+            pushAction(next);
+        }
+        
+        // lastly, return the undone action
+        return ret;
+    }
+    
     @Override
     public ObservableList<GameStep> getHistory() {
         return readOnlyHistory;

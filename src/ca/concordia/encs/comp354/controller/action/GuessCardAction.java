@@ -68,4 +68,43 @@ public class GuessCardAction extends GameAction {
         return card.getValue() != state.getTurn().getValue() ? GameEvent.END_TURN : GameEvent.NONE;
     }
 
+    @Override
+    protected void undo(GameState gameState) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((card == null) ? 0 : card.hashCode());
+        result = prime * result + ((coords == null) ? 0 : coords.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        GuessCardAction other = (GuessCardAction) obj;
+        if (card == null) {
+            if (other.card != null)
+                return false;
+        } else if (!card.equals(other.card))
+            return false;
+        if (coords == null) {
+            if (other.coords != null)
+                return false;
+        } else if (!coords.equals(other.coords))
+            return false;
+        return true;
+    }
+    
+    
+
 }
