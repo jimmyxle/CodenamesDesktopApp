@@ -12,6 +12,7 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 
@@ -35,11 +36,13 @@ import javafx.collections.ObservableSet;
  */
 public final class GameState implements ReadOnlyGameState {
 
-    private final ObjectProperty<Board>      board  = new SimpleObjectProperty<>(this, "board");
-    private final ObjectProperty<Team>       turn   = new SimpleObjectProperty<>(this, "turn",  Team.RED);
-    private final ObjectProperty<GameAction> action = new SimpleObjectProperty<>(this, "action");
-    private final ObjectProperty<GameEvent>  event  = new SimpleObjectProperty<>(this, "event", GameEvent.NONE);
-    private final ObjectProperty<Clue>       clue   = new SimpleObjectProperty<>(this, "clue",  null);
+    private final ObjectProperty<Board>      board   = new SimpleObjectProperty<>(this, "board",   null);
+    private final ObjectProperty<Team>       turn    = new SimpleObjectProperty<>(this, "turn",    null);
+    private final ObjectProperty<GameAction> action  = new SimpleObjectProperty<>(this, "action",  null);
+    private final ObjectProperty<GameEvent>  event   = new SimpleObjectProperty<>(this, "event",   GameEvent.NONE);
+    private final ObjectProperty<Clue>       clue    = new SimpleObjectProperty<>(this, "clue",    null);
+    private final IntegerProperty            guesses = new SimpleIntegerProperty (this, "guesses", 0);
+    private final ObjectProperty<GameStep>   step    = new SimpleObjectProperty<>(this, "step",    null);
     
     private final IntegerProperty redScore  = new SimpleIntegerProperty(this, "redScore", 0);
     private final IntegerProperty blueScore = new SimpleIntegerProperty(this, "redScore", 0);
@@ -53,9 +56,8 @@ public final class GameState implements ReadOnlyGameState {
     private final ObservableList<GameStep> history         = FXCollections.observableList(new ArrayList<>());
     private final ObservableList<GameStep> readOnlyHistory = FXCollections.unmodifiableObservableList(history);
     
-    public GameState(Board board, Team startingTurn) {
+    public GameState(Board board) {
         this.board.set(Objects.requireNonNull(board, "board"));
-        turnProperty().set(Objects.requireNonNull(startingTurn, "startingTurn"));
         
         // count red, blue cards on board to determine objectives
         int redCount  = 0;
@@ -78,6 +80,14 @@ public final class GameState implements ReadOnlyGameState {
         
         redObjective  = new SimpleIntegerProperty(this, "redObjective",  redCount);
         blueObjective = new SimpleIntegerProperty(this, "blueObjective", blueCount);
+        
+        getHistory().addListener((Change<?> c)->{
+            if (!getHistory().isEmpty()) {
+                step.set(getHistory().get(getHistory().size()-1));
+            } else {
+                step.set(null);
+            }
+        });
     }
     
     public Board getBoard() {
@@ -118,6 +128,16 @@ public final class GameState implements ReadOnlyGameState {
     public ObjectProperty<Clue> lastClueProperty() {
         return clue;
     }
+
+    @Override
+    public IntegerProperty guessesRemainingProperty() {
+        return guesses;
+    }
+
+    @Override
+    public boolean hasGuesses() {
+        return guessesRemainingProperty().get() > 0;
+    }
     
     public GameEvent pushAction(GameAction value) {
         Objects.requireNonNull(value);
@@ -152,6 +172,11 @@ public final class GameState implements ReadOnlyGameState {
     @Override
     public ObservableList<GameStep> getHistory() {
         return readOnlyHistory;
+    }
+
+    @Override
+    public ReadOnlyObjectProperty<GameStep> lastStepProperty() {
+        return step;
     }
     
     @Override

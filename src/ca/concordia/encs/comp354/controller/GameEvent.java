@@ -13,11 +13,11 @@ public enum GameEvent {
     /** The action ended the turn prematurely without ending the game; the action's team may not make any more guesses. */
     END_TURN          (false, "turn ended"),
     /** The action revealed an assassin, ending the game with a loss to the action's team. */
-    GAME_OVER_ASSASSIN(true, "game over: assassin"),
+    GAME_OVER_ASSASSIN(true, "assassin"),
     /** The action met the red team's objective, ending the game. */
-    GAME_OVER_RED_WON (true, "game over: red wins"),
+    GAME_OVER_RED_WON (true, "red wins"),
     /** The action met the blue team's objective, ending the game. */
-    GAME_OVER_BLUE_WON(true, "game over: blue wins");
+    GAME_OVER_BLUE_WON(true, "blue wins");
     
     private final boolean endsGame;
     private final String  text;

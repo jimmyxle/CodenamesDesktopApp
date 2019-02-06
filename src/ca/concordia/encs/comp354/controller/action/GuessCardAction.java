@@ -29,7 +29,7 @@ public class GuessCardAction extends GameAction {
 
     @Override
     public String getActionText() {
-        return "operative guessed: "+card.getCodename();
+        return getTeam()+" operative guessed: "+card.getCodename();
     }
 
     @Override
@@ -42,18 +42,19 @@ public class GuessCardAction extends GameAction {
         Card  card  = board.getCard(coords);
         
         state.chooseCard(coords);
+        adjust(state.guessesRemainingProperty(), -1);
         
         switch (card.getValue()) {
         case RED:
-            state.redScoreProperty().set(state.redScoreProperty().get()+1);
-            if (state.redObjectiveProperty().get() == state.redScoreProperty().get()) {
+            final int redScore = adjust(state.redScoreProperty(), +1);
+            if (state.redObjectiveProperty().get() == redScore) {
                 return GameEvent.GAME_OVER_RED_WON;
             }
             break;
             
         case BLUE:
-            state.blueScoreProperty().set(state.blueScoreProperty().get()+1);
-            if (state.blueObjectiveProperty().get() == state.blueScoreProperty().get()) {
+            final int blueScore = adjust(state.blueScoreProperty(), +1);
+            if (state.blueObjectiveProperty().get() == blueScore) {
                 return GameEvent.GAME_OVER_BLUE_WON;
             }
             break;

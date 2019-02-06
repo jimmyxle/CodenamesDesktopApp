@@ -8,7 +8,7 @@ import ca.concordia.encs.comp354.model.Team;
 import ca.concordia.encs.comp354.controller.SpyMaster;
 
 /**
- * Representing a {@link SpyMaster} giving a clue.
+ * Represents a {@link SpyMaster} giving a clue.
  * @author Nikita Leonidov
  *
  */
@@ -23,12 +23,13 @@ public class GiveClueAction extends GameAction {
 
     @Override
     public String getActionText() {
-        return "spymaster gave a clue: "+clue.getWord()+" "+clue.getGuesses();
+        return getTeam()+" spymaster gave a clue: "+clue.getWord()+" "+clue.getGuesses();
     }
 
     @Override
     protected GameEvent apply(GameState state) {
         state.lastClueProperty().set(clue);
+        state.guessesRemainingProperty().set(clue.getGuesses());
         return GameEvent.NONE;
     }
 

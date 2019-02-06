@@ -53,9 +53,24 @@ public interface ReadOnlyGameState {
     ObservableList<GameStep> getHistory();
 
     /**
+     * @return the most recent element in {@link #getHistory()}
+     */
+    ReadOnlyObjectProperty<GameStep> lastStepProperty();
+
+    /**
      * @return the most recent clue provided by a {@link SpyMaster}
      */
     ReadOnlyObjectProperty<Clue> lastClueProperty();
+    
+    /**
+     * @return the number of guesses allowed for the current team's operatives
+     */
+    ReadOnlyIntegerProperty guessesRemainingProperty();
+
+    /**
+     * @return <tt>true</tt> when <tt>{@code guessesRemainingProperty().get()>0}</tt>
+     */
+    boolean hasGuesses();
     
     /**
      * Equivalent to <tt>{@link #redScoreProperty()}.get()</tt>

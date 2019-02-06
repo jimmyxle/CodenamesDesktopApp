@@ -2,19 +2,15 @@ package ca.concordia.encs.comp354.view;
 
 import java.util.Objects;
 
-import ca.concordia.encs.comp354.controller.GameEvent;
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 import javafx.beans.InvalidationListener;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.TextAlignment;
 import javafx.beans.Observable;
-import javafx.css.PseudoClass;
 
 /**
  * A graphical interface for an active game.
@@ -29,13 +25,16 @@ public class GameView extends StackPane {
     
     private final ReadOnlyGameState game;
 
-    private final BorderPane root;
-    private final BoardView  boardView;
-    private final ScoreView  scoreView;
-    private final StateView  stateView;
-    private final Button     advance;
+    private final BorderPane    root;
+    private final BoardView     boardView;
+    private final ScoreView     scoreView;
+    private final StateView     stateView;
+    private final GameEventView gameEventView;
+    private final TurnView      turnView;
+    private final Button        advance;
     
     private final InvalidationListener advanceFreeze = this::onAdvanceChanged;
+
     
     public GameView(ReadOnlyGameState game, Controller controller) {
         Objects.requireNonNull(controller, "controller");
@@ -51,11 +50,10 @@ public class GameView extends StackPane {
         boardView = new BoardView();
         boardView.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
         
-        Label redWins  = endLabel("Red wins!",  "red");
-        Label blueWins = endLabel("Blue wins!", "blue");
-        Label assassin = endLabel("Assassin!",  "assassin");
+        gameEventView = new GameEventView();
+        turnView = new TurnView();
         
-        centre.getChildren().addAll(boardView, redWins, blueWins, assassin);
+        centre.getChildren().addAll(boardView, turnView, gameEventView);
         
         root.setCenter(centre);
         
@@ -87,6 +85,9 @@ public class GameView extends StackPane {
         boardView.setRevealed(game.getChosenCards());
         boardView.keycardVisibleProperty().bind(showOverlay.selectedProperty());
         
+        gameEventView.stepProperty().bind(game.lastStepProperty());
+        turnView.turnProperty().bind(game.turnProperty());
+        
         scoreView.redScoreProperty().bind(game.redScoreProperty());
         scoreView.blueScoreProperty().bind(game.blueScoreProperty());
         
@@ -98,22 +99,7 @@ public class GameView extends StackPane {
         game.blueObjectiveProperty().addListener(advanceFreeze);
         game.lastEventProperty()    .addListener(advanceFreeze);
         
-        redWins .visibleProperty().bind(game.lastEventProperty().isEqualTo(GameEvent.GAME_OVER_RED_WON));
-        blueWins.visibleProperty().bind(game.lastEventProperty().isEqualTo(GameEvent.GAME_OVER_BLUE_WON));
-        assassin.visibleProperty().bind(game.lastEventProperty().isEqualTo(GameEvent.GAME_OVER_ASSASSIN));
-        
         advance.setOnAction(event->controller.advanceTurn());
-    }
-    
-    private static Label endLabel(String label, String pseudoClass) {
-        Label ret = new Label(label);
-        
-        ret.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        ret.setTextAlignment(TextAlignment.CENTER);
-        ret.getStyleClass().add("game-over");
-        ret.pseudoClassStateChanged(PseudoClass.getPseudoClass(pseudoClass), true);
-        
-        return ret;
     }
     
     private void onAdvanceChanged(Observable ignore) {

@@ -82,26 +82,26 @@
  * Game over
  * ---------------------------------------------------------------------------------------------------------------------
  */
- .label.game-over {
+.game-over, .next-turn {
  	-fx-alignment: center;
  	-fx-text-alignment: center;
  	-fx-font-size: 3em;
  	-fx-font-weight: bolder;
  	-fx-background-color: rgba(0, 0, 0, 0.75);
  }
- .label.game-over .text {
+ .game-over .text, .next-turn .text {
  	-fx-stroke: black;
  	-fx-stroke-width: 0.15em;
  }
- .label.game-over:red {
+ .game-over:red, .next-turn:red {
  	-fx-text-fill: linear-gradient(to bottom, red, black);
  }
  
- .label.game-over:blue {
+ .game-over:blue, .next-turn:blue {
  	-fx-text-fill: linear-gradient(to bottom, cornflowerblue, black);
  }
  
- .label.game-over:assassin {
+ .game-over:assassin {
  	-fx-text-fill: linear-gradient(to bottom, slategrey, black);
  }
 

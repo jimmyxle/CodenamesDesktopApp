@@ -2,6 +2,11 @@ package ca.concordia.encs.comp354.model;
 
 import ca.concordia.encs.comp354.controller.GameEvent;
 
+/**
+ * An entry in the model's {@link GameState#getHistory() history}.
+ * @author Nikita Leonidov
+ *
+ */
 public class GameStep {
 
     private final GameAction action;
@@ -45,9 +50,16 @@ public class GameStep {
     public String getText() {
         String text = event.getEventText();
         if (!text.isEmpty()) {
-            return String.format("Turn %02d: %s %s; red: %d, blue: %d (%s)", turn, action.getTeam(), action.getActionText(), redScore, blueScore, text);
+            if (event.isTerminal()) {
+                text = "game over: "+text;
+            }
+            
+            if (event==GameEvent.GAME_OVER_ASSASSIN) {
+                text += "; "+(action.getTeam()==Team.RED?GameEvent.GAME_OVER_BLUE_WON:GameEvent.GAME_OVER_RED_WON).getEventText();
+            }
+            return String.format("%02d: %s; red: %d, blue: %d (%s)", turn, action.getActionText(), redScore, blueScore, text);
         } else {
-            return String.format("Turn %02d: %s %s; red: %d, blue: %d", turn, action.getTeam(), action.getActionText(), redScore, blueScore);
+            return String.format("%02d: %s; red: %d, blue: %d", turn, action.getActionText(), redScore, blueScore);
         }
     }
     

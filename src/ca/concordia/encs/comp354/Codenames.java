@@ -38,10 +38,11 @@ public class Codenames extends Application {
 		// replace with implementations
 		List<Card> config = Card.generate25Cards(Paths.get("res/words.txt"));
 		
-		game = new GameState(new Board(config), Team.RED);
+		game = new GameState(new Board(config));
 		controller = 
 		        new GameController.Builder()
 		        .setModel(game)
+		        .setInitialTurn(Team.RED)
 		        .setRedSpyMaster (new SpyMaster(Team.RED,  new SequentialSpyMasterStrategy()))
 		        .setRedOperative (new Operative(Team.RED,  new SequentialOperativeStrategy()))
 		        .setBlueSpyMaster(new SpyMaster(Team.BLUE, new RandomSpyMasterStrategy()))

@@ -1,6 +1,7 @@
 package ca.concordia.encs.comp354.model;
 
 import ca.concordia.encs.comp354.controller.GameEvent;
+import javafx.beans.property.IntegerProperty;
 
 /**
  * A superclass for game commands.
@@ -23,7 +24,18 @@ public abstract class GameAction {
     
     protected abstract GameEvent apply(GameState state);
 
-    protected abstract void undo(GameState gameState);
+    protected abstract void undo(GameState state);
+    
+    /**
+     * Convenience method to add an integer to the value of an integer property and return the value
+     * @param prop   property to adjust by <tt>delta</tt>
+     * @param delta  the desired change in <tt>prop</tt>'s value
+     * @return the sum <tt>prop.getValue() + delta</tt>
+     */
+    protected static int adjust(IntegerProperty prop, int delta) {
+        prop.set(prop.get() + delta);
+        return prop.get();
+    }
 
     @Override
     public int hashCode() {
