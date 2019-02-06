@@ -1,5 +1,6 @@
 package ca.concordia.encs.comp354.model;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import ca.concordia.encs.comp354.controller.Clue;
@@ -11,6 +12,7 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 
 /**
@@ -47,6 +49,9 @@ public final class GameState implements ReadOnlyGameState {
     
     private final ObservableSet<Coordinates> chosen         = FXCollections.observableSet();
     private final ObservableSet<Coordinates> readOnlyChosen = FXCollections.unmodifiableObservableSet(chosen);
+    
+    private final ObservableList<GameStep> history         = FXCollections.observableList(new ArrayList<>());
+    private final ObservableList<GameStep> readOnlyHistory = FXCollections.unmodifiableObservableList(history);
     
     public GameState(Board board, Team startingTurn) {
         this.board.set(Objects.requireNonNull(board, "board"));
@@ -118,9 +123,19 @@ public final class GameState implements ReadOnlyGameState {
         Objects.requireNonNull(value);
         action.set(value);
         event.set(value.apply(this));
+        history.add(new GameStep(action.get(), event.get(), redScore.get(), blueScore.get(), history.size()));
+        
+        // log event
+        System.out.println(history.get(history.size()-1).getText());
+        
         return event.get();
     }
 
+    @Override
+    public ObservableList<GameStep> getHistory() {
+        return readOnlyHistory;
+    }
+    
     @Override
     public int getRedScore() {
         return redScoreProperty().get();

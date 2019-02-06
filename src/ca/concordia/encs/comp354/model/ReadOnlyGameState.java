@@ -5,6 +5,7 @@ import ca.concordia.encs.comp354.controller.SpyMaster;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 
 /**
@@ -47,6 +48,11 @@ public interface ReadOnlyGameState {
     ReadOnlyObjectProperty<GameEvent> lastEventProperty();
 
     /**
+     * @return a read-only view of the actions taken in the game so far and their outcomes
+     */
+    ObservableList<GameStep> getHistory();
+
+    /**
      * @return the most recent clue provided by a {@link SpyMaster}
      */
     ReadOnlyObjectProperty<Clue> lastClueProperty();
@@ -86,5 +92,5 @@ public interface ReadOnlyGameState {
     /**
      * @return a read-only view of the card coordinates that have been revealed so far
      */
-    public ObservableSet<Coordinates> getChosenCards();
+    ObservableSet<Coordinates> getChosenCards();
 }

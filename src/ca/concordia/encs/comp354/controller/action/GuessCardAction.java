@@ -47,14 +47,14 @@ public class GuessCardAction extends GameAction {
         case RED:
             state.redScoreProperty().set(state.redScoreProperty().get()+1);
             if (state.redObjectiveProperty().get() == state.redScoreProperty().get()) {
-                return GameEvent.GAME_OVER_OBJECTIVE;
+                return GameEvent.GAME_OVER_RED_WON;
             }
             break;
             
         case BLUE:
             state.blueScoreProperty().set(state.blueScoreProperty().get()+1);
             if (state.blueObjectiveProperty().get() == state.blueScoreProperty().get()) {
-                return GameEvent.GAME_OVER_OBJECTIVE;
+                return GameEvent.GAME_OVER_BLUE_WON;
             }
             break;
             

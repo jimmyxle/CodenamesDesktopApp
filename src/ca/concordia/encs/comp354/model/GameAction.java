@@ -45,5 +45,9 @@ public abstract class GameAction {
         return true;
     }
     
+    @Override
+    public String toString() {
+        return getTeam()+" "+getActionText();
+    }
     
 }

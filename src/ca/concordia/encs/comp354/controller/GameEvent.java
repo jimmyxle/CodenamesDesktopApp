@@ -9,18 +9,22 @@ import ca.concordia.encs.comp354.model.GameAction;
  */
 public enum GameEvent {
     /** The action ended unremarkably. */
-    NONE(false),
+    NONE              (false, ""),
     /** The action ended the turn prematurely without ending the game; the action's team may not make any more guesses. */
-    END_TURN(false),
+    END_TURN          (false, "turn ended"),
     /** The action revealed an assassin, ending the game with a loss to the action's team. */
-    GAME_OVER_ASSASSIN(true),
-    /** The action met an objective (not necessarily the calling team's), ending the game. */
-    GAME_OVER_OBJECTIVE(true);
+    GAME_OVER_ASSASSIN(true, "game over: assassin"),
+    /** The action met the red team's objective, ending the game. */
+    GAME_OVER_RED_WON (true, "game over: red wins"),
+    /** The action met the blue team's objective, ending the game. */
+    GAME_OVER_BLUE_WON(true, "game over: blue wins");
     
-    private boolean endsGame;
+    private final boolean endsGame;
+    private final String  text;
     
-    GameEvent(boolean endsGame) {
+    GameEvent(boolean endsGame, String text) {
         this.endsGame = endsGame;
+        this.text     = text;
     }
     
     /**
@@ -28,5 +32,9 @@ public enum GameEvent {
      */
     public boolean isTerminal() {
         return endsGame;
+    }
+    
+    public String getEventText() {
+        return text;
     }
 }
