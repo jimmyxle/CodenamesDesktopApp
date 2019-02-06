@@ -45,9 +45,9 @@ public class GameStep {
     public String getText() {
         String text = event.getEventText();
         if (!text.isEmpty()) {
-            return String.format("Turn %02d: %s; red: %d, blue: %d (%s)", turn, action.getActionText(), redScore, blueScore, text);
+            return String.format("Turn %02d: %s %s; red: %d, blue: %d (%s)", turn, action.getTeam(), action.getActionText(), redScore, blueScore, text);
         } else {
-            return String.format("Turn %02d: %s; red: %d, blue: %d", turn, action.getActionText(), redScore, blueScore);
+            return String.format("Turn %02d: %s %s; red: %d, blue: %d", turn, action.getTeam(), action.getActionText(), redScore, blueScore);
         }
     }
     

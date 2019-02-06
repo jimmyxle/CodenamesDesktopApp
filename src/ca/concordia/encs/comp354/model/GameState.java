@@ -121,12 +121,15 @@ public final class GameState implements ReadOnlyGameState {
     
     public GameEvent pushAction(GameAction value) {
         Objects.requireNonNull(value);
+        
+        // add action to model, execute action, add event to model
         action.set(value);
         event.set(value.apply(this));
-        history.add(new GameStep(action.get(), event.get(), redScore.get(), blueScore.get(), history.size()));
         
-        // log event
-        System.out.println(history.get(history.size()-1).getText());
+        // log game step
+        GameStep step = new GameStep(action.get(), event.get(), redScore.get(), blueScore.get(), history.size());
+        history.add(step);
+        System.out.println(step.getText());
         
         return event.get();
     }

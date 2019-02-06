@@ -1,6 +1,8 @@
 package ca.concordia.encs.comp354;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import ca.concordia.encs.comp354.controller.*;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.GameState;
+import ca.concordia.encs.comp354.model.GameStep;
 import ca.concordia.encs.comp354.model.Team;
 import ca.concordia.encs.comp354.view.GameView;
 import javafx.application.Application;
@@ -15,8 +18,13 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import static java.nio.file.StandardOpenOption.*;
+
 public class Codenames extends Application {
 
+    private GameState      game;
+    private GameController controller;
+    
 	@Override
 	public void start(Stage stage) throws IOException {
 		// set up a simple interface
@@ -24,12 +32,14 @@ public class Codenames extends Application {
 		final StackPane root  = new StackPane();
 		final Scene     scene = new Scene(root, 512, 512);
 		
-		scene.getStylesheets().add("file:///"+Paths.get("res/style.css").toAbsolutePath().toString().replace('\\', '/'));
+		scene.getStylesheets()
+		    .add("file:///"+Paths.get("res/style.css").toAbsolutePath().toString().replace('\\', '/'));
 	
 		// replace with implementations
 		List<Card> config = Card.generate25Cards(Paths.get("res/words.txt"));
-		GameState game = new GameState(new Board(config), Team.RED);
-		GameView.Controller testController = 
+		
+		game = new GameState(new Board(config), Team.RED);
+		controller = 
 		        new GameController.Builder()
 		        .setModel(game)
 		        .setRedSpyMaster (new SpyMaster(Team.RED,  new SequentialSpyMasterStrategy()))
@@ -38,13 +48,26 @@ public class Codenames extends Application {
 		        .setBlueOperative(new Operative(Team.BLUE, new RandomOperativeStrategy()))
 		        .create();
 		
-		root.getChildren().add(new GameView(game, testController));
+		root.getChildren().add(new GameView(game, controller));
 
 		// configure the window & display our interface
 		//--------------------------------------------------------------------------------------------------------------
 		stage.setTitle("Codenames");
 		stage.setScene(scene);
 		stage.show();
+	}
+	
+	@Override
+	public void stop() throws IOException {
+	    if (game==null) {
+	        return;
+	    }
+	    
+	    try (BufferedWriter out = Files.newBufferedWriter(Paths.get("log.txt"), CREATE, TRUNCATE_EXISTING)) {
+	        for (GameStep k : game.getHistory()) {
+	            out.append(k.getText()+"\n");
+	        }
+	    }
 	}
 	
 	public static void main(String[] args) {
