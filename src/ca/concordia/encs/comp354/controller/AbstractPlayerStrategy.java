@@ -18,6 +18,15 @@ abstract class AbstractPlayerStrategy {
     private List<Coordinates> guesses;
     private Board             lastBoard;
     
+    /**
+     * Returns a list of valid guesses for the strategy's owning player, rebuilding the list if necessary. This method
+     * uses the {@link #isValidGuess(Player, Board, int, int)} method as a predicate to determine which coordinates 
+     * contain valid cards. The returned list will never contain already-revealed cards.
+     * 
+     * @param owner  the strategy's owning player
+     * @param state  the current game state
+     * @return a list of card coordinates that represent valid guesses for this strategy
+     */
     protected List<Coordinates> beginTurn(Player owner, ReadOnlyGameState state) {
         Board board = state.boardProperty().get();
         Set<Coordinates> marked = state.getChosenCards();
@@ -37,6 +46,20 @@ abstract class AbstractPlayerStrategy {
         
         return guesses;
     }
+    
+    /**
+     * Determines whether the card at the given coordinates is a valid option for this strategy. This is useful if, for
+     * example, you want a {@link SpyMaster.Strategy} to filter out cards with values that do not correspond to that 
+     * <tt>SpyMaster</tt>'s team. As operatives may not see the keycard, their strategies would typically implement this
+     * method simply by returning <tt>true</tt>.
+     * 
+     * @param owner  the strategy's owning player
+     * @param board  the current game board
+     * @param x      the horizontal coordinate of the card being tested
+     * @param y      the vertical coordinate of the card being tested
+     * @return <tt>true</tt> iff the player may select this card
+     */
+    protected abstract boolean isValidGuess(Player owner, Board board, int x, int y);
 
     private void rebuildGuesses(Player owner, Board board) {
         guesses = new ArrayList<>();
@@ -48,6 +71,4 @@ abstract class AbstractPlayerStrategy {
             }
         }
     }
-    
-    protected abstract boolean isValidGuess(Player owner, Board board, int x, int y);
 }
