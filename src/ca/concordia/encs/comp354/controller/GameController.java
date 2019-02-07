@@ -140,7 +140,8 @@ public class GameController implements GameView.Controller {
     	
     	final Team turn = model.getTurn();
     	
-    	if (!model.hasGuesses() && model.lastClueProperty().get()==null) {
+    	// if there's no clue, it's the current spymaster's turn
+    	if (model.lastClueProperty().get()==null) {
     		SpyMaster currentSpy = turn==Team.RED? redSpyMaster : blueSpyMaster; 
     		model.pushAction(new GiveClueAction(turn, currentSpy.giveClue(model)));
     	} else {
@@ -148,6 +149,7 @@ public class GameController implements GameView.Controller {
     		if (!model.hasGuesses() && !model.getLastEvent().isTerminal()) {
     			model.pushAction(new ChangeTurnAction(turn==Team.RED? Team.BLUE: Team.RED));
     		} else {
+    		    // otherwise, let the current operative make another guess
         		Operative currentOp = turn.equals(Team.RED)? redOperative: blueOperative;
         		Coordinates guess = currentOp.guessCard(model, model.lastClueProperty().get());
         		model.pushAction(new GuessCardAction(turn, model.getBoard(), guess));

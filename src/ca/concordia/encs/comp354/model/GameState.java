@@ -56,7 +56,7 @@ public final class GameState implements ReadOnlyGameState {
     
     // history ("command queue")
     //------------------------------------------------------------------------------------------------------------------
-    // closest javafx offers to observable deques is lists; use pop() and peek() convenience methods to modify
+    // closest javafx offers to observable deques is lists; use this class's pop(), peek() convenience methods to modify
     private final ObservableList<GameStep> history         = FXCollections.observableList(new ArrayList<>());
     private final ObservableList<GameStep> readOnlyHistory = FXCollections.unmodifiableObservableList(history);
     private final ObservableList<GameStep> undone          = FXCollections.observableList(new ArrayList<>());
@@ -268,11 +268,15 @@ public final class GameState implements ReadOnlyGameState {
         Objects.requireNonNull(coords);
         
         if (coords.getX() < 0 || coords.getX() > getBoard().getWidth()) {
-            throw new IllegalArgumentException("illegal x coordinate "+coords.getX()+"; must lie in [0, "+getBoard().getWidth()+")");
+            throw new IllegalArgumentException(
+                    "illegal x coordinate "+coords.getX()+
+                    "; must lie in [0, "+getBoard().getWidth()+")");
         }
         
         if (coords.getY() < 0 || coords.getY() > getBoard().getLength()) {
-            throw new IllegalArgumentException("illegal y coordinate "+coords.getY()+"; must lie in [0, "+getBoard().getLength()+")");
+            throw new IllegalArgumentException(
+                    "illegal y coordinate "+coords.getY()+
+                    "; must lie in [0, "+getBoard().getLength()+")");
         }
         
 	}
