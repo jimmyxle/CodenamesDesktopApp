@@ -12,6 +12,10 @@ import ca.concordia.encs.comp354.model.Team;
  */
 public class ChangeTurnAction extends GameAction {
 
+	private Team lastTeam;
+    
+    private boolean applied;
+	
     public ChangeTurnAction(Team nextTeam) {
         super(nextTeam);
     }
@@ -23,13 +27,22 @@ public class ChangeTurnAction extends GameAction {
 
     @Override
     protected GameEvent apply(GameState state) {
+    	if (applied) {
+    		throw new IllegalStateException();
+    	}
+    	
+    	lastTeam = state.getTurn();
         state.turnProperty().set(getTeam());
         return GameEvent.NONE;
     }
 
     @Override
     protected void undo(GameState state) {
-        state.turnProperty().set(getTeam()==Team.RED? Team.BLUE : Team.RED);
+    	if (!applied) {
+    		throw new IllegalStateException();
+    	}
+    	
+        state.turnProperty().set(lastTeam);
     }
 
 }

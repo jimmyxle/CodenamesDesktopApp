@@ -215,7 +215,17 @@ public final class GameState implements ReadOnlyGameState {
     }
     
     public void chooseCard(Coordinates coords) {
-        Objects.requireNonNull(coords, "coordinates");
+    	requireValidCoords(coords);
+        chosen.add(coords);
+    }
+
+	public void hideCard(Coordinates coords) {
+		requireValidCoords(coords);
+		chosen.remove(coords);
+	}
+
+	private void requireValidCoords(Coordinates coords) {
+        Objects.requireNonNull(coords);
         
         if (coords.getX() < 0 || coords.getX() > getBoard().getWidth()) {
             throw new IllegalArgumentException("illegal x coordinate "+coords.getX()+"; must lie in [0, "+getBoard().getWidth()+")");
@@ -225,7 +235,6 @@ public final class GameState implements ReadOnlyGameState {
             throw new IllegalArgumentException("illegal y coordinate "+coords.getY()+"; must lie in [0, "+getBoard().getLength()+")");
         }
         
-        chosen.add(coords);
-    }
+	}
 
 }
