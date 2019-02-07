@@ -314,13 +314,20 @@ public final class GameState implements ReadOnlyGameState {
     
     /**
      * Notifies the view that a new step has appeared at the top of the history stack.
-     * @param step  the history element at the top of the history stack
-     * @return <tt>step</tt>
+     * @param k  the history element at the top of the history stack
+     * @return <tt>k</tt>
      */
-    private GameStep recordStep(GameStep step) {
-        action.set(step.getAction());
-        event.set(step.getEvent());
-        System.out.println(step.getText());
-        return step;
+    private GameStep recordStep(GameStep k) {
+        if (k==null) {
+            action.set(null);
+            event.set(GameEvent.NONE);
+            step.set(null);
+        } else {
+            action.set(k.getAction());
+            event.set(k.getEvent());
+            step.set(k);
+            System.out.println(k.getText());
+        }
+        return k;
     }
 }
