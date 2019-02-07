@@ -23,12 +23,12 @@ public abstract class GameAction {
     
     public abstract String getActionText();
     
-    protected GameEvent apply(GameState state) {
+    protected final GameEvent apply(GameState state) {
     	applied = true;
     	return doApply(state);
     }
     
-    protected void undo(GameState state) {
+    protected final void undo(GameState state) {
     	if (!applied) {
     		throw new IllegalStateException("action not applied");
     	}

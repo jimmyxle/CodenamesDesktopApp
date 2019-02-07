@@ -83,13 +83,7 @@ public final class GameState implements ReadOnlyGameState {
         redObjective  = new SimpleIntegerProperty(this, "redObjective",  redCount);
         blueObjective = new SimpleIntegerProperty(this, "blueObjective", blueCount);
         
-        getHistory().addListener((Change<?> c)->{
-            if (!getHistory().isEmpty()) {
-                step.set(getHistory().get(getHistory().size()-1));
-            } else {
-                step.set(null);
-            }
-        });
+        getHistory().addListener((Change<?> c)->recordStep(getHistory().isEmpty() ? null : peek(getHistory())));
     }
     
     public Board getBoard() {
@@ -141,36 +135,41 @@ public final class GameState implements ReadOnlyGameState {
         return guessesRemainingProperty().get() > 0;
     }
     
+    /**
+     * Executes the given action and records it in the model's history.
+     * @param value  an action to execute
+     * @return the action's return value
+     */
     public GameEvent pushAction(GameAction value) {
-        applyAction(value);
-        // clear undo history
+        // clear undo history -- it's invalid now
         undone.clear();
+        applyAction(value);
         return event.get();
     }
 
+    /**
+     * Undoes the most recent action and records it in the model's undo history.
+     * @return <tt>true</tt> if there was an action available in the undo history
+     */
     public boolean undoAction() {
     	if (history.isEmpty()) {
     		return false;
     	}
     	
         // undo most recent action
-    	GameStep undo = pop(history);
-        undone.add(undo);
-        GameAction ret = undo.getAction();
-        ret.undo(this);
-        
-        // notify observers that the action at the top of the stack is different
-        GameStep top = peek(history);
-        if (top!=null) {
-        	action.set(top.getAction());
-        	event.set(top.getEvent());
-            System.out.println(top.getText());
-        }
+    	GameStep top = peek(history); // update history after successful undo -- just peek, modify collection later
+        top.getAction().undo(this);
+        pop(history);
+        undone.add(top);
         
         // lastly, return the undone action
         return true;
     }
     
+    /**
+     * Re-executes the most recently undone action and records it in the model's history.
+     * @return <tt>true</tt> if there was an action available in the undo history
+     */
     public boolean redoAction() {
     	if (undone.isEmpty()) {
     		return false;
@@ -243,7 +242,7 @@ public final class GameState implements ReadOnlyGameState {
 
 	/**
 	 * Helper function; ensures coordinates are non-null and fall within the board dimensions
-	 * @param coords coordinate object to test
+	 * @param coords  coordinate object to test
 	 */
 	private void requireValidCoords(Coordinates coords) {
         Objects.requireNonNull(coords);
@@ -260,27 +259,43 @@ public final class GameState implements ReadOnlyGameState {
     
 	/**
 	 * Helper function; removes the element at the end of a list and returns it
-	 * @param collection list from which to remove the last element
+	 * @param col  list from which to remove the last element
 	 * @return the removed element
 	 */
-    private static <T> T pop(java.util.List<T> collection) {
-    	return collection.remove(collection.size()-1);
+    private static <T> T pop(java.util.List<T> col) {
+    	return col.remove(col.size()-1);
     }
     
-    private static <T> T peek(java.util.List<T> collection) {
-    	return collection.isEmpty()? null : collection.get(collection.size()-1);
+    /**
+     * Helper function; returns the element at the end of a list without removing it
+     * @param col  list from which to remove the last element
+     * @return the element at the end of the list, or <tt>null</tt> if the list is empty
+     */
+    private static <T> T peek(java.util.List<T> col) {
+    	return col.isEmpty()? null : col.get(col.size()-1);
     }
     
+    /**
+     * Executes the given action, and records a new step in the game history.
+     * @param value the action to execute
+     */
     private void applyAction(GameAction value) {
     	Objects.requireNonNull(value);
         
         // add action to model, execute action, record step
-    	action.set(value);
-    	event.set(value.apply(this));
-        
-        // log game step
-        GameStep step = new GameStep(action.get(), event.get(), redScore.get(), blueScore.get(), history.size());
+    	GameStep step = new GameStep(value, value.apply(this), redScore.get(), blueScore.get(), history.size());
         history.add(step);
+    }
+    
+    /**
+     * Notifies the view that a new step has appeared at the top of the history stack.
+     * @param step  the history element at the top of the history stack
+     * @return <tt>step</tt>
+     */
+    private GameStep recordStep(GameStep step) {
+        action.set(step.getAction());
+        event.set(step.getEvent());
         System.out.println(step.getText());
+        return step;
     }
 }
