@@ -223,45 +223,6 @@ public class Card {
         return new CodenameWord(codeName, associatedWordList);
     }//END OF parseCodenameObject(String str)
 
-    //TODO: verify with the team if this is the best place to generate the baords' key card
-    private static CardValue[] generateKeyCard() {
-        CardValue[] cardValues = new CardValue[25];
-
-        int reds = 9;
-        int blues = 8;
-        int neutral = 7;
-        int assassin = 1;
-
-        int cardsLeft = 0;
-        int random;
-        
-        //TODO: refactor to use Collections.Shuffle()
-
-        while (cardsLeft < 25) {
-            random = (int) (Math.random() * 4 + 1);
-
-            if (random == 1 && reds != 0) {
-                cardValues[cardsLeft] = CardValue.RED;
-                reds--;
-                cardsLeft++;
-            } else if (random == 2 && blues != 0) {
-                cardValues[cardsLeft] = CardValue.BLUE;
-                blues--;
-                cardsLeft++;
-            } else if (random == 3 && neutral != 0) {
-                cardValues[cardsLeft] = CardValue.NEUTRAL;
-                neutral--;
-                cardsLeft++;
-            } else if (random == 4 && assassin != 0) {
-                cardValues[cardsLeft] = CardValue.ASSASSIN;
-                assassin--;
-                cardsLeft++;
-            }
-        }
-
-        return cardValues;
-    }
-
 
     //====================
     //--------TEST--------

@@ -4,7 +4,6 @@ import ca.concordia.encs.comp354.controller.action.ChangeTurnAction;
 import ca.concordia.encs.comp354.controller.action.GiveClueAction;
 import ca.concordia.encs.comp354.controller.action.GuessCardAction;
 import ca.concordia.encs.comp354.model.Coordinates;
-import ca.concordia.encs.comp354.model.GameAction;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Team;
 import ca.concordia.encs.comp354.view.GameView;
@@ -19,6 +18,8 @@ import static java.util.Objects.requireNonNull;
  */
 public class GameController implements GameView.Controller {
 
+    // these fields should be immutable once set by the Builder
+    //------------------------------------------------------------------------------------------------------------------
     private GameState model;
     private SpyMaster redSpyMaster;
     private Operative redOperative;

@@ -29,7 +29,7 @@ public class Board {
     // --well, this can get us something working for iteration 1 at least.
     public Board(List<Card> cardList) throws IllegalArgumentException {
 
-        if (cardList.size() < 25) {
+        if (cardList.size() < WIDTH*LENGTH) {
             throw new IllegalArgumentException("Not enough cards to populate the board.");
         }
 

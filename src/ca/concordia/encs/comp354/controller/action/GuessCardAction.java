@@ -1,10 +1,10 @@
 package ca.concordia.encs.comp354.controller.action;
 
+import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.Coordinates;
-import ca.concordia.encs.comp354.model.GameAction;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Team;
 import ca.concordia.encs.comp354.controller.Operative;

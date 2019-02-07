@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import ca.concordia.encs.comp354.controller.Clue;
+import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
