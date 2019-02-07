@@ -10,7 +10,8 @@ import javafx.beans.property.IntegerProperty;
  */
 public abstract class GameAction {
 
-    private Team team;
+    private Team    team;
+    private boolean applied;
 
     public GameAction(Team team) {
         this.team = team;
@@ -22,9 +23,22 @@ public abstract class GameAction {
     
     public abstract String getActionText();
     
-    protected abstract GameEvent apply(GameState state);
+    protected GameEvent apply(GameState state) {
+    	applied = true;
+    	return doApply(state);
+    }
+    
+    protected void undo(GameState state) {
+    	if (!applied) {
+    		throw new IllegalStateException("action not applied");
+    	}
+    	applied = false;
+    	doUndo(state);
+    }
+    
+    protected abstract GameEvent doApply(GameState state);
 
-    protected abstract void undo(GameState state);
+    protected abstract void doUndo(GameState state);
     
     /**
      * Convenience method to add an integer to the value of an integer property and return the value

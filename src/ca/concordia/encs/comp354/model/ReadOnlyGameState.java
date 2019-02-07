@@ -53,6 +53,11 @@ public interface ReadOnlyGameState {
     ObservableList<GameStep> getHistory();
 
     /**
+     * @return a read-only view of undone history entries
+     */
+    ObservableList<GameStep> getUndone();
+
+    /**
      * @return the most recent element in {@link #getHistory()}
      */
     ReadOnlyObjectProperty<GameStep> lastStepProperty();

@@ -18,8 +18,6 @@ public class GiveClueAction extends GameAction {
     
     private Clue lastClue;
     private int  lastGuesses;
-    
-    private boolean applied;
 
     public GiveClueAction(Team team, Clue clue) {
         super(team);
@@ -32,11 +30,7 @@ public class GiveClueAction extends GameAction {
     }
 
     @Override
-    protected GameEvent apply(GameState state) {
-    	if (applied) {
-    		throw new IllegalStateException();
-    	}
-    	
+    protected GameEvent doApply(GameState state) {
     	lastClue    = state.lastClueProperty().get();
     	lastGuesses = state.guessesRemainingProperty().get();
     	
@@ -46,11 +40,7 @@ public class GiveClueAction extends GameAction {
     }
 
     @Override
-    protected void undo(GameState state) {
-    	if (!applied) {
-    		throw new IllegalStateException();
-    	}
-    	
+    protected void doUndo(GameState state) {
         state.lastClueProperty().set(lastClue);
         state.guessesRemainingProperty().set(lastGuesses);
     }

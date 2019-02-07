@@ -56,6 +56,10 @@ public class TurnView extends StackPane {
             k.setVisible(false);
         }
         
+        if (next==null) {
+        	return;
+        }
+        
         switch (next) {
         case RED:
             show(redTurn);
