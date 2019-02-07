@@ -36,32 +36,42 @@ import javafx.collections.ObservableSet;
  */
 public final class GameState implements ReadOnlyGameState {
 
+    // game state
+    //------------------------------------------------------------------------------------------------------------------
     private final ObjectProperty<Board>      board   = new SimpleObjectProperty<>(this, "board",   null);
     private final ObjectProperty<Team>       turn    = new SimpleObjectProperty<>(this, "turn",    null);
-    private final ObjectProperty<GameAction> action  = new SimpleObjectProperty<>(this, "action",  null);
-    private final ObjectProperty<GameEvent>  event   = new SimpleObjectProperty<>(this, "event",   GameEvent.NONE);
     private final ObjectProperty<Clue>       clue    = new SimpleObjectProperty<>(this, "clue",    null);
     private final IntegerProperty            guesses = new SimpleIntegerProperty (this, "guesses", 0);
-    private final ObjectProperty<GameStep>   step    = new SimpleObjectProperty<>(this, "step",    null);
     
     private final IntegerProperty redScore  = new SimpleIntegerProperty(this, "redScore", 0);
     private final IntegerProperty blueScore = new SimpleIntegerProperty(this, "redScore", 0);
     
+    // the minimum number of successful guesses a team must make to win
     private final ReadOnlyIntegerProperty redObjective;
     private final ReadOnlyIntegerProperty blueObjective;
     
+    // the set of revealed cards
     private final ObservableSet<Coordinates> chosen         = FXCollections.observableSet();
     private final ObservableSet<Coordinates> readOnlyChosen = FXCollections.unmodifiableObservableSet(chosen);
     
+    // history ("command queue")
+    //------------------------------------------------------------------------------------------------------------------
+    // closest javafx offers to observable deques is lists; use pop() and peek() convenience methods to modify
     private final ObservableList<GameStep> history         = FXCollections.observableList(new ArrayList<>());
     private final ObservableList<GameStep> readOnlyHistory = FXCollections.unmodifiableObservableList(history);
     private final ObservableList<GameStep> undone          = FXCollections.observableList(new ArrayList<>());
     private final ObservableList<GameStep> readOnlyUndone  = FXCollections.unmodifiableObservableList(undone);
     
+    // values at the top of history stack; these make it easier for the view to watch for changes in state
+    private final ObjectProperty<GameStep>   step    = new SimpleObjectProperty<>(this, "step",    null);
+    private final ObjectProperty<GameAction> action  = new SimpleObjectProperty<>(this, "action",  null);
+    private final ObjectProperty<GameEvent>  event   = new SimpleObjectProperty<>(this, "event",   GameEvent.NONE);
+    
     public GameState(Board board) {
         this.board.set(Objects.requireNonNull(board, "board"));
         
         // count red, blue cards on board to determine objectives
+        //--------------------------------------------------------------------------------------------------------------
         int redCount  = 0;
         int blueCount = 0;
         
@@ -83,6 +93,8 @@ public final class GameState implements ReadOnlyGameState {
         redObjective  = new SimpleIntegerProperty(this, "redObjective",  redCount);
         blueObjective = new SimpleIntegerProperty(this, "blueObjective", blueCount);
         
+        // look for changes in history to update "top of stack" properties
+        //--------------------------------------------------------------------------------------------------------------
         getHistory().addListener((Change<?> c)->recordStep(getHistory().isEmpty() ? null : peek(getHistory())));
     }
     
@@ -230,11 +242,19 @@ public final class GameState implements ReadOnlyGameState {
         return readOnlyChosen;
     }
     
+    /**
+     * Reveals a card at the given coordinates.
+     * @param coords  the coordinates of the yet-to-be-chosen card
+     */
     public void chooseCard(Coordinates coords) {
     	requireValidCoords(coords);
         chosen.add(coords);
     }
 
+    /**
+     * Hides a previously revealed card at the given coordinates.
+     * @param coords  the coordinates of the previously-chosen card
+     */
 	public void hideCard(Coordinates coords) {
 		requireValidCoords(coords);
 		chosen.remove(coords);
