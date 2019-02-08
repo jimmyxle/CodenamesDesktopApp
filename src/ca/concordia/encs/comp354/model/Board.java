@@ -1,5 +1,7 @@
 package ca.concordia.encs.comp354.model;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 import java.io.IOException;
@@ -9,6 +11,9 @@ import java.nio.file.Paths;
 /**
  * Represents a game board configuration. Since the configuration does not change for the duration of the game, this 
  * class should be immutable (which is the assumption the view code makes). A new configuration means a new Board.
+ *
+ * Strategy Implemented: a simple factory method for creating a board.
+ *
  * @author Nikita Leonidov
  * @author Zachary Hynes
  */
@@ -25,18 +30,33 @@ public class Board {
     //============================
     //--------CONSTRUCTORS--------
     //============================
-    //TODO: maybe it's best practice to set the default constructor to a null board, and create a init() function?
-    // --well, this can get us something working for iteration 1 at least.
-    public Board(List<Card> cardList) throws IllegalArgumentException {
+    private Board(List<CodenameWord> codenameWords, List<Keycard> keyCards) throws IllegalArgumentException {
+        List<Card> cards = new ArrayList<>();
 
-        if (cardList.size() < 25) {
+        for (int y = 0; y < WIDTH; y++) {
+            for (int x = 0; x < LENGTH; x++) {
+                int iteration = (y*WIDTH) + x;
+                String codeName = codenameWords.get(iteration).getClueWord();
+                List<CodenameWord.AssociatedWord> associatedWords = codenameWords.get(iteration).getAssociatedWords();
+                int random = (int) (Math.random() * Keycard.NUMBER_OF_KEYCARDS);
+                Keycard randomKeycard = keyCards.get(random);
+
+                cards.add(Card.generateCard(codeName, associatedWords, randomKeycard.getCardValue(x, y)));
+            }
+        }
+
+        if (cards.size() < 25) {
             throw new IllegalArgumentException("Not enough cards to populate the board.");
         }
 
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < LENGTH; j++) {
-                this.board[i][j] = cardList.get((i*WIDTH) + j);
+                this.board[i][j] = cards.get((i*WIDTH) + j);
             }
+        }
+
+        for (Keycard keycard : keyCards) {
+            Keycard.outputKeycardToDatabase(keycard);
         }
     }
 
@@ -75,6 +95,17 @@ public class Board {
     }
 
     /**
+     * Returns a board that is populated by the words from the codenameWords list, which have their teams assigned by the
+     * value of the keycard selected from the keycards list.
+     * @param codenameWords a list of 25 codenameWords
+     * @param keyCards a list of keycards
+     * @return a board populated with the codenameWords and their teams set by the keycard
+     */
+    public static Board createBoard(List<CodenameWord> codenameWords, List<Keycard> keyCards) {
+        return new Board(codenameWords, keyCards);
+    }
+
+    /**
 
      * @return the width of the board in tiles
      */
@@ -96,7 +127,7 @@ public class Board {
 
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < LENGTH; j++) {
-                str.append(this.board[i][j].getCodename() + "-" + this.board[i][j].getValue() + "\t\t");
+                str.append(this.board[i][j].getCodename()).append("-").append(this.board[i][j].getValue()).append("\t\t");
             }
             str.append("\n");
         }
@@ -108,8 +139,13 @@ public class Board {
     //--------TEST--------
     //====================
     public static void main(String[] args) throws IOException {
-        List<Card> cardList = Card.generate25Cards(Paths.get("res/words.txt"));
-        Board gameBoard = new Board(cardList);
+//        List<Card> cardList = Card.generate25Cards(Paths.get("res/words.txt"));
+
+        List<CodenameWord> codenameWords = Card.generateRandomCodenameList(Paths.get("res/words.txt"));
+        List<Keycard> keycards = Keycard.generateKeyCards(Keycard.NUMBER_OF_KEYCARDS);
+
+
+        Board gameBoard = Board.createBoard(codenameWords, keycards);
         //====================
         //--------TEST--------
         //====================

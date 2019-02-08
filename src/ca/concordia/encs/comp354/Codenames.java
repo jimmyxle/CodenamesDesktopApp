@@ -8,11 +8,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import ca.concordia.encs.comp354.controller.*;
-import ca.concordia.encs.comp354.model.Board;
-import ca.concordia.encs.comp354.model.Card;
-import ca.concordia.encs.comp354.model.GameState;
-import ca.concordia.encs.comp354.model.GameStep;
-import ca.concordia.encs.comp354.model.Team;
+import ca.concordia.encs.comp354.model.*;
 import ca.concordia.encs.comp354.view.GameView;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -36,9 +32,10 @@ public class Codenames extends Application {
 		scene.getStylesheets().add(stylesheet("res/style.css"));
 	
 		// replace with implementations
-		List<Card> config = Card.generate25Cards(Paths.get("res/words.txt"));
-		
-		game = new GameState(new Board(config));
+		List<CodenameWord> codenameWords = Card.generateRandomCodenameList(Paths.get("res/words.txt"));
+		List<Keycard> keycards = Keycard.generateKeyCards(Keycard.NUMBER_OF_KEYCARDS);
+
+		game = new GameState(Board.createBoard(codenameWords, keycards));
 		controller = 
 		        new GameController.Builder()
 		        .setModel(game)
