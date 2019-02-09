@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -24,54 +23,41 @@ public class Card {
     //============================
     //---------VARIABLES---------
     //============================
-    final private String codename;
-    final private List<CodenameWord.AssociatedWord> associatedWords;
-    final private CardValue typeOfCard;
+    final private CodenameWord codename;
+    final private CardValue    value;
 
 
     //============================
     //--------CONSTRUCTORS--------
     //============================
-    private Card(String codename, List<CodenameWord.AssociatedWord> associatedWords, CardValue typeOfCard) {
+    public Card(CodenameWord codename, CardValue value) {
         this.codename = codename;
-        this.associatedWords = Collections.unmodifiableList(new ArrayList<>(associatedWords));
-        this.typeOfCard = typeOfCard;
+        this.value    = value;
     }
 
 
     //============================
     //----------METHODS----------
     //============================
-    /**
-     * Returns a card to the placed on the board. This card contains a codename word which is visible to the players of the game,
-     * a hidden list of associated words which are to be used later on for an operative guessing strategy and the team to which the card belongs.
-     * @param codename the codename of the card
-     * @param associatedWords list of words associated with the codename - to be used later in a guessing strategy
-     * @param typeOfCard team to which the card belongs
-     * @return a card to place on the board
-     */
-    static Card generateCard(String codename, List<CodenameWord.AssociatedWord> associatedWords, CardValue typeOfCard) {
-        return new Card(codename, associatedWords,typeOfCard);
-    }
 
     public String getCodename() {
-        return codename;
+        return codename.getClueWord();
     }
 
     public List<CodenameWord.AssociatedWord> getAssociatedWords() {
-        return associatedWords;
+        return codename.getAssociatedWords();
     }
 
     public CardValue getValue() {
-        return typeOfCard;
+        return value;
     }
 
     @Override
     public String toString() {
         return "Card{" +
                 "codename='" + codename + '\'' +
-                ", associatedWords=" + associatedWords +
-                ", typeOfCard=" + typeOfCard +
+                ", associatedWords=" + getAssociatedWords() +
+                ", typeOfCard=" + getValue() +
                 '}';
     }
 
@@ -81,13 +67,12 @@ public class Card {
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
         return Objects.equals(codename, card.codename) &&
-                Objects.equals(associatedWords, card.associatedWords) &&
-                typeOfCard == card.typeOfCard;
+                Objects.equals(value, card.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(codename, associatedWords, typeOfCard);
+        return Objects.hash(codename, value);
     }
 
     /**

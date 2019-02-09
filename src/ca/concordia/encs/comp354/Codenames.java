@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Random;
 
 import ca.concordia.encs.comp354.controller.*;
 import ca.concordia.encs.comp354.model.*;
@@ -33,9 +34,9 @@ public class Codenames extends Application {
 	
 		// replace with implementations
 		List<CodenameWord> codenameWords = Card.generateRandomCodenameList(Paths.get("res/words.txt"));
-		List<Keycard> keycards = Keycard.generateKeyCards(Keycard.NUMBER_OF_KEYCARDS);
+		List<Keycard> keycards = Keycard.generateRandomKeycards(Keycard.NUMBER_OF_KEYCARDS);
 
-		game = new GameState(Board.createBoard(codenameWords, keycards));
+		game = new GameState(new Board(codenameWords, keycards.get(new Random().nextInt(keycards.size()))));
 		controller = 
 		        new GameController.Builder()
 		        .setModel(game)
