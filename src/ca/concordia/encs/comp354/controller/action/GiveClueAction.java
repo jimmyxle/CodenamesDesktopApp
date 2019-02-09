@@ -15,6 +15,9 @@ import ca.concordia.encs.comp354.controller.SpyMaster;
 public class GiveClueAction extends GameAction {
 
     private Clue clue;
+    
+    private Clue lastClue;
+    private int  lastGuesses;
 
     public GiveClueAction(Team team, Clue clue) {
         super(team);
@@ -27,16 +30,19 @@ public class GiveClueAction extends GameAction {
     }
 
     @Override
-    protected GameEvent apply(GameState state) {
+    protected GameEvent doApply(GameState state) {
+    	lastClue    = state.lastClueProperty().get();
+    	lastGuesses = state.guessesRemainingProperty().get();
+    	
         state.lastClueProperty().set(clue);
         state.guessesRemainingProperty().set(clue.getGuesses());
         return GameEvent.NONE;
     }
 
     @Override
-    protected void undo(GameState gameState) {
-        // TODO Auto-generated method stub
-        
+    protected void doUndo(GameState state) {
+        state.lastClueProperty().set(lastClue);
+        state.guessesRemainingProperty().set(lastGuesses);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ca.concordia.encs.comp354.controller.action;
 
+import ca.concordia.encs.comp354.controller.Clue;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import ca.concordia.encs.comp354.model.GameAction;
 import ca.concordia.encs.comp354.model.GameState;
@@ -12,6 +13,9 @@ import ca.concordia.encs.comp354.model.Team;
  */
 public class ChangeTurnAction extends GameAction {
 
+	private Team lastTeam;
+	private Clue lastClue;
+	
     public ChangeTurnAction(Team nextTeam) {
         super(nextTeam);
     }
@@ -22,14 +26,20 @@ public class ChangeTurnAction extends GameAction {
     }
 
     @Override
-    protected GameEvent apply(GameState state) {
+    protected GameEvent doApply(GameState state) {
+    	lastTeam = state.getTurn();
+    	lastClue = state.lastClueProperty().get();
+    	
         state.turnProperty().set(getTeam());
+        state.lastClueProperty().set(null);
+        
         return GameEvent.NONE;
     }
 
     @Override
-    protected void undo(GameState state) {
-        state.turnProperty().set(getTeam()==Team.RED? Team.BLUE : Team.RED);
+    protected void doUndo(GameState state) {
+        state.turnProperty().set(lastTeam);
+        state.lastClueProperty().set(lastClue);
     }
 
 }

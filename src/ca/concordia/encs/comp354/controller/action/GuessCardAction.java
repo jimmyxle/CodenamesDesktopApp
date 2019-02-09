@@ -21,6 +21,10 @@ public class GuessCardAction extends GameAction {
     private Coordinates coords;
     private Card        card;
 
+    private int redScore;
+    private int blueScore;
+    private int guesses;
+    
     public GuessCardAction(Team team, Board board, Coordinates coords) {
         super(team);
         this.coords = requireNonNull(coords);
@@ -33,10 +37,14 @@ public class GuessCardAction extends GameAction {
     }
 
     @Override
-    protected GameEvent apply(GameState state) {
+    protected GameEvent doApply(GameState state) {
         if (state.getChosenCards().contains(coords)) {
             throw new IllegalStateException("card at "+coords+" has already been chosen");
         }
+        
+        redScore  = state.getRedScore();
+        blueScore = state.getBlueScore();
+        guesses   = state.guessesRemainingProperty().get();
         
         Board board = state.getBoard();
         Card  card  = board.getCard(coords);
@@ -60,9 +68,11 @@ public class GuessCardAction extends GameAction {
             break;
             
         case ASSASSIN:
+        	state.guessesRemainingProperty().set(0);
             return GameEvent.GAME_OVER_ASSASSIN;
             
         case NEUTRAL:
+        	state.guessesRemainingProperty().set(0);
             return GameEvent.END_TURN;
         }
         
@@ -70,9 +80,11 @@ public class GuessCardAction extends GameAction {
     }
 
     @Override
-    protected void undo(GameState gameState) {
-        // TODO Auto-generated method stub
-        
+    protected void doUndo(GameState state) {
+        state.redScoreProperty().set(redScore);
+        state.blueScoreProperty().set(blueScore);
+        state.hideCard(coords);
+        state.guessesRemainingProperty().set(guesses);
     }
 
     @Override

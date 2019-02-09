@@ -25,8 +25,6 @@ public class GameController implements GameView.Controller {
     private SpyMaster blueSpyMaster;
     private Operative blueOperative;
     
-    /** is the next player to move the spymaster? */
-    private boolean spyMasterNext = true;
     public Team initialTurn;
     
     public static final class Builder {
@@ -142,20 +140,27 @@ public class GameController implements GameView.Controller {
     	
     	final Team turn = model.getTurn();
     	
-    	if (spyMasterNext) {
+    	if (!model.hasGuesses() && model.lastClueProperty().get()==null) {
     		SpyMaster currentSpy = turn==Team.RED? redSpyMaster : blueSpyMaster; 
     		model.pushAction(new GiveClueAction(turn, currentSpy.giveClue(model)));
-    		spyMasterNext = false;
     	} else {
-    		Operative currentOp = turn.equals(Team.RED)? redOperative: blueOperative;
-    		Coordinates guess = currentOp.guessCard(model, model.lastClueProperty().get());
-    		model.pushAction(new GuessCardAction (turn,model.getBoard(), guess));
-    		
 	        // advance to next turn iff guesses remain & last action did not end game
     		if (!model.hasGuesses() && !model.getLastEvent().isTerminal()) {
     			model.pushAction(new ChangeTurnAction(turn==Team.RED? Team.BLUE: Team.RED));
-    			spyMasterNext = true;
+    		} else {
+        		Operative currentOp = turn.equals(Team.RED)? redOperative: blueOperative;
+        		Coordinates guess = currentOp.guessCard(model, model.lastClueProperty().get());
+        		model.pushAction(new GuessCardAction(turn, model.getBoard(), guess));
     		}
     	}	
     }
+    
+    public void undoTurn() {
+    	model.undoAction();
+    }
+
+	@Override
+	public void redoTurn() {
+		model.redoAction();
+	}
 }

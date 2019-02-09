@@ -21,6 +21,8 @@ public class GameView extends StackPane {
     
     public interface Controller {
         void advanceTurn();
+    	void undoTurn();
+    	void redoTurn();
     }
     
     private final ReadOnlyGameState game;
@@ -35,7 +37,6 @@ public class GameView extends StackPane {
     
     private final InvalidationListener advanceFreeze = this::onAdvanceChanged;
 
-    
     public GameView(ReadOnlyGameState game, Controller controller) {
         Objects.requireNonNull(controller, "controller");
         this.game = Objects.requireNonNull(game, "game state");
@@ -73,7 +74,10 @@ public class GameView extends StackPane {
         stateView = new StateView();
         
         advance = new Button("Advance");
-        bottom.getChildren().addAll(stateView, advance);
+        final Button undo = new Button("Undo");
+        final Button redo = new Button("Redo");
+        
+        bottom.getChildren().addAll(undo, redo, stateView, advance);
         
         HBox.setHgrow(stateView, Priority.ALWAYS);
         
@@ -100,6 +104,14 @@ public class GameView extends StackPane {
         game.lastEventProperty()    .addListener(advanceFreeze);
         
         advance.setOnAction(event->controller.advanceTurn());
+        undo   .setOnAction(event->controller.undoTurn());
+        redo   .setOnAction(event->controller.redoTurn());
+        
+        redo.setDisable(game.getUndone().isEmpty());
+        undo.setDisable(game.getHistory().isEmpty());
+        
+        game.getUndone() .addListener((Observable o)->redo.setDisable(game.getUndone().isEmpty()));
+        game.getHistory().addListener((Observable o)->undo.setDisable(game.getHistory().isEmpty()));
     }
     
     private void onAdvanceChanged(Observable ignore) {

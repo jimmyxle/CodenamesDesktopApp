@@ -55,6 +55,8 @@ public final class GameState implements ReadOnlyGameState {
     
     private final ObservableList<GameStep> history         = FXCollections.observableList(new ArrayList<>());
     private final ObservableList<GameStep> readOnlyHistory = FXCollections.unmodifiableObservableList(history);
+    private final ObservableList<GameStep> undone          = FXCollections.observableList(new ArrayList<>());
+    private final ObservableList<GameStep> readOnlyUndone  = FXCollections.unmodifiableObservableList(undone);
     
     public GameState(Board board) {
         this.board.set(Objects.requireNonNull(board, "board"));
@@ -140,33 +142,43 @@ public final class GameState implements ReadOnlyGameState {
     }
     
     public GameEvent pushAction(GameAction value) {
-        Objects.requireNonNull(value);
-        
-        // add action to model, execute action, add event to model
-        action.set(value);
-        event.set(value.apply(this));
-        
-        // log game step
-        GameStep step = new GameStep(action.get(), event.get(), redScore.get(), blueScore.get(), history.size());
-        history.add(step);
-        System.out.println(step.getText());
-        
+        applyAction(value);
+        // clear undo history
+        undone.clear();
         return event.get();
     }
 
-    public GameAction popAction() {
+    public boolean undoAction() {
+    	if (history.isEmpty()) {
+    		return false;
+    	}
+    	
         // undo most recent action
-        GameAction ret = history.remove(history.size()-1).getAction();
+    	GameStep undo = pop(history);
+        undone.add(undo);
+        GameAction ret = undo.getAction();
         ret.undo(this);
         
-        // re-apply previous action
-        if (!history.isEmpty()) {
-            GameAction next = history.remove(history.size()-1).getAction();
-            pushAction(next);
+        // notify observers that the action at the top of the stack is different
+        GameStep top = peek(history);
+        if (top!=null) {
+        	action.set(top.getAction());
+        	event.set(top.getEvent());
+            System.out.println(top.getText());
         }
         
         // lastly, return the undone action
-        return ret;
+        return true;
+    }
+    
+    public boolean redoAction() {
+    	if (undone.isEmpty()) {
+    		return false;
+    	}
+    	
+    	applyAction(pop(undone).getAction());
+    	
+    	return true;
     }
     
     @Override
@@ -174,6 +186,11 @@ public final class GameState implements ReadOnlyGameState {
         return readOnlyHistory;
     }
 
+    @Override
+    public ObservableList<GameStep> getUndone() {
+    	return readOnlyUndone;
+    }
+    
     @Override
     public ReadOnlyObjectProperty<GameStep> lastStepProperty() {
         return step;
@@ -215,7 +232,21 @@ public final class GameState implements ReadOnlyGameState {
     }
     
     public void chooseCard(Coordinates coords) {
-        Objects.requireNonNull(coords, "coordinates");
+    	requireValidCoords(coords);
+        chosen.add(coords);
+    }
+
+	public void hideCard(Coordinates coords) {
+		requireValidCoords(coords);
+		chosen.remove(coords);
+	}
+
+	/**
+	 * Helper function; ensures coordinates are non-null and fall within the board dimensions
+	 * @param coords coordinate object to test
+	 */
+	private void requireValidCoords(Coordinates coords) {
+        Objects.requireNonNull(coords);
         
         if (coords.getX() < 0 || coords.getX() > getBoard().getWidth()) {
             throw new IllegalArgumentException("illegal x coordinate "+coords.getX()+"; must lie in [0, "+getBoard().getWidth()+")");
@@ -225,7 +256,31 @@ public final class GameState implements ReadOnlyGameState {
             throw new IllegalArgumentException("illegal y coordinate "+coords.getY()+"; must lie in [0, "+getBoard().getLength()+")");
         }
         
-        chosen.add(coords);
+	}
+    
+	/**
+	 * Helper function; removes the element at the end of a list and returns it
+	 * @param collection list from which to remove the last element
+	 * @return the removed element
+	 */
+    private static <T> T pop(java.util.List<T> collection) {
+    	return collection.remove(collection.size()-1);
     }
-
+    
+    private static <T> T peek(java.util.List<T> collection) {
+    	return collection.isEmpty()? null : collection.get(collection.size()-1);
+    }
+    
+    private void applyAction(GameAction value) {
+    	Objects.requireNonNull(value);
+        
+        // add action to model, execute action, record step
+    	action.set(value);
+    	event.set(value.apply(this));
+        
+        // log game step
+        GameStep step = new GameStep(action.get(), event.get(), redScore.get(), blueScore.get(), history.size());
+        history.add(step);
+        System.out.println(step.getText());
+    }
 }

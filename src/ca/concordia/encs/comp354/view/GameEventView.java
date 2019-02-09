@@ -58,6 +58,10 @@ public class GameEventView extends StackPane {
             k.setVisible(false);
         }
         
+        if (next==null) {
+        	return;
+        }
+        
         switch (next.getEvent()) {
         case GAME_OVER_ASSASSIN:
             show(next.getAction().getTeam()==Team.RED?blueWins:redWins, true);
