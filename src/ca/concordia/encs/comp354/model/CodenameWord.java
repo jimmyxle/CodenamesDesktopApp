@@ -77,7 +77,7 @@ public class CodenameWord {
         //============================
         //--------CONSTRUCTORS--------
         //============================
-        AssociatedWord(String associatedWord, int weight) {
+        public AssociatedWord(String associatedWord, int weight) {
             this.associatedWord = associatedWord;
             this.weight = weight;
         }

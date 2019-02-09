@@ -32,7 +32,7 @@ public class Card {
     //============================
     //--------CONSTRUCTORS--------
     //============================
-    private Card(String codename, List<CodenameWord.AssociatedWord> associatedWords, CardValue typeOfCard) {
+    public Card(String codename, List<CodenameWord.AssociatedWord> associatedWords, CardValue typeOfCard) {
         this.codename = codename;
         this.associatedWords = Collections.unmodifiableList(new ArrayList<>(associatedWords));
         this.typeOfCard = typeOfCard;
