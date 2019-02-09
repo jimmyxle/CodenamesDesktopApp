@@ -3,42 +3,56 @@ package ca.concordia.encs.comp354.model;
 import java.io.*;
 import java.util.*;
 
+
+
 /**
  * Represents a keycard that is used to determine the teams (red/blue/neutral/assassin)
  * of the 25 cards placed on the board.
+ *
+ * Strategy Implemented: a simple factory method for creating a keycard.
+ *
  * @author Zachary Hynes
  */
 public class Keycard {
     //============================
     //---------VARIABLES---------
     //============================
+    private final int LENGTH = 5;
+    private final int WIDTH = 5;
+    private final CardValue[][] keycard = new CardValue[LENGTH][WIDTH];
     private static int numberOfKeycards = 0;
-    private final List<CardValue> keyCard;
+    public static final int NUMBER_OF_KEYCARDS = 25;
 
     //============================
     //--------CONSTRUCTORS--------
     //============================
     private Keycard(List<CardValue> keyCard) {
-        this.keyCard = keyCard;
+        for (int i = 0; i < WIDTH; i++) {
+            for (int j = 0; j < LENGTH; j++) {
+                int iteration = (i*WIDTH) + j;
+                this.keycard[i][j] = keyCard.get(iteration);
+            }
+        }
     }
 
     //============================
     //----------METHODS----------
     //============================
     /**
-     * Gets the CardValue (RED/BLUE/NEUTRAL/ASSASSIN) from the KeyCard at index i
-     * @param i index of the cardValue you'd like to retrieve from the keyCard {must be ≤ 24}
-     * @return the CardValue at index i
+     * Returns the card at the given coordinates.
+     * @param x horizontal coordinate; must be less than {@link #getWIDTH()}
+     * @param y vertical coordinate; must be less than {@link #getLENGTH()}
+     * @return the card at the given coordinates
      */
-    CardValue getCardValue(int i) {
-        return keyCard.get(i);
+    CardValue getCardValue(int x, int y) {
+        return keycard[x][y];
     }
 
     /**
-     * Generates a Keycard containing 25 CardValues (RED/BLUE/NEUTRAL/ASSASSIN)
+     * Factory Method randomly generates a Keycard containing 25 CardValues (RED/BLUE/NEUTRAL/ASSASSIN)
      * @return a Keycard containing 25 CardValues (RED/BLUE/NEUTRAL/ASSASSIN)
      */
-    static Keycard generateKeyCard() {
+    private static Keycard generateRandomKeycard() {
         List<CardValue> cardValues = new ArrayList<>();
 
         //TODO: We assume the starting team is red - this needs to be changed in further iterations.
@@ -70,14 +84,28 @@ public class Keycard {
         //make list unmodifiable
         cardValues = Collections.unmodifiableList(cardValues);
 
-        //create a new keyCard object
-        Keycard newKeycard = new Keycard(cardValues);
+        return new Keycard(cardValues);
+    }//END OF generateRandomKeycard()
 
-        //output the keyCard object to the database
-        outputKeycardToDatabase(newKeycard);
+    /**
+     * Factory Method generates a Keycard containing 25 CardValues (RED/BLUE/NEUTRAL/ASSASSIN)
+     * @param cardValues a list of cardValues to set the team of the cards
+     * @return a Keycard containing 25 CardValues (RED/BLUE/NEUTRAL/ASSASSIN)
+     */
+    private static Keycard generateKeycard(List<CardValue> cardValues) {
+        return new Keycard(cardValues);
+    }
 
-        return newKeycard;
-    }//END OF generateKeyCard()
+
+    public static List<Keycard> generateKeyCards(int numberOfKeycards) {
+        List<Keycard> keycards = new ArrayList<>();
+
+        for (int i = 0; i < numberOfKeycards; i++) {
+            keycards.add(generateRandomKeycard());
+        }
+
+        return keycards;
+    }
 
     @Override
     public String toString() {
@@ -85,18 +113,18 @@ public class Keycard {
 
         keyCardPrint.append("Keycard ").append(numberOfKeycards).append(": \n\t\t\t");
 
-        int i = 1;
-        for (CardValue cardValue : this.getKeyCard()) {
+        for (int y = 0; y < WIDTH; y++) {
+            for (int x = 0; x < LENGTH; x++) {
+                //noinspection RedundantStringOperation
+                keyCardPrint.append(keycard[x][y].toString().substring(0,1)).append(" ");
 
-            //noinspection RedundantStringOperation
-            keyCardPrint.append(cardValue.toString().substring(0,1)).append(" ");
-
-            if (i % 5 == 0) {
-                keyCardPrint.append("\n\t\t\t");
+                if (x == LENGTH-1) {
+                    keyCardPrint.append("\n\t\t\t");
+                }
             }
-
-            i++;
         }
+
+
 
         keyCardPrint.append("\n");
 
@@ -107,20 +135,26 @@ public class Keycard {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Keycard keycard = (Keycard) o;
-        return Objects.equals(keyCard, keycard.keyCard);
+        Keycard keycard1 = (Keycard) o;
+        return Arrays.equals(keycard, keycard1.keycard);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(keyCard);
+        int result = Objects.hash(LENGTH, WIDTH);
+        result = 31 * result + Arrays.hashCode(keycard);
+        return result;
     }
 
-    private List<CardValue> getKeyCard() {
-        return keyCard;
+    private int getLENGTH() {
+        return LENGTH;
     }
 
-    private static void outputKeycardToDatabase(Keycard keyCardToPrint) {
+    private int getWIDTH() {
+        return WIDTH;
+    }
+
+    static void outputKeycardToDatabase(Keycard keyCardToPrint) {
         File file = new File("./res/lastRunGamesKeyCards.txt");
         FileWriter fr = null;
         BufferedWriter br = null;

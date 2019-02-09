@@ -5,12 +5,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
-import ca.concordia.encs.comp354.model.Board;
-import ca.concordia.encs.comp354.model.Card;
-import ca.concordia.encs.comp354.model.Coordinates;
-import ca.concordia.encs.comp354.model.GameState;
-import ca.concordia.encs.comp354.model.ReadOnlyGameState;
-import ca.concordia.encs.comp354.model.Team;
+import ca.concordia.encs.comp354.model.*;
 
 /**
  * Operatives are Players that produce guesses from {@link SpyMaster}s' clues.
@@ -39,7 +34,7 @@ public class Operative extends Player {
 		this.strategy = Objects.requireNonNull(strategy, "strategy");
 	}
 	
-	public Coordinates guessCard(ReadOnlyGameState state, Clue clue) {
+	Coordinates guessCard(ReadOnlyGameState state, Clue clue) {
 		Coordinates ret = strategy.guessCard(this, state, clue);
 		if (ret==null) {
 		    throw new IllegalStateException("cannot produce another guess");
@@ -49,8 +44,10 @@ public class Operative extends Player {
 	
 	
 	public static void main(String[] args) throws IOException {
-	    List<Card> cardList = Card.generate25Cards(Paths.get("res/words.txt"));
-	    GameState state = new GameState(new Board(cardList));
+		List<CodenameWord> codenameWords = Card.generateRandomCodenameList(Paths.get("res/words.txt"));
+		List<Keycard> keycards = Keycard.generateKeyCards(Keycard.NUMBER_OF_KEYCARDS);
+
+	    GameState state = new GameState(Board.createBoard(codenameWords, keycards));
 	    Board board = state.boardProperty().get();
 	    //====================
 	    //--------TEST--------

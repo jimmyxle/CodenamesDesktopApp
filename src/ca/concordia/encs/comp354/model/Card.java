@@ -14,7 +14,11 @@ import java.util.Scanner;
 /**
  * Represents a card - one of the twenty five placed on the board for the game. Words & an associated word list are
  * parsed from a database text file.
+ *
+ * Strategy Implemented: a simple factory method for creating a card.
+ *
  * @author Zachary Hynes
+ *
  */
 public class Card {
     //============================
@@ -39,39 +43,16 @@ public class Card {
     //----------METHODS----------
     //============================
     /**
-     * Returns a list of 25 Codename Cards to be used to populate the board. Teams are assigned based off
-     * of a random KeyCard picked from a list of 10 randomly created KeyCards.
-     * @param databaseFile path to the database file from which to read codenames
-     * @return a list containing 25 Codename Card
+     * Returns a card to the placed on the board. This card contains a codename word which is visible to the players of the game,
+     * a hidden list of associated words which are to be used later on for an operative guessing strategy and the team to which the card belongs.
+     * @param codename the codename of the card
+     * @param associatedWords list of words associated with the codename - to be used later in a guessing strategy
+     * @param typeOfCard team to which the card belongs
+     * @return a card to place on the board
      */
-    public static List<Card> generate25Cards(Path databaseFile) throws IOException {
-        List<CodenameWord> wordList = generateRandomCodenameList(databaseFile);
-        List<Card> cardList = new ArrayList<>();
-
-        List<Keycard> keyCards = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            Keycard keyCard = Keycard.generateKeyCard();
-            keyCards.add(keyCard);
-        }
-
-        int random = (int) (Math.random() * 10);
-        Keycard randomKeycard = keyCards.get(random);
-
-
-        int i = 0;
-        for (CodenameWord word : wordList) {
-            Card newCard = new Card(word.getClueWord(), word.getAssociatedWords(), randomKeycard.getCardValue(i));
-            cardList.add(newCard);
-            i++;
-        }
-
-        //make the cardList unmodifiable
-        cardList = Collections.unmodifiableList(cardList);
-
-        return cardList;
-
-    }//END OF generate25Cards()
+    static Card generateCard(String codename, List<CodenameWord.AssociatedWord> associatedWords, CardValue typeOfCard) {
+        return new Card(codename, associatedWords,typeOfCard);
+    }
 
     public String getCodename() {
         return codename;
@@ -113,7 +94,7 @@ public class Card {
      * Returns a list of 25 Codename Words to be used to create cards
      * @return a list containing 25 Codename Words
      */
-    private static List<CodenameWord> generateRandomCodenameList(Path databaseFile) throws IOException {
+    public static List<CodenameWord> generateRandomCodenameList(Path databaseFile) throws IOException {
         //generate 25 random numbers between 0 and 400
 //        generateRandomNumber();
 
@@ -226,44 +207,6 @@ public class Card {
         return new CodenameWord(codeName, associatedWordList);
     }//END OF parseCodenameObject(String str)
 
-    //TODO: verify with the team if this is the best place to generate the baords' key card
-    private static CardValue[] generateKeyCard() {
-        CardValue[] cardValues = new CardValue[25];
-
-        int reds = 9;
-        int blues = 8;
-        int neutral = 7;
-        int assassin = 1;
-
-        int cardsLeft = 0;
-        int random;
-        
-        //TODO: refactor to use Collections.Shuffle()
-
-        while (cardsLeft < 25) {
-            random = (int) (Math.random() * 4 + 1);
-
-            if (random == 1 && reds != 0) {
-                cardValues[cardsLeft] = CardValue.RED;
-                reds--;
-                cardsLeft++;
-            } else if (random == 2 && blues != 0) {
-                cardValues[cardsLeft] = CardValue.BLUE;
-                blues--;
-                cardsLeft++;
-            } else if (random == 3 && neutral != 0) {
-                cardValues[cardsLeft] = CardValue.NEUTRAL;
-                neutral--;
-                cardsLeft++;
-            } else if (random == 4 && assassin != 0) {
-                cardValues[cardsLeft] = CardValue.ASSASSIN;
-                assassin--;
-                cardsLeft++;
-            }
-        }
-
-        return cardValues;
-    }
 
 
     //====================
@@ -288,7 +231,7 @@ public class Card {
 //        //--------TEST--------
 //        //====================
 ////        //print ouf the list of Random Card Types for the key card
-////        CardValue[] values = generateKeyCard();
+////        CardValue[] values = generateRandomKeycard();
 ////        for (CardValue value : values) {
 ////            System.out.println(value.toString());
 ////        }
