@@ -150,7 +150,7 @@ public class GameController implements GameView.Controller {
     		} else {
         		Operative currentOp = turn.equals(Team.RED)? redOperative: blueOperative;
         		Coordinates guess = currentOp.guessCard(model, model.lastClueProperty().get());
-        		model.pushAction(new GuessCardAction(turn, model.getBoard(), guess));
+        		model.pushAction(new GuessCardAction(turn, guess));
     		}
     	}	
     }

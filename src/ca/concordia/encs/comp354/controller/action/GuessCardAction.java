@@ -19,21 +19,21 @@ import static java.util.Objects.requireNonNull;
 public class GuessCardAction extends GameAction {
 
     private Coordinates coords;
-    private Card        card;
 
     private int redScore;
     private int blueScore;
     private int guesses;
     
-    public GuessCardAction(Team team, Board board, Coordinates coords) {
+    private String codename = null;
+    
+    public GuessCardAction(Team team, Coordinates coords) {
         super(team);
         this.coords = requireNonNull(coords);
-        this.card   = board.getCard(coords);
     }
 
     @Override
     public String getActionText() {
-        return getTeam()+" operative guessed: "+card.getCodename();
+        return getTeam()+" operative guessed: "+codename;
     }
 
     @Override
@@ -48,6 +48,8 @@ public class GuessCardAction extends GameAction {
         
         Board board = state.getBoard();
         Card  card  = board.getCard(coords);
+        
+        codename = card.getCodename();
         
         state.chooseCard(coords);
         adjust(state.guessesRemainingProperty(), -1);
@@ -85,13 +87,14 @@ public class GuessCardAction extends GameAction {
         state.blueScoreProperty().set(blueScore);
         state.hideCard(coords);
         state.guessesRemainingProperty().set(guesses);
+        codename = null;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((card == null) ? 0 : card.hashCode());
+        result = prime * result + ((codename == null) ? 0 : codename.hashCode());
         result = prime * result + ((coords == null) ? 0 : coords.hashCode());
         return result;
     }
@@ -105,10 +108,10 @@ public class GuessCardAction extends GameAction {
         if (getClass() != obj.getClass())
             return false;
         GuessCardAction other = (GuessCardAction) obj;
-        if (card == null) {
-            if (other.card != null)
+        if (codename == null) {
+            if (other.codename != null)
                 return false;
-        } else if (!card.equals(other.card))
+        } else if (!codename.equals(other.codename))
             return false;
         if (coords == null) {
             if (other.coords != null)
