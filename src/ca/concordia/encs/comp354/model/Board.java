@@ -50,10 +50,6 @@ public class Board {
     //============================
     //----------METHODS----------
     //============================
-    public Card[][] getBoard() {
-        return board;
-    }
-
     /**
      * Returns the card at the given coordinates.
      * @param coords  coordinates; x must be less than {@link #getWidth()}, y must be less than {@link #getLength()}
