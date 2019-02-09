@@ -76,5 +76,4 @@ Keycard 9:
 			N R N B N 
 			R R A B B 
 			N B B R B 
-			
 
