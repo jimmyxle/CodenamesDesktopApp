@@ -147,6 +147,50 @@ public class GuessCardActionTest extends AbstractActionTest {
         assertEvent(GAME_OVER_BLUE_WON);
     }
     
+    @Test
+    public void undoGuess() {
+        // test pre-action state
+        setGuesses(1);
+        
+        assertGuesses(1);
+        assertScores(0, 0);
+        assertEvent(NONE);
+
+        // test post-action state
+        pushGuess(Team.RED, BLUE_CARD);
+        
+        assertGuesses(0);
+        assertScores(1, 0);
+        assertEvent(END_TURN);
+
+        // test post-undo state
+        assertTrue(model.undoAction());
+        
+        assertGuesses(1);
+        assertScores(0, 0);
+        assertEvent(NONE);
+    }
+    
+    @Test
+    public void redoGuess() {
+        setGuesses(1);
+        
+        // apply and undo action
+        pushGuess(Team.RED, BLUE_CARD);
+        assertTrue(model.undoAction());
+        
+        assertGuesses(0);
+        assertScores(1, 0);
+        assertEvent(END_TURN);
+        
+        // test post-redo state
+        assertTrue(model.redoAction());
+        
+        assertGuesses(0);
+        assertScores(1, 0);
+        assertEvent(NONE);
+    }
+    
     // helpers
     //==================================================================================================================
     private void assertGuesses(int count) {
