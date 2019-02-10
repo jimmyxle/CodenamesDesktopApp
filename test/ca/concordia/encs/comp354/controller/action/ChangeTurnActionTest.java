@@ -57,8 +57,9 @@ public class ChangeTurnActionTest extends AbstractActionTest {
     private void redoesTurn(Team from, Team to) {
         pushTurn(from, to);
         assertTrue(model.undoAction());
-        assertTrue(model.redoAction());
         assertEquals(from, model.getTurn());
+        assertTrue(model.redoAction());
+        assertEquals(to, model.getTurn());
     }
     
     private void pushTurn(Team from, Team to) {

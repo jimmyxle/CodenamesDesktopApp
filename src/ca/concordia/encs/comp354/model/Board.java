@@ -39,7 +39,7 @@ public class Board {
         
         for (int x=0; x<getWidth(); x++) {
             for (int y = 0; y < getLength(); y++) {
-                CodenameWord w = words.get((x*getWidth()) + y);
+                CodenameWord w = words.get((y*getWidth()) + x);
                 CardValue v = keycard.getCardValue(x, y);
                 this.board[x][y] = new Card(w, v);
             }

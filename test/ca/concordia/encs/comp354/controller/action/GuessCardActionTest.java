@@ -27,7 +27,7 @@ public class GuessCardActionTest extends AbstractActionTest {
     private static final int RED_COLUMN = 0;
     private static final int BLUE_COLUMN = 1;
     
-    GuessCardActionTest() {
+    public GuessCardActionTest() {
         super(
             RED, BLUE, NEUTRAL, ASSASSIN, NEUTRAL,
             RED, BLUE, NEUTRAL, ASSASSIN, NEUTRAL,
@@ -53,23 +53,26 @@ public class GuessCardActionTest extends AbstractActionTest {
     
     @Test
     public void redCardGivesRedPoints() {
-        setGuesses(2);
+        setGuesses(1);
         assertScores(0, 0);
-        pushGuess(Team.RED,  RED_CARD);
+        pushGuess(Team.RED,  RED_COLUMN, 0);
         assertScores(1, 0);
-        pushGuess(Team.BLUE, RED_CARD);
+        
+        setGuesses(1);
+        pushGuess(Team.BLUE, RED_COLUMN, 1);
         assertScores(2, 0);
     }
     
     @Test
     public void blueCardGivesBluePoints() {
-        setGuesses(2);
+        setGuesses(1);
         assertScores(0, 0);
         // red guess blue
-        pushGuess(Team.RED,  BLUE_CARD);
+        pushGuess(Team.RED,  BLUE_COLUMN, 0);
         assertScores(0, 1);
         // blue guess blue
-        pushGuess(Team.BLUE, BLUE_CARD);
+        setGuesses(1);
+        pushGuess(Team.BLUE, BLUE_COLUMN, 1);
         assertScores(0, 2);
     }
     
@@ -79,8 +82,6 @@ public class GuessCardActionTest extends AbstractActionTest {
         assertScores(0, 0);
         pushGuess(Team.RED,  NEUTRAL_CARD);
         assertScores(0, 0);
-        pushGuess(Team.BLUE, NEUTRAL_CARD);
-        assertScores(0, 0);
     }
     
     @Test
@@ -88,8 +89,6 @@ public class GuessCardActionTest extends AbstractActionTest {
         setGuesses(2);
         assertScores(0, 0);
         pushGuess(Team.RED,  ASSASSIN_CARD);
-        assertScores(0, 0);
-        pushGuess(Team.BLUE, ASSASSIN_CARD);
         assertScores(0, 0);
     }
 
@@ -119,11 +118,11 @@ public class GuessCardActionTest extends AbstractActionTest {
     @Test
     public void decrementsGuesses() {
         setGuesses(3);
-        pushGuess(Team.RED, RED_CARD);
+        pushGuess(Team.RED, RED_COLUMN, 0);
         assertGuesses(2);
-        pushGuess(Team.RED, BLUE_CARD);
+        pushGuess(Team.RED, RED_COLUMN, 1);
         assertGuesses(1);
-        pushGuess(Team.RED, NEUTRAL_CARD);
+        pushGuess(Team.RED, RED_COLUMN, 2);
         assertGuesses(0);
     }
     
@@ -155,45 +154,63 @@ public class GuessCardActionTest extends AbstractActionTest {
     @Test
     public void undoGuess() {
         // test pre-action state
-        setGuesses(1);
+        setGuesses(2);
         
-        assertGuesses(1);
+        assertGuesses(2);
         assertScores(0, 0);
         assertEvent(NONE);
 
         // test post-action state
+        pushGuess(Team.RED, RED_CARD);
+        assertGuesses(1);
+        assertScores(1, 0);
+        assertEvent(NONE);
+        
         pushGuess(Team.RED, BLUE_CARD);
         
         assertGuesses(0);
-        assertScores(1, 0);
+        assertScores(1, 1);
         assertEvent(END_TURN);
 
         // test post-undo state
         assertTrue(model.undoAction());
-        
         assertGuesses(1);
+        assertScores(1, 0);
+        assertEvent(NONE);
+        
+        assertTrue(model.undoAction());
+        
+        assertGuesses(2);
         assertScores(0, 0);
         assertEvent(NONE);
     }
     
     @Test
     public void redoGuess() {
-        setGuesses(1);
+        // test pre-action state
+        setGuesses(2);
         
-        // apply and undo action
+        assertGuesses(2);
+        assertScores(0, 0);
+        assertEvent(NONE);
+
+        // test post-action state
+        pushGuess(Team.RED, RED_CARD);
         pushGuess(Team.RED, BLUE_CARD);
-        assertTrue(model.undoAction());
         
-        assertGuesses(0);
-        assertScores(1, 0);
-        assertEvent(END_TURN);
+        model.undoAction();
+        model.undoAction();
         
         // test post-redo state
-        assertTrue(model.redoAction());
-        
-        assertGuesses(0);
+        model.redoAction();
+        assertGuesses(1);
         assertScores(1, 0);
         assertEvent(NONE);
+        
+        model.redoAction();
+        assertGuesses(0);
+        assertScores(1, 1);
+        assertEvent(END_TURN);
     }
     
     // helpers
@@ -220,6 +237,7 @@ public class GuessCardActionTest extends AbstractActionTest {
     }
     
     private void pushGuess(Team team, Coordinates coords) {
+        model.turnProperty().set(team);
         model.pushAction(new GuessCardAction(team, coords));
     }
 }

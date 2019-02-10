@@ -82,7 +82,12 @@ public class GuessCardAction extends GameAction {
             return GameEvent.END_TURN;
         }
         
-        return card.getValue() != state.getTurn().getValue() ? GameEvent.END_TURN : GameEvent.NONE;
+        if (card.getValue() != state.getTurn().getValue()) {
+            state.guessesRemainingProperty().set(0);
+            return GameEvent.END_TURN;
+        } else {
+            return GameEvent.NONE;
+        }
     }
 
     @Override

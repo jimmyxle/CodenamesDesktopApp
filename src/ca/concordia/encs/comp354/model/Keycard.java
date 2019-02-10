@@ -25,10 +25,10 @@ public class Keycard {
     //--------CONSTRUCTORS--------
     //============================
     public Keycard(List<CardValue> keyCard) {
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < LENGTH; j++) {
-                int iteration = (i*WIDTH) + j;
-                this.keycard[i][j] = keyCard.get(iteration);
+        for (int x = 0; x < getWidth(); x++) {
+            for (int y = 0; y < getLength(); y++) {
+                int iteration = x + y * getWidth();
+                this.keycard[x][y] = keyCard.get(iteration);
             }
         }
     }
