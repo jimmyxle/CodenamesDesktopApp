@@ -9,7 +9,6 @@ import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.css.PseudoClass;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -26,7 +25,12 @@ import static ca.concordia.encs.comp354.controller.GameEvent.*;
  */
 public class GameEventView extends StackPane {
     
-    private final ObjectProperty<GameStep> event = new SimpleObjectProperty<>(this, "event", null);
+    private final ObjectProperty<GameStep> step = new SimpleObjectProperty<GameStep>(this, "event", null) {
+        @Override 
+        protected void invalidated() {
+            onGameEvent(getValue());
+        }
+    };
     
     private final Label redWins, blueWins, assassin;
 
@@ -41,14 +45,13 @@ public class GameEventView extends StackPane {
         assassin = endLabel(GAME_OVER_ASSASSIN, "Assassin!",  "assassin");
         
         getChildren().addAll(redWins, blueWins, assassin);
-        event.addListener(this::onGameEvent);
     }
     
     ObjectProperty<GameStep> stepProperty() {
-        return event;
+        return step;
     }
     
-    private void onGameEvent(ObservableValue<? extends GameStep> val, GameStep prev, GameStep next) {
+    private void onGameEvent(GameStep next) {
         if (lastAnim!=null) {
             lastAnim.stop();
             lastAnim = null;

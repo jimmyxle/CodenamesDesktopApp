@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import ca.concordia.encs.comp354.controller.Clue;
+import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -39,27 +40,36 @@ public final class GameState implements ReadOnlyGameState {
 
     private final PrintStream log;
     
+    // game state
+    //------------------------------------------------------------------------------------------------------------------
     private final ObjectProperty<Board>      board   = new SimpleObjectProperty<>(this, "board",   null);
     private final ObjectProperty<Team>       turn    = new SimpleObjectProperty<>(this, "turn",    null);
-    private final ObjectProperty<GameAction> action  = new SimpleObjectProperty<>(this, "action",  null);
-    private final ObjectProperty<GameEvent>  event   = new SimpleObjectProperty<>(this, "event",   GameEvent.NONE);
     private final ObjectProperty<Clue>       clue    = new SimpleObjectProperty<>(this, "clue",    null);
     private final IntegerProperty            guesses = new SimpleIntegerProperty (this, "guesses", 0);
-    private final ObjectProperty<GameStep>   step    = new SimpleObjectProperty<>(this, "step",    null);
     
     private final IntegerProperty redScore  = new SimpleIntegerProperty(this, "redScore", 0);
     private final IntegerProperty blueScore = new SimpleIntegerProperty(this, "redScore", 0);
     
+    // the minimum number of successful guesses a team must make to win
     private final ReadOnlyIntegerProperty redObjective;
     private final ReadOnlyIntegerProperty blueObjective;
     
+    // the set of revealed cards
     private final ObservableSet<Coordinates> chosen         = FXCollections.observableSet();
     private final ObservableSet<Coordinates> readOnlyChosen = FXCollections.unmodifiableObservableSet(chosen);
     
+    // history ("command queue")
+    //------------------------------------------------------------------------------------------------------------------
+    // closest javafx offers to observable deques is lists; use this class's pop(), peek() convenience methods to modify
     private final ObservableList<GameStep> history         = FXCollections.observableList(new ArrayList<>());
     private final ObservableList<GameStep> readOnlyHistory = FXCollections.unmodifiableObservableList(history);
     private final ObservableList<GameStep> undone          = FXCollections.observableList(new ArrayList<>());
     private final ObservableList<GameStep> readOnlyUndone  = FXCollections.unmodifiableObservableList(undone);
+    
+    // values at the top of history stack; these make it easier for the view to watch for changes in state
+    private final ObjectProperty<GameStep>   step    = new SimpleObjectProperty<>(this, "step",    null);
+    private final ObjectProperty<GameAction> action  = new SimpleObjectProperty<>(this, "action",  null);
+    private final ObjectProperty<GameEvent>  event   = new SimpleObjectProperty<>(this, "event",   GameEvent.NONE);
     
     public GameState(Board board) {
         this(board, null);
@@ -91,13 +101,9 @@ public final class GameState implements ReadOnlyGameState {
         redObjective  = new SimpleIntegerProperty(this, "redObjective",  redCount);
         blueObjective = new SimpleIntegerProperty(this, "blueObjective", blueCount);
         
-        getHistory().addListener((Change<?> c)->{
-            if (!getHistory().isEmpty()) {
-                step.set(getHistory().get(getHistory().size()-1));
-            } else {
-                step.set(null);
-            }
-        });
+        // look for changes in history to update "top of stack" properties
+        //--------------------------------------------------------------------------------------------------------------
+        getHistory().addListener((Change<?> c)->recordStep(peek(getHistory())));
     }
     
     public Board getBoard() {
@@ -162,21 +168,10 @@ public final class GameState implements ReadOnlyGameState {
     	}
     	
         // undo most recent action
-    	GameStep undo = pop(history);
-        undone.add(undo);
-        GameAction ret = undo.getAction();
-        ret.undo(this);
-        
-        // notify observers that the action at the top of the stack is different
-        GameStep top = peek(history);
-        if (top!=null) {
-        	action.set(top.getAction());
-        	event.set(top.getEvent());
-        	
-        	if (log!=null) {
-        	    log.println(top.getText());
-        	}
-        }
+    	GameStep top = peek(history); // update history after successful undo -- just peek, modify collection later
+        top.getAction().undo(this);
+        pop(history);
+        undone.add(top);
         
         // lastly, return the undone action
         return true;
@@ -242,11 +237,19 @@ public final class GameState implements ReadOnlyGameState {
         return readOnlyChosen;
     }
     
+    /**
+     * Reveals a card at the given coordinates.
+     * @param coords  the coordinates of the yet-to-be-chosen card
+     */
     public void chooseCard(Coordinates coords) {
     	requireValidCoords(coords);
         chosen.add(coords);
     }
 
+    /**
+     * Hides a previously revealed card at the given coordinates.
+     * @param coords  the coordinates of the previously-chosen card
+     */
 	public void hideCard(Coordinates coords) {
 		requireValidCoords(coords);
 		chosen.remove(coords);
@@ -254,46 +257,73 @@ public final class GameState implements ReadOnlyGameState {
 
 	/**
 	 * Helper function; ensures coordinates are non-null and fall within the board dimensions
-	 * @param coords coordinate object to test
+	 * @param coords  coordinate object to test
 	 */
 	private void requireValidCoords(Coordinates coords) {
         Objects.requireNonNull(coords);
         
         if (coords.getX() < 0 || coords.getX() > getBoard().getWidth()) {
-            throw new IllegalArgumentException("illegal x coordinate "+coords.getX()+"; must lie in [0, "+getBoard().getWidth()+")");
+            throw new IllegalArgumentException(
+                    "illegal x coordinate "+coords.getX()+
+                    "; must lie in [0, "+getBoard().getWidth()+")");
         }
         
         if (coords.getY() < 0 || coords.getY() > getBoard().getLength()) {
-            throw new IllegalArgumentException("illegal y coordinate "+coords.getY()+"; must lie in [0, "+getBoard().getLength()+")");
+            throw new IllegalArgumentException(
+                    "illegal y coordinate "+coords.getY()+
+                    "; must lie in [0, "+getBoard().getLength()+")");
         }
         
 	}
     
 	/**
 	 * Helper function; removes the element at the end of a list and returns it
-	 * @param collection list from which to remove the last element
+	 * @param col  list from which to remove the last element
 	 * @return the removed element
 	 */
-    private static <T> T pop(java.util.List<T> collection) {
-    	return collection.remove(collection.size()-1);
+    private static <T> T pop(java.util.List<T> col) {
+    	return col.remove(col.size()-1);
     }
     
-    private static <T> T peek(java.util.List<T> collection) {
-    	return collection.isEmpty()? null : collection.get(collection.size()-1);
+    /**
+     * Helper function; returns the element at the end of a list without removing it
+     * @param col  list from which to remove the last element
+     * @return the element at the end of the list, or <tt>null</tt> if the list is empty
+     */
+    private static <T> T peek(java.util.List<T> col) {
+    	return col.isEmpty()? null : col.get(col.size()-1);
     }
     
+    /**
+     * Executes the given action, and records a new step in the game history.
+     * @param value the action to execute
+     */
     private void applyAction(GameAction value) {
     	Objects.requireNonNull(value);
         
         // add action to model, execute action, record step
-    	event.set(value.apply(this));
-        action.set(value); // set action after, since apply() might set some view-facing state
-        
-        // log game step
-        GameStep step = new GameStep(action.get(), event.get(), redScore.get(), blueScore.get(), history.size());
+    	GameStep step = new GameStep(value, value.apply(this), redScore.get(), blueScore.get(), history.size());
         history.add(step);
-        if (log!=null) {
-            log.println(step.getText());
+    }
+    
+    /**
+     * Notifies the view that a new step has appeared at the top of the history stack.
+     * @param k  the history element at the top of the history stack
+     * @return <tt>k</tt>
+     */
+    private GameStep recordStep(GameStep k) {
+        if (k==null) {
+            action.set(null);
+            event.set(GameEvent.NONE);
+            step.set(null);
+        } else {
+            action.set(k.getAction());
+            event.set(k.getEvent());
+            step.set(k);
+            if (log!=null) {
+            	log.println(k.getText());
+            }
         }
+        return k;
     }
 }
