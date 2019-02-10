@@ -35,7 +35,7 @@ public abstract class AbstractPlayerTest {
         for (int i=0; i < TEAM_CARD_COUNT; i++) {
         	Clue clue = player.giveClue(state);
         	chooseCards(state, clue);
-        	actual.add(clue);
+        	assertTrue(actual.add(clue));
         }
         
         assertEquals(expected, actual);
