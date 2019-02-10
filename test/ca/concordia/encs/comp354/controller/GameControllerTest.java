@@ -36,4 +36,10 @@ public class GameControllerTest {
                 .setModel(model)
                 .create();
     }
+    
+    @Test
+    public void initialTurnMatchesBuilder() {
+        controller.advanceTurn();
+        assertEquals(Team.RED, model.getTurn());
+    }
 }
