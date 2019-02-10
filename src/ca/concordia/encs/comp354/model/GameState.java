@@ -103,7 +103,7 @@ public final class GameState implements ReadOnlyGameState {
         
         // look for changes in history to update "top of stack" properties
         //--------------------------------------------------------------------------------------------------------------
-        getHistory().addListener((Change<?> c)->recordStep(getHistory().isEmpty() ? null : peek(getHistory())));
+        getHistory().addListener((Change<?> c)->recordStep(peek(getHistory())));
     }
     
     public Board getBoard() {

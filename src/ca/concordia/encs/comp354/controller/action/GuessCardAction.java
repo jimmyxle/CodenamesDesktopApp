@@ -57,6 +57,8 @@ public class GuessCardAction extends GameAction {
         Board board = state.getBoard();
         Card  card  = board.getCard(coords);
         
+        codename = card.getCodename();
+        
         state.chooseCard(coords);
         adjust(state.guessesRemainingProperty(), -1);
         
