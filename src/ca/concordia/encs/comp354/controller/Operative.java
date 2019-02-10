@@ -43,15 +43,16 @@ public class Operative extends Player {
 	}
 	
 	
+	
+	//====================
+    //--------TEST--------
+    //====================
 	public static void main(String[] args) throws IOException {
 		List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/words.txt"));
 		Keycard keycard = Keycard.createRandomKeycard();
-
 	    GameState state = new GameState(new Board(codenameWords, keycard));
 	    Board board = state.boardProperty().get();
-	    //====================
-	    //--------TEST--------
-	    //====================
+	 
 	    //print out the card list, then return clue and guess for first 2 red cards
 	    System.out.println("Printing out the game board: ");
 	    System.out.println(state.boardProperty().get().toString());
