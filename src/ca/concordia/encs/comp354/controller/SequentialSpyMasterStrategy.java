@@ -18,11 +18,14 @@ import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 public class SequentialSpyMasterStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
     
     private final Random random = new Random();
+    
+    private int counter;
 
     @Override
     public Clue giveClue(SpyMaster owner, ReadOnlyGameState state) {
         List<Coordinates> guesses = beginTurn(owner, state);
-        return guesses.isEmpty()? null : getAssociatedWord(state.boardProperty().get(), guesses.get(0));
+        int next = (counter++)%guesses.size(); // pick the next clue in any event
+        return guesses.isEmpty()? null : getAssociatedWord(state.boardProperty().get(), guesses.get(next));
     }
 
     private Clue getAssociatedWord(Board board, Coordinates coords) {
