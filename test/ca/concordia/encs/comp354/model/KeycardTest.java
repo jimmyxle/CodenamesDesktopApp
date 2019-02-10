@@ -1,4 +1,4 @@
-package ca.concordia.encs.comp354.trash;
+package ca.concordia.encs.comp354.model;
 
 import ca.concordia.encs.comp354.model.CardValue;
 import ca.concordia.encs.comp354.model.Keycard;
