@@ -70,9 +70,9 @@ public class ScoreView extends HBox {
         
         getChildren().addAll(clueLabel, redLabel, blueLabel);
         
-        clueLabel.minWidthProperty().bind(widthProperty().multiply(0.333));
-        redLabel .minWidthProperty().bind(widthProperty().multiply(0.333));
-        blueLabel.minWidthProperty().bind(widthProperty().multiply(0.333));
+        clueLabel.prefWidthProperty().bind(widthProperty().multiply(0.333));
+        redLabel .prefWidthProperty().bind(widthProperty().multiply(0.333));
+        blueLabel.prefWidthProperty().bind(widthProperty().multiply(0.333));
 
         HBox.setHgrow(clueLabel, Priority.ALWAYS);
         HBox.setHgrow(redLabel,  Priority.ALWAYS);

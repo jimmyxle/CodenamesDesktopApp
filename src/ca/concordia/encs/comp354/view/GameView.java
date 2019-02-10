@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.beans.Observable;
+import javafx.geometry.Pos;
 
 /**
  * A graphical interface for an active game.
@@ -59,6 +60,8 @@ public class GameView extends StackPane {
         
         root = new BorderPane();
         getChildren().add(root);
+        root.getStyleClass().clear();
+        root.getStyleClass().add("game-view");
         
         // create game view elements
         //--------------------------------------------------------------------------------------------------------------
@@ -82,6 +85,7 @@ public class GameView extends StackPane {
         top.getChildren().addAll(scoreView, showOverlay);
         
         HBox.setHgrow(scoreView, Priority.ALWAYS);
+        top.setAlignment(Pos.CENTER);
         
         root.setTop(top);
         

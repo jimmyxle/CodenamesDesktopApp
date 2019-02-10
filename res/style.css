@@ -4,6 +4,14 @@
  * For the complete JavaFX CSS reference, see:
  *   https://docs.oracle.com/javase/8/javafx/api/javafx/scene/doc-files/cssref.html
  */
+ 
+/*
+ * Game display
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+.game-view .check-box {
+	-fx-padding: 0.5em;
+}
 
 /* 
  * score display 
@@ -11,10 +19,6 @@
  */
 .score-view {
 	-fx-alignment: center;
-}
-
-.score-view .check-box {
-	-fx-padding: 0.5em;
 }
 
 .score-view .clue-readout {
