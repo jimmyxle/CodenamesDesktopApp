@@ -109,7 +109,7 @@ public class GameControllerTest {
     public void changeToBlueSpy() {
     	
     	//As  per the first iteration, every team only gets one guess. So the team should change after every guess.
-    	//These advances set the turn, give a clue, receive a guess and then set the turn to the blue team.
+    	//These advances set the turn, give a clue, receive a guess, and then set the turn to the blue team.
     	controller.advanceTurn();
     	controller.advanceTurn();
     	controller.advanceTurn();
