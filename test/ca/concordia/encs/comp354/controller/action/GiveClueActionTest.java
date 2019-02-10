@@ -7,6 +7,11 @@ import ca.concordia.encs.comp354.model.Team;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test class for {@link GiveClueAction}.
+ * @author Nikita Leonidov
+ *
+ */
 public class GiveClueActionTest extends AbstractActionTest {
 
     @Test

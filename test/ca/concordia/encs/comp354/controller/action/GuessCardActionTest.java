@@ -10,6 +10,11 @@ import static org.junit.Assert.*;
 import static ca.concordia.encs.comp354.controller.GameEvent.*;
 import static ca.concordia.encs.comp354.model.CardValue.*;
 
+/**
+ * Test class for {@link GuessCardAction}.
+ * @author Nikita Leonidov
+ *
+ */
 public class GuessCardActionTest extends AbstractActionTest {
 
     private static final Coordinates

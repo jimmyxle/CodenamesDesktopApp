@@ -6,6 +6,11 @@ import ca.concordia.encs.comp354.model.Team;
 import static org.junit.Assert.*;
 import static ca.concordia.encs.comp354.model.Team.*;
 
+/**
+ * Test class for {@link ChangeTurnAction}.
+ * @author Nikita Leonidov
+ *
+ */
 public class ChangeTurnActionTest extends AbstractActionTest {
 
     @Test

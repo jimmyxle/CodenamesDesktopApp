@@ -7,10 +7,16 @@ import java.util.List;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.CardValue;
 import ca.concordia.encs.comp354.model.CodenameWord;
+import ca.concordia.encs.comp354.model.GameAction;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Keycard;
 import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
 
+/**
+ * Initializes model state for {@link GameAction} tests.
+ * @author Nikita Leonidov
+ *
+ */
 class AbstractActionTest {
 
     protected GameState model;
