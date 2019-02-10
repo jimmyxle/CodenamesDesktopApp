@@ -1,7 +1,5 @@
-package ca.concordia.encs.comp354.Model;
+package ca.concordia.encs.comp354.trash;
 
-import ca.concordia.encs.comp354.model.Card;
-import ca.concordia.encs.comp354.model.CardValue;
 import ca.concordia.encs.comp354.model.CodenameWord;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,10 +9,10 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class CardTest {
+public class CodenameWordTest {
+
     private static CodenameWord testCodenameWord;
     private static final List<CodenameWord.AssociatedWord> associatedWords = new ArrayList<>();
-    private static Card testCard;
 
     @Before
     public void before() {
@@ -27,19 +25,17 @@ public class CardTest {
         associatedWords.add(associatedWord3);
 
         testCodenameWord = new CodenameWord("clueword", associatedWords);
-
-        testCard = new Card(testCodenameWord, CardValue.RED);
-
+//      System.out.println("CodenameWord Object Created!");
     }
 
     @Test
-    public void getsCorrectCardCodename() {
-        assertEquals("clueword", testCard.getCodename());
+    public void getsCorrectClueWord() {
+        assertEquals("clueword", testCodenameWord.getClueWord());
     }
 
     @Test
-    public void getsCorrectCardAssociatedWordsAndWeights() {
-        assertEquals("word1", testCard.getAssociatedWords().get(0).getWord());
+    public void getsCorrectAssociatedWords() {
+        assertEquals("word1", testCodenameWord.getAssociatedWords().get(0).getWord());
         assertEquals(100, testCodenameWord.getAssociatedWords().get(0).getWeight());
 
         assertEquals("word2", testCodenameWord.getAssociatedWords().get(1).getWord());
@@ -48,9 +44,4 @@ public class CardTest {
         assertEquals("word3", testCodenameWord.getAssociatedWords().get(2).getWord());
         assertEquals(80, testCodenameWord.getAssociatedWords().get(2).getWeight());
     }
-
-
-//    @Test
-//    void createRandomCodenameList() {
-//    }
 }
