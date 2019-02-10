@@ -27,8 +27,8 @@ public class Codenames extends Application {
 	public void start(Stage stage) throws IOException {
 		// configure game
 	    //--------------------------------------------------------------------------------------------------------------
-		List<CodenameWord> codenameWords = Card.generateRandomCodenameList(Paths.get("res/words.txt"));
-		List<Keycard> keycards = Keycard.generateRandomKeycards(Keycard.NUMBER_OF_KEYCARDS);
+		List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/words.txt"));
+		List<Keycard> keycards = Keycard.createRandomKeycards(Keycard.NUMBER_OF_KEYCARDS);
 
 		// create game state & controller
 		game = new GameState(new Board(codenameWords, keycards.get(new Random().nextInt(keycards.size()))), System.out);

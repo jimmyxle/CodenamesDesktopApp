@@ -22,7 +22,7 @@ class AbstractActionTest {
     protected GameState model;
     
     AbstractActionTest() {
-        this(Keycard.generateRandomKeycard());
+        this(Keycard.createRandomKeycard());
     }
     
     AbstractActionTest(CardValue...keycardValues) {
