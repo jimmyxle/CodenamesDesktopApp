@@ -5,11 +5,8 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
@@ -58,7 +55,8 @@ public class SpyMasterTest extends AbstractPlayerTest {
             	model.chooseCard(coords);
             }
         }
-        Clue test = seqSpy.giveClue(model);     
+        
+        seqSpy.giveClue(model);     
     }
 	
 	@Test (expected = IllegalStateException.class)
@@ -69,7 +67,8 @@ public class SpyMasterTest extends AbstractPlayerTest {
             	model.chooseCard(coords);
             }
         }
-        Clue test = randSpy.giveClue(model);     
+        
+        randSpy.giveClue(model);     
     }
 
 	//Checks Sequential Strategy to make sure the Spymaster returns the first clue of the right CardValue (in this case RED)
@@ -87,6 +86,7 @@ public class SpyMasterTest extends AbstractPlayerTest {
 			}
 			firstCard = board.getCard(x,y);
 		}
+		
 		List<AssociatedWord> boardClueList = firstCard.getAssociatedWords();
 		String[] boardWords = new String[boardClueList.size()];
 		for (int i = 0; i < boardWords.length; i++) {

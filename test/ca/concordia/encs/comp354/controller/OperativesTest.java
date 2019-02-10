@@ -5,17 +5,11 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
-import ca.concordia.encs.comp354.model.CardValue;
 import ca.concordia.encs.comp354.model.CodenameWord;
-import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Keycard;

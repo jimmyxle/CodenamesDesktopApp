@@ -10,19 +10,42 @@
  * ---------------------------------------------------------------------------------------------------------------------
  */
 .score-view {
-	/* nada */
+	-fx-alignment: center;
+}
+
+.score-view .check-box {
+	-fx-padding: 0.5em;
 }
 
 .score-view .score-readout {
-	-fx-padding: 0.25em;
+	-fx-text-fill: linear-gradient(to bottom, white, grey);
+	-fx-font-weight: bold;
+	-fx-padding: 0.5em;
+ 	-fx-alignment: center;
+}
+
+.score-view .score-readout .text {
+ 	-fx-stroke: black;
+ 	-fx-stroke-width: 0.1em;
+ 	-fx-stroke-type: outside;
 }
 
 .score-view .score-readout:red {
-	-fx-background-color: rgba(255, 0, 0, 0.5);
+	-fx-background-color: indianred;
 }
 
 .score-view .score-readout:blue {
-	-fx-background-color: rgba(0, 0, 255, 0.5);
+	-fx-background-color: cornflowerblue;
+}
+
+.score-view .score-readout:lead {
+	-fx-font-weight: bolder;
+	-fx-font-size: 1.5em;
+	-fx-padding: 0.05em;
+}
+
+.score-view .score-readout:lead .text {
+ 	-fx-stroke-width: 0.2em;
 }
 
 /* 
@@ -30,32 +53,34 @@
  * ---------------------------------------------------------------------------------------------------------------------
  */
 .board-view {
-	/* nada */
+	-fx-background-color: antiquewhite;
 }
 
 .board-view .keycard-region {
-	-fx-border-style: solid inside;
+	-fx-border-style: dashed inside;
 	-fx-border-width: 0.25em;
 }
 
 .board-view .keycard-region:red {
-	-fx-border-color: crimson;
+	-fx-border-color: indianred;
 }
 
 .board-view .keycard-region:blue {
-	-fx-border-color: deepskyblue;
+	-fx-border-color: cornflowerblue;
 }
 
 .board-view .keycard-region:neutral {
-	-fx-border-color: olivedrab;
+	-fx-border-color: yellowgreen;
 }
 
 .board-view .keycard-region:assassin {
-	-fx-border-color: black;
+	-fx-border-color: dimgray;
 }
 
 .board-view .codename-region {
-	/* nada */
+	-fx-border-color: tan;
+	-fx-border-width: 0.1em;
+	-fx-border-style: dotted inside;
 }
 
 .board-view .codename-region .overlay {
@@ -114,9 +139,9 @@
 }
 
 .state-view:red {
-	-fx-background-color: rgba(255, 0, 0, 0.5);
+	-fx-background-color: indianred;
 }
 
 .state-view:blue {
-	-fx-background-color: rgba(0, 0, 255, 0.5);
+	-fx-background-color: cornflowerblue;
 }
