@@ -28,16 +28,16 @@ public abstract class GameAction {
         if (applied) {
             throw new IllegalStateException("cannot re-apply action");
         }
-    	applied = true;
-    	return doApply(state);
+        applied = true;
+        return doApply(state);
     }
     
     public void undo(GameState state) {
-    	if (!applied) {
-    		throw new IllegalStateException("cannot undo action that has not been applied");
-    	}
-    	applied = false;
-    	doUndo(state);
+        if (!applied) {
+            throw new IllegalStateException("cannot undo action that has not been applied");
+        }
+        applied = false;
+        doUndo(state);
     }
     
     protected abstract GameEvent doApply(GameState state);

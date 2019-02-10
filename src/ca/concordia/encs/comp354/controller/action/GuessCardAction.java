@@ -38,28 +38,31 @@ public class GuessCardAction extends GameAction {
 
     @Override
     protected GameEvent doApply(GameState state) {
+        if (!state.hasGuesses()) {
+            throw new IllegalStateException("no more guesses available");
+        }
+        
         if (state.getChosenCards().contains(coords)) {
             throw new IllegalStateException("card at "+coords+" has already been chosen");
         }
         
-        if (!state.hasGuesses()) {
-            throw new IllegalStateException("no more guesses remain");
-        }
-        
+        // undo logic is simpler if we just record the values of the properties we intend to modify first
+        //--------------------------------------------------------------------------------------------------------------
         redScore  = state.getRedScore();
         blueScore = state.getBlueScore();
         guesses   = state.guessesRemainingProperty().get();
         
+        // reveal the value of the card, then modify game state based on that value
+        //--------------------------------------------------------------------------------------------------------------
         Board board = state.getBoard();
         Card  card  = board.getCard(coords);
-        
-        codename = card.getCodename();
         
         state.chooseCard(coords);
         adjust(state.guessesRemainingProperty(), -1);
         
         switch (card.getValue()) {
         case RED:
+            // increment red's score, then test victory condition
             final int redScore = adjust(state.redScoreProperty(), +1);
             if (state.redObjectiveProperty().get() == redScore) {
                 return GameEvent.GAME_OVER_RED_WON;
@@ -67,6 +70,7 @@ public class GuessCardAction extends GameAction {
             break;
             
         case BLUE:
+            // increment blue's score, then test victory condition
             final int blueScore = adjust(state.blueScoreProperty(), +1);
             if (state.blueObjectiveProperty().get() == blueScore) {
                 return GameEvent.GAME_OVER_BLUE_WON;
@@ -74,10 +78,12 @@ public class GuessCardAction extends GameAction {
             break;
             
         case ASSASSIN:
+            // end the game; the current team loses
         	state.guessesRemainingProperty().set(0);
             return GameEvent.GAME_OVER_ASSASSIN;
             
         case NEUTRAL:
+            // end the turn; the current team cannot guess any more times
         	state.guessesRemainingProperty().set(0);
             return GameEvent.END_TURN;
         }
@@ -92,13 +98,18 @@ public class GuessCardAction extends GameAction {
 
     @Override
     protected void doUndo(GameState state) {
+        // reset property values to what they were before the last doApply() call
         state.redScoreProperty().set(redScore);
         state.blueScoreProperty().set(blueScore);
         state.hideCard(coords);
         state.guessesRemainingProperty().set(guesses);
-        codename = null;
     }
 
+    // boilerplate
+    //==================================================================================================================
+    // NB: only immutable state is relevant to hashCode() and equals()! the value of the action does not change with 
+    // apply() calls
+    
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -129,7 +140,4 @@ public class GuessCardAction extends GameAction {
             return false;
         return true;
     }
-    
-    
-
 }
