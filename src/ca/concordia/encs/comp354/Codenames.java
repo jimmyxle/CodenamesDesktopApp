@@ -46,7 +46,7 @@ public class Codenames extends Application {
         // create interface
         //--------------------------------------------------------------------------------------------------------------
         final StackPane root  = new StackPane();
-        final Scene     scene = new Scene(root, 512, 512);
+        final Scene     scene = new Scene(root, 512, 512, true);
         
         scene.getStylesheets().add(stylesheet("res/style.css"));
 		root.getChildren().add(new GameView(game, controller));

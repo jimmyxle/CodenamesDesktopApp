@@ -275,8 +275,8 @@ public final class GameState implements ReadOnlyGameState {
     	Objects.requireNonNull(value);
         
         // add action to model, execute action, record step
-    	action.set(value);
     	event.set(value.apply(this));
+        action.set(value); // set action after, since apply() might set some view-facing state
         
         // log game step
         GameStep step = new GameStep(action.get(), event.get(), redScore.get(), blueScore.get(), history.size());
