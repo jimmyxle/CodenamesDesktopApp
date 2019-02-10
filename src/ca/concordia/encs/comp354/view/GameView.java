@@ -20,9 +20,9 @@ import javafx.beans.Observable;
 public class GameView extends StackPane {
     
     public interface Controller {
-        void advanceTurn();
-    	void undoTurn();
-    	void redoTurn();
+        void    advanceTurn();
+        boolean undoTurn();
+        boolean redoTurn();
     }
     
     private final ReadOnlyGameState game;

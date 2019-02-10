@@ -155,12 +155,13 @@ public class GameController implements GameView.Controller {
     	}	
     }
     
-    public void undoTurn() {
-    	model.undoAction();
+    @Override
+    public boolean undoTurn() {
+    	return model.undoAction();
     }
 
 	@Override
-	public void redoTurn() {
-		model.redoAction();
+	public boolean redoTurn() {
+		return model.redoAction();
 	}
 }

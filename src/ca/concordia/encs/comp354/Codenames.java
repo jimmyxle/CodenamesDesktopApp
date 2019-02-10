@@ -25,17 +25,12 @@ public class Codenames extends Application {
     
 	@Override
 	public void start(Stage stage) throws IOException {
-		// set up a simple interface
-		//--------------------------------------------------------------------------------------------------------------
-		final StackPane root  = new StackPane();
-		final Scene     scene = new Scene(root, 512, 512);
-		
-		scene.getStylesheets().add(stylesheet("res/style.css"));
-	
-		// replace with implementations
+		// configure game
+	    //--------------------------------------------------------------------------------------------------------------
 		List<CodenameWord> codenameWords = Card.generateRandomCodenameList(Paths.get("res/words.txt"));
 		List<Keycard> keycards = Keycard.generateRandomKeycards(Keycard.NUMBER_OF_KEYCARDS);
 
+		// create game state & controller
 		game = new GameState(new Board(codenameWords, keycards.get(new Random().nextInt(keycards.size()))));
 		controller = 
 		        new GameController.Builder()
@@ -47,6 +42,13 @@ public class Codenames extends Application {
 		        .setBlueOperative(new Operative(Team.BLUE, new RandomOperativeStrategy()))
 		        .create();
 		
+
+        // create interface
+        //--------------------------------------------------------------------------------------------------------------
+        final StackPane root  = new StackPane();
+        final Scene     scene = new Scene(root, 512, 512);
+        
+        scene.getStylesheets().add(stylesheet("res/style.css"));
 		root.getChildren().add(new GameView(game, controller));
 
 		// configure the window & display our interface
