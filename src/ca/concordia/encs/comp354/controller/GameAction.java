@@ -25,13 +25,16 @@ public abstract class GameAction {
     public abstract String getActionText();
     
     public GameEvent apply(GameState state) {
+        if (applied) {
+            throw new IllegalStateException("cannot re-apply action");
+        }
     	applied = true;
     	return doApply(state);
     }
     
     public void undo(GameState state) {
     	if (!applied) {
-    		throw new IllegalStateException("action not applied");
+    		throw new IllegalStateException("cannot undo action that has not been applied");
     	}
     	applied = false;
     	doUndo(state);
