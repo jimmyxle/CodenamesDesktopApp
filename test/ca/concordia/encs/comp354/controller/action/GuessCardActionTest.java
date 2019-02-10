@@ -12,7 +12,7 @@ import static ca.concordia.encs.comp354.model.CardValue.*;
 
 /**
  * Test class for {@link GuessCardAction}.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public class GuessCardActionTest extends AbstractActionTest {

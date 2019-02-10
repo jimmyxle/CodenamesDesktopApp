@@ -4,7 +4,7 @@ import ca.concordia.encs.comp354.controller.GameAction;
 
 /**
  * Describes the outcome of a {@link GameAction}.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public enum GameEvent {

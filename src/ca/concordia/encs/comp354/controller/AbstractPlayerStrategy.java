@@ -10,7 +10,7 @@ import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 
 /**
  * Handy base class for {@link Player} subclass strategies.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 abstract class AbstractPlayerStrategy {

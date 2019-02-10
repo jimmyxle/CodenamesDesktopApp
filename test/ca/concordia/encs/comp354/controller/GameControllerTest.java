@@ -16,7 +16,6 @@ import ca.concordia.encs.comp354.controller.action.GiveClueAction;
 import ca.concordia.encs.comp354.controller.action.GuessCardAction;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.CodenameWord;
-import ca.concordia.encs.comp354.model.GameAction;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Keycard;
 import ca.concordia.encs.comp354.model.Team;
@@ -55,18 +54,15 @@ public class GameControllerTest {
     
     @Test  
     public void initialTurnMatchesBuilder() {
-       //Verifies that the constructor does set the right team to go first.
+        //Verifies that the constructor does set the right team to go first.
     	//This will be implemented as the first of of the game.
-    	
     	controller.advanceTurn();
         assertEquals(Team.RED, model.getTurn());
     }
     
     @Test
     public void firstActionSetsTurn() {
-    	
     	//The first move of the game always sets the current player to the default initialTurn.
-    	
         assertTrue(model.lastActionProperty().get() instanceof ChangeTurnAction);
     }
     
@@ -83,7 +79,6 @@ public class GameControllerTest {
     	//Verifies that the action was made by the red team and also that it was a clue and not a guess.
     	assertEquals (Team.RED, action.getTeam());
     	assertTrue (action instanceof GiveClueAction);
-    	
     }
     
     
@@ -99,10 +94,7 @@ public class GameControllerTest {
     	
     	//Verifies that an operative from the red team has made a guess following their spyMaster.
     	assertEquals (Team.RED, action.getTeam());
-    	assertTrue (action instanceof GuessCardAction);
-    	
-    	
-    	
+    	assertTrue (action instanceof GuessCardAction);	
     }
     
     @Test 
@@ -121,26 +113,6 @@ public class GameControllerTest {
     	
     	//Verifies that the last action was indeed the blue spyMaster giving a clue. 
     	assertEquals(Team.BLUE, action.getTeam());
-    	assertTrue (action instanceof GiveClueAction);
-    	
+    	assertTrue (action instanceof GiveClueAction);	
     }
-  
-    
-    @Test
-    public void redGivesWrongGuess() {
-    	
-    	//Gives a clue and a guess to the set up the scenario.
-    	controller.advanceTurn();
-    	controller.advanceTurn();
-    	final GameAction action = model.lastActionProperty().get();
-    	
-    	//The guess will be wrong when red picks the assassin card, a blue card or a civilian card.
-    	assertTrue (action instanceof GuessCardAction);
-    	assertFalse( model.getLastEvent().equals(GameEvent.GAME_OVER_ASSASSIN) | action.getTeam()!=Team.RED);
-    	
-    }
-    
-  
-    
-   
 }

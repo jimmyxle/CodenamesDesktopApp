@@ -2,15 +2,13 @@ package ca.concordia.encs.comp354.model;
 
 import java.util.List;
 
-import java.io.IOException;
 import java.lang.IllegalArgumentException;
-import java.nio.file.Paths;
 
 /**
  * Represents a game board configuration. Since the configuration does not change for the duration of the game, this 
  * class should be immutable (which is the assumption the view code makes). A new configuration means a new Board.
  *
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  * @author Zachary Hynes
  */
 public class Board {

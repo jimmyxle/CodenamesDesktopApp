@@ -14,14 +14,30 @@ import javafx.beans.Observable;
 
 /**
  * A graphical interface for an active game.
- * @author Nikita
+ * @author Mykyta Leonidov
  *
  */
 public class GameView extends StackPane {
     
+    /**
+     * Specifies the actions the GUI must be able to issue to the controller as a result of user input.
+     * @author Mykyta Leonidov
+     *
+     */
     public interface Controller {
+        /**
+         * Advances the game to the next action.
+         */
         void    advanceTurn();
+        /**
+         * Reverses the most recently executed action.
+         * @return <tt>true</tt> iff a previously executed action was available for this operation
+         */
         boolean undoTurn();
+        /**
+         * Re-applies the most recently undone action.
+         * @return <tt>true</tt> iff a previously undone action was available for this operation
+         */
         boolean redoTurn();
     }
     

@@ -10,7 +10,7 @@ import javafx.scene.layout.Priority;
 
 /**
  * Displays team scores in a JavaFX node.
- * @author Nikita
+ * @author Mykyta Leonidov
  *
  */
 public class ScoreView extends AnchorPane {

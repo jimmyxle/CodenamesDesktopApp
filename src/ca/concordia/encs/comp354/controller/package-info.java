@@ -13,6 +13,9 @@ package ca.concordia.encs.comp354.controller;
 * and the {@link ca.concordia.encs.comp354.view} package that handles the visualization of data through the game.
 * 
 * The function of the classes in this package is to control the data flow into the model package and update the 
-* view package as changes are made to the model. This allows for a higher degree of encapsulation as it keeps the model and
-* view packages separate from each other.
+* view package as changes are made to the model. This allows for a higher degree of encapsulation as it keeps the model 
+* and view packages separate from each other.
+* 
+* This package revolves around the {@link GameController} class, which receives input events from the view, coordinates 
+* instances of {@link Player} subclasses, and generates {@link GameAction}s to drive the game logic.
 */

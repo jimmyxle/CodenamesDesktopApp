@@ -13,6 +13,7 @@ import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.CardValue;
 import ca.concordia.encs.comp354.model.CodenameWord;
 import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
+import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Keycard;
 
@@ -88,6 +89,23 @@ public abstract class AbstractPlayerTest {
     void addCardValues(CardValue value, int count, List<CardValue> dst) {
         for (int i=0; i<count; i++) {
             dst.add(value);
+        }
+    }
+    
+    void chooseCards(GameState state, Clue clue) {
+        Board board = state.getBoard();
+        
+        for (int x=0; x<board.getWidth(); x++) {
+            for (int y=0; y<board.getLength(); y++) {
+                
+                Card k = board.getCard(x, y);
+                
+                for (AssociatedWord w : k.getAssociatedWords()) {
+                    if (w.getWord().contentEquals(clue.getWord())) {
+                        state.chooseCard(new Coordinates(x, y));
+                    }
+                }
+            }
         }
     }
 }

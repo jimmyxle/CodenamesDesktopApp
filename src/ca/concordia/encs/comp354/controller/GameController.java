@@ -12,9 +12,15 @@ import ca.concordia.encs.comp354.view.GameView;
 import static java.util.Objects.requireNonNull;
 
 /**
- * The game controller coordinates {@link Player}s and generates {@link GameAction}s. It has
- * a read-write view of the model (the {@link GameState}).
- * @author Nikita Leonidov
+ * <p>The game controller coordinates {@link Player}s and generates {@link GameAction}s. It has a read-write view of the 
+ * model (the {@link GameState}). The responsibility of the controller is to receive input from the user interface and
+ * execute the game loop.
+ * 
+ * <p>The controller's logic is itself fairly minimal; {@link GameAction}s represent units of game logic - commands - 
+ * which may be applied, undone, or inspected to reveal the game history. The {@link GameState} serves as the command
+ * manager.
+ * 
+ * @author Mykyta Leonidov
  * @author Christopher Idah
  */
 public class GameController implements GameView.Controller {
