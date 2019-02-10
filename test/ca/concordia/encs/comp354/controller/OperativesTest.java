@@ -33,7 +33,7 @@ public class OperativesTest extends AbstractPlayerTest {
 	}
 	
 	@Test
-	public void picksAllCardsSeq() {
+	public void sequentialStrategyPicksAllCards() {
 		Operative seq = new Operative(Team.RED, new SequentialOperativeStrategy());
 		Clue clue = new Clue("test", 1);
 		for (int i = 0; i < 25; i++) {
@@ -45,7 +45,7 @@ public class OperativesTest extends AbstractPlayerTest {
 	}
 	
 	@Test
-	public void picksAllCardsRand() {
+	public void randomStrategyPicksAllCards() {
 		Operative seq = new Operative(Team.RED, new RandomOperativeStrategy());
 		Clue clue = new Clue("test", 1);
 		for (int i = 0; i < 25; i++) {
@@ -57,7 +57,7 @@ public class OperativesTest extends AbstractPlayerTest {
 	}
 	
 	@Test (expected = IllegalStateException.class)
-	public void pickExtraCardSeq() {
+	public void sequentialStrategyFailsWithNoValidMoves() {
 		Operative seq = new Operative(Team.RED, new SequentialOperativeStrategy());
 		Clue clue = new Clue("test", 1);
 		for (int i = 0; i < 26; i++) {
@@ -67,7 +67,7 @@ public class OperativesTest extends AbstractPlayerTest {
 	}
 	
 	@Test (expected = IllegalStateException.class)
-	public void pickExtraCardRand() {
+	public void randomStrategyFailsWithNoValidMoves() {
 		Operative seq = new Operative(Team.RED, new RandomOperativeStrategy());
 		Clue clue = new Clue("test", 1);
 		for (int i = 0; i < 26; i++) {

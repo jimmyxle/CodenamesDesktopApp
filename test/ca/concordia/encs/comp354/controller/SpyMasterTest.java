@@ -40,18 +40,18 @@ public class SpyMasterTest extends AbstractPlayerTest {
 	
 	//Checks if manually generated clues match the clues from each strategy
 	@Test
-	public void guessAllCluesSeq() {
+	public void sequentialStrategyGivesAllClues() {
 		givesAllClues(new SpyMaster(Team.RED, new SequentialSpyMasterStrategy()));
 	}
 	
 	@Test
-	public void guessAllCluesRand() {
+	public void randomStrategyGivesAllClues() {
 		givesAllClues(new SpyMaster(Team.BLUE, new RandomSpyMasterStrategy()));
 	}
 	
 	//Tests that the SpyMaster can't generate extra clues
 	@Test (expected = ArithmeticException.class)
-	public void pickTooManyCluesSeq() {
+	public void sequentialStrategyFailsNoMoreClues() {
         for (int x=0; x<model.getBoard().getWidth(); x++) {
             for (int y=0; y<model.getBoard().getLength(); y++) {
             	Coordinates coords = new Coordinates(y,x);
@@ -62,7 +62,7 @@ public class SpyMasterTest extends AbstractPlayerTest {
     }
 	
 	@Test (expected = IllegalStateException.class)
-	public void pickTooManyCluesRand() {
+	public void randomStrategyFailsNoMoreClues() {
         for (int x=0; x<model.getBoard().getWidth(); x++) {
             for (int y=0; y<model.getBoard().getLength(); y++) {
             	Coordinates coords = new Coordinates(y,x);
@@ -74,7 +74,7 @@ public class SpyMasterTest extends AbstractPlayerTest {
 
 	//Checks Sequential Strategy to make sure the Spymaster returns the first clue of the right CardValue (in this case RED)
 	@Test
-	public void sequentialPicksFirstClue() {
+	public void sequentialStrategyPicksFirstClue() {
 		int x = 0;
 		int y = 0;
 		Board board = model.getBoard();
@@ -103,7 +103,7 @@ public class SpyMasterTest extends AbstractPlayerTest {
 	
 	//Makes sure SpyMaster random strategy returns a clue. Can't test randomness specifically
 	@Test
-	public void randomReturnsClue() {
+	public void randomStrategyReturnsClue() {
 		Clue testClue = randSpy.giveClue(model);
 		assertTrue(testClue instanceof Clue);
 	}
