@@ -64,6 +64,8 @@ public class Codenames extends Application {
 	        return;
 	    }
 	    
+	    // dump game history when the application terminates
+	    //--------------------------------------------------------------------------------------------------------------
 	    try (BufferedWriter out = Files.newBufferedWriter(Paths.get("log.txt"), CREATE, TRUNCATE_EXISTING)) {
 	        for (GameStep k : game.getHistory()) {
 	            out.append(k.getText()+"\n");
