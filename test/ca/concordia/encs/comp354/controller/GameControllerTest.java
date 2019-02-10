@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import ca.concordia.encs.comp354.controller.action.ChangeTurnAction;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.CodenameWord;
 import ca.concordia.encs.comp354.model.GameState;
@@ -41,5 +42,10 @@ public class GameControllerTest {
     public void initialTurnMatchesBuilder() {
         controller.advanceTurn();
         assertEquals(Team.RED, model.getTurn());
+    }
+    
+    @Test
+    public void firstActionSetsTurn() {
+        assertTrue(model.lastActionProperty().get() instanceof ChangeTurnAction);
     }
 }

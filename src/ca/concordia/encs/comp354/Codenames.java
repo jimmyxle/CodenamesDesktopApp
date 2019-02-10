@@ -31,7 +31,7 @@ public class Codenames extends Application {
 		List<Keycard> keycards = Keycard.generateRandomKeycards(Keycard.NUMBER_OF_KEYCARDS);
 
 		// create game state & controller
-		game = new GameState(new Board(codenameWords, keycards.get(new Random().nextInt(keycards.size()))));
+		game = new GameState(new Board(codenameWords, keycards.get(new Random().nextInt(keycards.size()))), System.out);
 		controller = 
 		        new GameController.Builder()
 		        .setModel(game)

@@ -1,5 +1,6 @@
 package ca.concordia.encs.comp354.model;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -36,6 +37,8 @@ import javafx.collections.ObservableSet;
  */
 public final class GameState implements ReadOnlyGameState {
 
+    private final PrintStream log;
+    
     private final ObjectProperty<Board>      board   = new SimpleObjectProperty<>(this, "board",   null);
     private final ObjectProperty<Team>       turn    = new SimpleObjectProperty<>(this, "turn",    null);
     private final ObjectProperty<GameAction> action  = new SimpleObjectProperty<>(this, "action",  null);
@@ -59,7 +62,12 @@ public final class GameState implements ReadOnlyGameState {
     private final ObservableList<GameStep> readOnlyUndone  = FXCollections.unmodifiableObservableList(undone);
     
     public GameState(Board board) {
+        this(board, null);
+    }
+    
+    public GameState(Board board, PrintStream logOut) {
         this.board.set(Objects.requireNonNull(board, "board"));
+        this.log = logOut;
         
         // count red, blue cards on board to determine objectives
         int redCount  = 0;
@@ -164,7 +172,10 @@ public final class GameState implements ReadOnlyGameState {
         if (top!=null) {
         	action.set(top.getAction());
         	event.set(top.getEvent());
-            System.out.println(top.getText());
+        	
+        	if (log!=null) {
+        	    log.println(top.getText());
+        	}
         }
         
         // lastly, return the undone action
@@ -281,6 +292,8 @@ public final class GameState implements ReadOnlyGameState {
         // log game step
         GameStep step = new GameStep(action.get(), event.get(), redScore.get(), blueScore.get(), history.size());
         history.add(step);
-        System.out.println(step.getText());
+        if (log!=null) {
+            log.println(step.getText());
+        }
     }
 }
