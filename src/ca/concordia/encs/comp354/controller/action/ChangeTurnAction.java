@@ -1,8 +1,8 @@
 package ca.concordia.encs.comp354.controller.action;
 
 import ca.concordia.encs.comp354.controller.Clue;
-import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.controller.GameEvent;
+import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Team;
 
