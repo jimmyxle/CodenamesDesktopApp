@@ -44,8 +44,8 @@ public class Operative extends Player {
 	
 	
 	public static void main(String[] args) throws IOException {
-		List<CodenameWord> codenameWords = Card.generateRandomCodenameList(Paths.get("res/words.txt"));
-		Keycard keycard = Keycard.generateRandomKeycard();
+		List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/words.txt"));
+		Keycard keycard = Keycard.createRandomKeycard();
 
 	    GameState state = new GameState(new Board(codenameWords, keycard));
 	    Board board = state.boardProperty().get();

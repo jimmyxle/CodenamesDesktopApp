@@ -5,11 +5,8 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
@@ -41,8 +38,8 @@ public class SpyMasterTest {
 //		    word++;
 //		}
 		
-		List<CodenameWord> codenameWords = Card.generateRandomCodenameList(Paths.get("res/words.txt"));
-		Keycard keycard = Keycard.generateRandomKeycard();
+		List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/words.txt"));
+		Keycard keycard = Keycard.createRandomKeycard();
 		
 		model = new GameState(new Board(codenameWords, keycard));
 		seqSpy = new SpyMaster(Team.RED, new SequentialSpyMasterStrategy());

@@ -21,7 +21,7 @@ public class GameControllerTest {
     final GameController controller;
     
     public GameControllerTest() {
-        Keycard keycard = Keycard.generateRandomKeycard();
+        Keycard keycard = Keycard.createRandomKeycard();
         List<CodenameWord> words = new ArrayList<>();
         for (int i=0; i<25; i++) {
             words.add(new CodenameWord("foo", Arrays.asList(new CodenameWord.AssociatedWord("bar", 1))));
