@@ -1,7 +1,6 @@
-package ca.concordia.encs.comp354.controller;
+package ca.concordia.encs.comp354.model;
 
-import ca.concordia.encs.comp354.model.GameState;
-import ca.concordia.encs.comp354.model.Team;
+import ca.concordia.encs.comp354.controller.GameEvent;
 import javafx.beans.property.IntegerProperty;
 
 /**
@@ -24,12 +23,12 @@ public abstract class GameAction {
     
     public abstract String getActionText();
     
-    public GameEvent apply(GameState state) {
+    protected GameEvent apply(GameState state) {
     	applied = true;
     	return doApply(state);
     }
     
-    public void undo(GameState state) {
+    protected void undo(GameState state) {
     	if (!applied) {
     		throw new IllegalStateException("action not applied");
     	}

@@ -1,7 +1,6 @@
 package ca.concordia.encs.comp354.model;
 
 import ca.concordia.encs.comp354.controller.Clue;
-import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.controller.SpyMaster;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import javafx.beans.property.ReadOnlyIntegerProperty;
