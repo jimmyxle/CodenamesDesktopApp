@@ -1,6 +1,6 @@
 package ca.concordia.encs.comp354.controller;
 
-import ca.concordia.encs.comp354.model.GameAction;
+import ca.concordia.encs.comp354.controller.GameAction;
 
 /**
  * Describes the outcome of a {@link GameAction}.

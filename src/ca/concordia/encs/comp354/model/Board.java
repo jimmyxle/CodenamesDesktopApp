@@ -10,8 +10,6 @@ import java.nio.file.Paths;
  * Represents a game board configuration. Since the configuration does not change for the duration of the game, this 
  * class should be immutable (which is the assumption the view code makes). A new configuration means a new Board.
  *
- * Strategy Implemented: a simple factory method for creating a board.
- *
  * @author Nikita Leonidov
  * @author Zachary Hynes
  */
@@ -39,7 +37,7 @@ public class Board {
         
         for (int x=0; x<getWidth(); x++) {
             for (int y = 0; y < getLength(); y++) {
-                CodenameWord w = words.get((x*getWidth()) + y);
+                CodenameWord w = words.get((y*getWidth()) + x);
                 CardValue v = keycard.getCardValue(x, y);
                 this.board[x][y] = new Card(w, v);
             }
@@ -101,34 +99,34 @@ public class Board {
     //====================
     //--------TEST--------
     //====================
-    public static void main(String[] args) throws IOException {
-//        List<Card> cardList = Card.generate25Cards(Paths.get("res/words.txt"));
-
-        List<CodenameWord> codenameWords = Card.generateRandomCodenameList(Paths.get("res/words.txt"));
-        Keycard keycard = Keycard.generateRandomKeycard();
-
-        
-        Board gameBoard = new Board(codenameWords, keycard);
-        //====================
-        //--------TEST--------
-        //====================
-        //print out the card list
-        System.out.println("Printing out the game board: ");
-        System.out.println(gameBoard.toString());
-
-        int x = 3;
-        int y = 4;
-        int i = 9;
-
-        Card card = gameBoard.getCard(x, y);
-        System.out.println("Word at [" + x + "][" + y + "]: " + card.getCodename() + "-" + card.getValue());
-        System.out.println("\nAssociated Word List for \"" + card.getCodename() + "\": " + card.getAssociatedWords());
-        System.out.println("\nAssociated Word i's Object for \"" + card.getCodename() + "\": " + card.getAssociatedWords().get(i));
-        System.out.println("\nAssociated Word i for \"" + card.getCodename() + "\": " + card.getAssociatedWords().get(i).getWord());
-        System.out.println("\nAssociated Word i's Weight for \"" + card.getCodename() + "\": " + card.getAssociatedWords().get(i).getWeight());        
-
-            
-            
-    }//END OF main(String[] args)
+//    public static void main(String[] args) throws IOException {
+////        List<Card> cardList = Card.generate25Cards(Paths.get("res/words.txt"));
+//
+//        List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/words.txt"));
+//        Keycard keycard = Keycard.createRandomKeycard();
+//
+//
+//        Board gameBoard = new Board(codenameWords, keycard);
+//        //====================
+//        //--------TEST--------
+//        //====================
+//        //print out the card list
+//        System.out.println("Printing out the game board: ");
+//        System.out.println(gameBoard.toString());
+//
+//        int x = 3;
+//        int y = 4;
+//        int i = 9;
+//
+//        Card card = gameBoard.getCard(x, y);
+//        System.out.println("Word at [" + x + "][" + y + "]: " + card.getCodename() + "-" + card.getValue());
+//        System.out.println("\nAssociated Word List for \"" + card.getCodename() + "\": " + card.getAssociatedWords());
+//        System.out.println("\nAssociated Word i's Object for \"" + card.getCodename() + "\": " + card.getAssociatedWords().get(i));
+//        System.out.println("\nAssociated Word i for \"" + card.getCodename() + "\": " + card.getAssociatedWords().get(i).getWord());
+//        System.out.println("\nAssociated Word i's Weight for \"" + card.getCodename() + "\": " + card.getAssociatedWords().get(i).getWeight());
+//
+//
+//
+//    }//END OF main(String[] args)
 
 }//END OF Board class

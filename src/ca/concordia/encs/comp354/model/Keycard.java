@@ -25,10 +25,10 @@ public class Keycard {
     //--------CONSTRUCTORS--------
     //============================
     public Keycard(List<CardValue> keyCard) {
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < LENGTH; j++) {
-                int iteration = (i*WIDTH) + j;
-                this.keycard[i][j] = keyCard.get(iteration);
+        for (int x = 0; x < getWidth(); x++) {
+            for (int y = 0; y < getLength(); y++) {
+                int iteration = x + y * getWidth();
+                this.keycard[x][y] = keyCard.get(iteration);
             }
         }
     }
@@ -38,8 +38,8 @@ public class Keycard {
     //============================
     /**
      * Returns the card at the given coordinates.
-     * @param x horizontal coordinate; must be less than {@link #getWIDTH()}
-     * @param y vertical coordinate; must be less than {@link #getLENGTH()}
+     * @param x horizontal coordinate; must be less than WIDTH
+     * @param y vertical coordinate; must be less than LENGTH
      * @return the card at the given coordinates
      */
     public CardValue getCardValue(int x, int y) {
@@ -64,7 +64,20 @@ public class Keycard {
      * Factory Method randomly generates a Keycard containing 25 CardValues (RED/BLUE/NEUTRAL/ASSASSIN)
      * @return a Keycard containing 25 CardValues (RED/BLUE/NEUTRAL/ASSASSIN)
      */
-    public static Keycard generateRandomKeycard() {
+    public static Keycard createRandomKeycard() {
+        List<CardValue> cardValues = createOrderedKeycard();
+
+        //Shuffle the list
+        Collections.shuffle(cardValues);
+
+        //make list unmodifiable
+        cardValues = Collections.unmodifiableList(cardValues);
+
+        return new Keycard(cardValues);
+    }//END OF createRandomKeycard()
+
+
+    public static List<CardValue> createOrderedKeycard() {
         List<CardValue> cardValues = new ArrayList<>();
 
         //TODO: We assume the starting team is red - this needs to be changed in further iterations.
@@ -90,21 +103,14 @@ public class Keycard {
             cardValues.add(CardValue.ASSASSIN);
         }
 
-        //Shuffle the list
-        Collections.shuffle(cardValues);
+        return cardValues;
+    }
 
-        //make list unmodifiable
-        cardValues = Collections.unmodifiableList(cardValues);
-
-        return new Keycard(cardValues);
-    }//END OF generateRandomKeycard()
-
-
-    public static List<Keycard> generateRandomKeycards(int numberOfKeycards) {
+    public static List<Keycard> createRandomKeycards(int numberOfKeycards) {
         List<Keycard> keycards = new ArrayList<>();
 
         for (int i = 0; i < numberOfKeycards; i++) {
-            keycards.add(generateRandomKeycard());
+            keycards.add(createRandomKeycard());
         }
 
         return keycards;

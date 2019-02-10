@@ -47,7 +47,7 @@
 }
 
 .board-view .keycard-region:neutral {
-	-fx-border-color: tan;
+	-fx-border-color: olivedrab;
 }
 
 .board-view .keycard-region:assassin {
@@ -71,7 +71,7 @@
 }
 
 .board-view .codename-region:neutral .overlay {
-	-fx-background-color: antiquewhite;
+	-fx-background-color: yellowgreen;
 }
 
 .board-view .codename-region:assassin .overlay {

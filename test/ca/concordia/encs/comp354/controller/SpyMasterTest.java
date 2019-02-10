@@ -16,6 +16,7 @@ import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.CardValue;
 import ca.concordia.encs.comp354.model.CodenameWord;
 import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
+import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Keycard;
 import ca.concordia.encs.comp354.model.Team;
@@ -29,14 +30,34 @@ public class SpyMasterTest extends AbstractPlayerTest {
 	
 	
 	public SpyMasterTest() throws IOException {
-		List<CodenameWord> codenameWords = Card.generateRandomCodenameList(Paths.get("res/words.txt"));
-		Keycard keycard = Keycard.generateRandomKeycard();
+		List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/words.txt"));
+		Keycard keycard = Keycard.createRandomKeycard();
 		
 		model = new GameState(new Board(codenameWords, keycard));
 		seqSpy = new SpyMaster(Team.RED, new SequentialSpyMasterStrategy());
 		randSpy = new SpyMaster(Team.BLUE, new RandomSpyMasterStrategy());
 	}
 	
+	@Test
+	public void guessAllCluesSeq() {
+		givesAllClues(new SpyMaster(Team.RED, new SequentialSpyMasterStrategy()));
+	}
+	
+	@Test
+	public void guessAllCluesRand() {
+		givesAllClues(new SpyMaster(Team.BLUE, new RandomSpyMasterStrategy()));
+	}
+	
+	@Test (expected = IllegalStateException.class)
+	public void pickTooManyClues() {
+        for (int x=0; x<model.getBoard().getWidth(); x++) {
+            for (int y=0; y<model.getBoard().getLength(); y++) {
+            	Coordinates coords = new Coordinates(y,x);
+            	model.chooseCard(coords);
+            }
+        }
+        Clue test = seqSpy.giveClue(model);     
+    }
 
 	//Checks Sequential Strategy to make sure the Spymaster returns the first clue of the right CardValue (in this case RED)
 	@Test

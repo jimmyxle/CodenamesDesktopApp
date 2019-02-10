@@ -79,7 +79,7 @@ public class Card {
      * Returns a list of 25 Codename Words to be used to create cards
      * @return a list containing 25 Codename Words
      */
-    public static List<CodenameWord> generateRandomCodenameList(Path databaseFile) throws IOException {
+    public static List<CodenameWord> createRandomCodenameList(Path databaseFile) throws IOException {
         //generate 25 random numbers between 0 and 400
 //        generateRandomNumber();
 
@@ -88,7 +88,7 @@ public class Card {
 
         //turn the 25 words into 25 CodenameWord Objects
         return generateCodenameWordList(words);
-    }//END OF generateRandomCodenameList()
+    }//END OF createRandomCodenameList()
 
     private static String[] parseDatabaseFile(Path databaseFile) throws IOException {
         //====================
@@ -198,7 +198,7 @@ public class Card {
     //--------TEST--------
     //====================
 //    public static void main(String[] args) {
-//        List<CodenameWord> codenameWordList = generateRandomCodenameList();
+//        List<CodenameWord> codenameWordList = createRandomCodenameList();
 //
 //        //====================
 //        //--------TEST--------
@@ -216,7 +216,7 @@ public class Card {
 //        //--------TEST--------
 //        //====================
 ////        //print ouf the list of Random Card Types for the key card
-////        CardValue[] values = generateRandomKeycard();
+////        CardValue[] values = createRandomKeycard();
 ////        for (CardValue value : values) {
 ////            System.out.println(value.toString());
 ////        }
