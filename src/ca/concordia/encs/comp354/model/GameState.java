@@ -19,9 +19,16 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 
 /**
- * Represents the game model. Specifies no behaviour, other than checking that mutator inputs are valid.
- * The view should only receive instances of this class as {@link ReadOnlyGameState}s, ensuring that only
- * the controller has authority to mutate the object.
+ * <p> Represents the game model. Specifies no behaviour, other than checking that mutator inputs are valid. The view 
+ * should only receive instances of this class as {@link ReadOnlyGameState}s, ensuring that only the controller has 
+ * authority to mutate the object.
+ * 
+ * <p> The view can watch for changes to a property of this class by attaching listeners, or binding its own properties
+ * to it. This vastly simplifies the construction of both controller and GUI code.
+ * 
+ * <p> This class also serves as a command manager. Apply {@link GameAction}s using {@link #pushAction(GameAction)};
+ * undo and redo with {@link #undoAction()} and {@link #redoAction()}, respectively. Read-only views of the game history 
+ * and the undo queue may be accessed with {@link #getHistory()} and {@link #getUndone()}.
  * 
  * @author Nikita Leonidov
  *
