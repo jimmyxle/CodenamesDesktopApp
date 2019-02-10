@@ -108,6 +108,7 @@ public class GameView extends StackPane {
         gameEventView.stepProperty().bind(game.lastStepProperty());
         turnView.turnProperty().bind(game.turnProperty());
         
+        scoreView.clueProperty().bind(game.lastClueProperty());
         scoreView.redScoreProperty().bind(game.redScoreProperty());
         scoreView.blueScoreProperty().bind(game.blueScoreProperty());
         

@@ -17,6 +17,11 @@
 	-fx-padding: 0.5em;
 }
 
+.score-view .clue-readout {
+	-fx-padding: 0.5em;
+ 	-fx-alignment: center;
+}
+
 .score-view .score-readout {
 	-fx-text-fill: linear-gradient(to bottom, white, grey);
 	-fx-font-weight: bold;

@@ -1,9 +1,12 @@
 package ca.concordia.encs.comp354.view;
 
+import ca.concordia.encs.comp354.controller.Clue;
 import javafx.animation.ScaleTransition;
 import javafx.animation.Transition;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.css.PseudoClass;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -20,7 +23,9 @@ public class ScoreView extends HBox {
     
     private static final String STYLE_CLASS = "score-view";
     private static final String SCORE_READOUT_STYLE_CLASS = "score-readout";
+    private static final String CLUE_READOUT_STYLE_CLASS  = "clue-readout";
 
+    private final Label clueLabel = new Label();
     private final Label redLabel  = new Label();
     private final Label blueLabel = new Label();
     
@@ -41,9 +46,19 @@ public class ScoreView extends HBox {
         }
     };
     
+    private final ObjectProperty<Clue> clue = new SimpleObjectProperty<Clue>(this, "clue", null) {
+        @Override protected void invalidated() {
+            Clue c = clue.get();
+            clueLabel.setText(c==null?"":String.format("Clue: %s %d", c.getWord(), c.getGuesses()));
+        }
+    };
+    
     public ScoreView() {
         getStyleClass().clear();
         getStyleClass().add(STYLE_CLASS);
+        
+        clueLabel.getStyleClass().clear();
+        clueLabel.getStyleClass().add(CLUE_READOUT_STYLE_CLASS);
         
         redLabel.getStyleClass().clear();
         redLabel.getStyleClass().add(SCORE_READOUT_STYLE_CLASS);
@@ -53,11 +68,13 @@ public class ScoreView extends HBox {
         blueLabel.getStyleClass().add(SCORE_READOUT_STYLE_CLASS);
         blueLabel.pseudoClassStateChanged(PseudoClass.getPseudoClass("blue"), true);
         
-        getChildren().addAll(redLabel, blueLabel);
+        getChildren().addAll(clueLabel, redLabel, blueLabel);
         
-        redLabel.minWidthProperty().bind(widthProperty().multiply(0.5));
-        blueLabel.minWidthProperty().bind(widthProperty().multiply(0.5));
-        
+        clueLabel.minWidthProperty().bind(widthProperty().multiply(0.333));
+        redLabel .minWidthProperty().bind(widthProperty().multiply(0.333));
+        blueLabel.minWidthProperty().bind(widthProperty().multiply(0.333));
+
+        HBox.setHgrow(clueLabel, Priority.ALWAYS);
         HBox.setHgrow(redLabel,  Priority.ALWAYS);
         HBox.setHgrow(blueLabel, Priority.ALWAYS);
         
@@ -105,6 +122,10 @@ public class ScoreView extends HBox {
     
     public IntegerProperty blueScoreProperty() {
         return blueScore;
+    }
+    
+    public ObjectProperty<Clue> clueProperty() {
+        return clue;
     }
     
     private void updateScores() {
