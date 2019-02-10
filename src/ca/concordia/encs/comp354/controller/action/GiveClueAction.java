@@ -2,7 +2,7 @@ package ca.concordia.encs.comp354.controller.action;
 
 import ca.concordia.encs.comp354.controller.Clue;
 import ca.concordia.encs.comp354.controller.GameEvent;
-import ca.concordia.encs.comp354.model.GameAction;
+import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Team;
 import ca.concordia.encs.comp354.controller.SpyMaster;
@@ -31,9 +31,11 @@ public class GiveClueAction extends GameAction {
 
     @Override
     protected GameEvent doApply(GameState state) {
+        // undo logic is simpler if we just record the values of the properties we intend to modify first
     	lastClue    = state.lastClueProperty().get();
     	lastGuesses = state.guessesRemainingProperty().get();
     	
+    	// update the model with our new clue
         state.lastClueProperty().set(clue);
         state.guessesRemainingProperty().set(clue.getGuesses());
         return GameEvent.NONE;
@@ -41,10 +43,15 @@ public class GiveClueAction extends GameAction {
 
     @Override
     protected void doUndo(GameState state) {
+        // reset modified properties to pre-apply() state
         state.lastClueProperty().set(lastClue);
         state.guessesRemainingProperty().set(lastGuesses);
     }
 
+    // boilerplate
+    //==================================================================================================================
+    // NB: only immutable state is relevant to hashCode() and equals()! the value of the action does not change with 
+    // apply() calls
     @Override
     public int hashCode() {
         final int prime = 31;

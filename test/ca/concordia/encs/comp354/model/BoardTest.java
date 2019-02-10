@@ -1,4 +1,4 @@
-package ca.concordia.encs.comp354.Model;
+package ca.concordia.encs.comp354.model;
 
 
 import ca.concordia.encs.comp354.model.Board;
