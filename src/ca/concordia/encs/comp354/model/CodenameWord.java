@@ -24,7 +24,7 @@ public class CodenameWord {
     //============================
     //--------CONSTRUCTORS--------
     //============================
-    CodenameWord(String clueWord, List<AssociatedWord> associatedWords) {
+    public CodenameWord(String clueWord, List<AssociatedWord> associatedWords) {
         this.clueWord = clueWord;
         this.associatedWords = Collections.unmodifiableList(new ArrayList<>(associatedWords));
     }
@@ -77,7 +77,7 @@ public class CodenameWord {
         //============================
         //--------CONSTRUCTORS--------
         //============================
-        AssociatedWord(String associatedWord, int weight) {
+        public AssociatedWord(String associatedWord, int weight) {
             this.associatedWord = associatedWord;
             this.weight = weight;
         }

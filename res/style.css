@@ -43,7 +43,7 @@
 }
 
 .board-view .keycard-region:blue {
-	-fx-border-color: blue;
+	-fx-border-color: deepskyblue;
 }
 
 .board-view .keycard-region:neutral {

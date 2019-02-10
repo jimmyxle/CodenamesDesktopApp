@@ -8,6 +8,11 @@ import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.CardValue;
 import ca.concordia.encs.comp354.model.Coordinates;
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.Transition;
+import javafx.animation.TranslateTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
@@ -17,12 +22,14 @@ import javafx.collections.SetChangeListener;
 import javafx.css.PseudoClass;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.DepthTest;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 /**
  * JavaFX node for the display of a board's state.
@@ -48,7 +55,9 @@ public class BoardView extends StackPane {
         }
     };
     
-    private final ObjectProperty<ObservableSet<Coordinates>> revealed = new SimpleObjectProperty<ObservableSet<Coordinates>>(this, "revealed") {
+    private final ObjectProperty<ObservableSet<Coordinates>> revealed = 
+            new SimpleObjectProperty<ObservableSet<Coordinates>>(this, "revealed") {
+        
         ObservableSet<Coordinates>     last     = null;
         SetChangeListener<Coordinates> listener = BoardView.this::updateCodenameMarked;
         
@@ -72,6 +81,7 @@ public class BoardView extends StackPane {
     public BoardView() {
         getStyleClass().clear();
         getStyleClass().add(BOARD_VIEW_STYLE_CLASS);
+        setDepthTest(DepthTest.ENABLE);
         
         this.getChildren().addAll(tiles, teams);
     }
@@ -115,16 +125,19 @@ public class BoardView extends StackPane {
     private final class CodenameRegion extends StackPane {
         
         private final CardValue value;
+        private final Region    markedRegion;
         
-        private final Region markedRegion;
+        private final Transition markAnimation;
         
         private boolean marked = false;
         
         CodenameRegion(String text, CardValue value) {
             this.value = value;
+            setDepthTest(DepthTest.ENABLE);
             
             final Label label = new Label(text);
             markedRegion = new Region();
+            markedRegion.setDepthTest(DepthTest.ENABLE);
             markedRegion.getStyleClass().clear();
             markedRegion.getStyleClass().add(OVERLAY_REGION_STYLE_CLASS);
             markedRegion.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -132,12 +145,43 @@ public class BoardView extends StackPane {
             getStyleClass().clear();
             getStyleClass().add(CODENAME_REGION_STYLE_CLASS);
             getChildren().addAll(markedRegion, label);
+            
+            // create animation
+            //----------------------------------------------------------------------------------------------------------
+            Duration duration = Duration.millis(150);
+            double   scale = 3;
+            
+            FadeTransition ft = new FadeTransition();
+            ft.setFromValue(0);
+            ft.setToValue(1);
+            ft.setDuration(duration);
+            
+            ScaleTransition st = new ScaleTransition();
+            st.setFromX(scale);
+            st.setFromY(scale);
+            st.setToX(1);
+            st.setToY(1);
+            st.setDuration(duration);
+            
+            TranslateTransition tt = new TranslateTransition();
+            tt.setFromZ(1);
+            tt.setToZ(0);
+            tt.setDuration(duration);
+            
+            ParallelTransition pt = new ParallelTransition(ft, st, tt);
+            pt.setNode(markedRegion);
+            
+            markAnimation = pt;
         }
         
         void setMarked(boolean v) {
             marked = v;
             PseudoClass pseudoClass = PseudoClass.getPseudoClass(value.name().toLowerCase(Locale.ENGLISH));
             pseudoClassStateChanged(pseudoClass, marked);
+            markAnimation.stop();
+            if (marked) {
+                markAnimation.play();
+            }
         }
     }
     

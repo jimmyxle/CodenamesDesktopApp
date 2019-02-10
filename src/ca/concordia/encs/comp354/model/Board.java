@@ -1,7 +1,5 @@
 package ca.concordia.encs.comp354.model;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 import java.io.IOException;
@@ -30,33 +28,21 @@ public class Board {
     //============================
     //--------CONSTRUCTORS--------
     //============================
-    private Board(List<CodenameWord> codenameWords, List<Keycard> keyCards) throws IllegalArgumentException {
-        List<Card> cards = new ArrayList<>();
-
-        for (int y = 0; y < WIDTH; y++) {
-            for (int x = 0; x < LENGTH; x++) {
-                int iteration = (y*WIDTH) + x;
-                String codeName = codenameWords.get(iteration).getClueWord();
-                List<CodenameWord.AssociatedWord> associatedWords = codenameWords.get(iteration).getAssociatedWords();
-                int random = (int) (Math.random() * Keycard.NUMBER_OF_KEYCARDS);
-                Keycard randomKeycard = keyCards.get(random);
-
-                cards.add(Card.generateCard(codeName, associatedWords, randomKeycard.getCardValue(x, y)));
+    public Board(List<CodenameWord> words, Keycard keycard) {
+        if (keycard.getWidth()!=getWidth() || keycard.getLength()!=getLength()) {
+            throw new IllegalArgumentException("keycard size mismatch");
+        }
+        
+        if (words.size() < getWidth()*getLength()) {
+            throw new IllegalArgumentException("not enough cards to populate the board");
+        }
+        
+        for (int x=0; x<getWidth(); x++) {
+            for (int y = 0; y < getLength(); y++) {
+                CodenameWord w = words.get((y*getWidth()) + x);
+                CardValue v = keycard.getCardValue(x, y);
+                this.board[x][y] = new Card(w, v);
             }
-        }
-
-        if (cards.size() < 25) {
-            throw new IllegalArgumentException("Not enough cards to populate the board.");
-        }
-
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < LENGTH; j++) {
-                this.board[i][j] = cards.get((i*WIDTH) + j);
-            }
-        }
-
-        for (Keycard keycard : keyCards) {
-            Keycard.outputKeycardToDatabase(keycard);
         }
     }
 
@@ -64,17 +50,6 @@ public class Board {
     //============================
     //----------METHODS----------
     //============================
-    public Card[][] getBoard() {
-        return board;
-    }
-
-    //TODO: maybe in the next iteration we can make it so that each card can be placed individually,
-    // or that the user can rearrange the tiles of the board - instead of generating an entirely new
-    // randomized board?
-    public void setBoard(Card[][] board) {
-        this.board = board;
-    }
-
     /**
      * Returns the card at the given coordinates.
      * @param coords  coordinates; x must be less than {@link #getWidth()}, y must be less than {@link #getLength()}
@@ -95,29 +70,17 @@ public class Board {
     }
 
     /**
-     * Returns a board that is populated by the words from the codenameWords list, which have their teams assigned by the
-     * value of the keycard selected from the keycards list.
-     * @param codenameWords a list of 25 codenameWords
-     * @param keyCards a list of keycards
-     * @return a board populated with the codenameWords and their teams set by the keycard
-     */
-    public static Board createBoard(List<CodenameWord> codenameWords, List<Keycard> keyCards) {
-        return new Board(codenameWords, keyCards);
-    }
-
-    /**
-
      * @return the width of the board in tiles
      */
     public int getWidth() {
-        return this.WIDTH;
+        return WIDTH;
     }
     
     /**
      * @return the length of the board in tiles
      */
     public int getLength() {
-        return this.LENGTH;
+        return LENGTH;
     }
 
     @Override
@@ -125,8 +88,8 @@ public class Board {
 
         StringBuilder str = new StringBuilder();
 
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < LENGTH; j++) {
+        for (int i = 0; i < getWidth(); i++) {
+            for (int j = 0; j < getLength(); j++) {
                 str.append(this.board[i][j].getCodename()).append("-").append(this.board[i][j].getValue()).append("\t\t");
             }
             str.append("\n");
@@ -142,10 +105,10 @@ public class Board {
 //        List<Card> cardList = Card.generate25Cards(Paths.get("res/words.txt"));
 
         List<CodenameWord> codenameWords = Card.generateRandomCodenameList(Paths.get("res/words.txt"));
-        List<Keycard> keycards = Keycard.generateKeyCards(Keycard.NUMBER_OF_KEYCARDS);
+        Keycard keycard = Keycard.generateRandomKeycard();
 
-
-        Board gameBoard = Board.createBoard(codenameWords, keycards);
+        
+        Board gameBoard = new Board(codenameWords, keycard);
         //====================
         //--------TEST--------
         //====================

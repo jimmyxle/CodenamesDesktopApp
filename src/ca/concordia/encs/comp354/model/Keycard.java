@@ -3,8 +3,6 @@ package ca.concordia.encs.comp354.model;
 import java.io.*;
 import java.util.*;
 
-
-
 /**
  * Represents a keycard that is used to determine the teams (red/blue/neutral/assassin)
  * of the 25 cards placed on the board.
@@ -26,11 +24,11 @@ public class Keycard {
     //============================
     //--------CONSTRUCTORS--------
     //============================
-    private Keycard(List<CardValue> keyCard) {
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < LENGTH; j++) {
-                int iteration = (i*WIDTH) + j;
-                this.keycard[i][j] = keyCard.get(iteration);
+    public Keycard(List<CardValue> keyCard) {
+        for (int x = 0; x < getWidth(); x++) {
+            for (int y = 0; y < getLength(); y++) {
+                int iteration = x + y * getWidth();
+                this.keycard[x][y] = keyCard.get(iteration);
             }
         }
     }
@@ -44,15 +42,29 @@ public class Keycard {
      * @param y vertical coordinate; must be less than {@link #getLENGTH()}
      * @return the card at the given coordinates
      */
-    CardValue getCardValue(int x, int y) {
+    public CardValue getCardValue(int x, int y) {
         return keycard[x][y];
+    }
+
+    /**
+     * @return the width of the board in tiles
+     */
+    public int getWidth() {
+        return WIDTH;
+    }
+    
+    /**
+     * @return the length of the board in tiles
+     */
+    public int getLength() {
+        return LENGTH;
     }
 
     /**
      * Factory Method randomly generates a Keycard containing 25 CardValues (RED/BLUE/NEUTRAL/ASSASSIN)
      * @return a Keycard containing 25 CardValues (RED/BLUE/NEUTRAL/ASSASSIN)
      */
-    private static Keycard generateRandomKeycard() {
+    public static Keycard generateRandomKeycard() {
         List<CardValue> cardValues = new ArrayList<>();
 
         //TODO: We assume the starting team is red - this needs to be changed in further iterations.
@@ -87,17 +99,8 @@ public class Keycard {
         return new Keycard(cardValues);
     }//END OF generateRandomKeycard()
 
-    /**
-     * Factory Method generates a Keycard containing 25 CardValues (RED/BLUE/NEUTRAL/ASSASSIN)
-     * @param cardValues a list of cardValues to set the team of the cards
-     * @return a Keycard containing 25 CardValues (RED/BLUE/NEUTRAL/ASSASSIN)
-     */
-    private static Keycard generateKeycard(List<CardValue> cardValues) {
-        return new Keycard(cardValues);
-    }
 
-
-    public static List<Keycard> generateKeyCards(int numberOfKeycards) {
+    public static List<Keycard> generateRandomKeycards(int numberOfKeycards) {
         List<Keycard> keycards = new ArrayList<>();
 
         for (int i = 0; i < numberOfKeycards; i++) {
@@ -146,16 +149,8 @@ public class Keycard {
         return result;
     }
 
-    private int getLENGTH() {
-        return LENGTH;
-    }
-
-    private int getWIDTH() {
-        return WIDTH;
-    }
-
-    static void outputKeycardToDatabase(Keycard keyCardToPrint) {
-        File file = new File("./res/lastRunGamesKeyCards.txt");
+    void dump(String path) {
+        File file = new File(path);
         FileWriter fr = null;
         BufferedWriter br = null;
         PrintWriter pr = null;
@@ -173,7 +168,7 @@ public class Keycard {
             br = new BufferedWriter(fr);
             pr = new PrintWriter(br);
 
-            pr.println(keyCardToPrint.toString());
+            pr.println(toString());
             numberOfKeycards ++;
         } catch (IOException e) {
             e.printStackTrace();
