@@ -32,10 +32,15 @@ public abstract class AbstractPlayerTest {
         
         // TODO make player give clues
         // when the player generates a clue, test it with assertTrue(actual.add(clue))! don't want duplicates
+        for (int i=0; i < TEAM_CARD_COUNT; i++) {
+        	Clue clue = player.giveClue(state);
+        	chooseCards(state, clue);
+        	actual.add(clue);
+        }
         
         assertEquals(expected, actual);
     }
-    
+       
     Board generateBoard(Player player, boolean shuffle) {
         List<CodenameWord> words  = new ArrayList<>();
         List<CardValue>    values = new ArrayList<>();
@@ -85,6 +90,7 @@ public abstract class AbstractPlayerTest {
         
         return ret;
     }
+    
     
     void addCardValues(CardValue value, int count, List<CardValue> dst) {
         for (int i=0; i<count; i++) {
