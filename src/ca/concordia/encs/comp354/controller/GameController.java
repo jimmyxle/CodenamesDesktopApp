@@ -134,7 +134,10 @@ public class GameController implements GameView.Controller {
     	 * - operative guess y
     	 * 
     	 */
-    	
+    	if (model.lastActionProperty().get()==null) {
+    	    initialize();
+    	    return;
+    	}
     	
     	if (model.getLastEvent().isTerminal()) {
     		return;
