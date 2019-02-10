@@ -13,7 +13,7 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Represents an {@link Operative} making a guess.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public class GuessCardAction extends GameAction {

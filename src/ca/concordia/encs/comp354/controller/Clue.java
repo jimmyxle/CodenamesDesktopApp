@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * A word-integer pair representing a clue produced by the {@link SpyMaster}.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public final class Clue {

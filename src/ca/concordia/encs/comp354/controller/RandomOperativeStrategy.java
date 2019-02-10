@@ -9,7 +9,7 @@ import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 
 /**
  * With this strategy, an operative picks his next card at random.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public class RandomOperativeStrategy extends AbstractPlayerStrategy implements Operative.Strategy {

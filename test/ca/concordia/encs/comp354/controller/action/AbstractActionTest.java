@@ -14,7 +14,7 @@ import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
 
 /**
  * Initializes model state for {@link GameAction} tests.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 class AbstractActionTest {

@@ -30,7 +30,7 @@ import javafx.collections.ObservableSet;
  * undo and redo with {@link #undoAction()} and {@link #redoAction()}, respectively. Read-only views of the game history 
  * and the undo queue may be accessed with {@link #getHistory()} and {@link #getUndone()}.
  * 
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 /*

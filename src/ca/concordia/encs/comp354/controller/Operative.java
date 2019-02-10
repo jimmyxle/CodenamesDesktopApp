@@ -10,7 +10,7 @@ import ca.concordia.encs.comp354.model.*;
 /**
  * Operatives are Players that produce guesses from {@link SpyMaster}s' clues.
  * @author Alex Abrams
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  */
 
 public class Operative extends Player {

@@ -14,14 +14,14 @@ import javafx.beans.Observable;
 
 /**
  * A graphical interface for an active game.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public class GameView extends StackPane {
     
     /**
      * Specifies the actions the GUI must be able to issue to the controller as a result of user input.
-     * @author Nikita Leonidov
+     * @author Mykyta Leonidov
      *
      */
     public interface Controller {

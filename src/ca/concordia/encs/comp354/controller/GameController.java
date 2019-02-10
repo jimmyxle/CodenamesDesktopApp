@@ -20,7 +20,7 @@ import static java.util.Objects.requireNonNull;
  * which may be applied, undone, or inspected to reveal the game history. The {@link GameState} serves as the command
  * manager.
  * 
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  * @author Christopher Idah
  */
 public class GameController implements GameView.Controller {
