@@ -42,6 +42,10 @@ public class GuessCardAction extends GameAction {
             throw new IllegalStateException("card at "+coords+" has already been chosen");
         }
         
+        if (!state.hasGuesses()) {
+            throw new IllegalStateException("no more guesses remain");
+        }
+        
         redScore  = state.getRedScore();
         blueScore = state.getBlueScore();
         guesses   = state.guessesRemainingProperty().get();
