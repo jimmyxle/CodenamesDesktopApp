@@ -15,7 +15,7 @@ import static java.util.Objects.requireNonNull;
  * The game controller coordinates {@link Player}s and generates {@link GameAction}s. It has
  * a read-write view of the model (the {@link GameState}).
  * @author Nikita Leonidov
- *
+ * @author Christopher Idah
  */
 public class GameController implements GameView.Controller {
 
@@ -103,7 +103,6 @@ public class GameController implements GameView.Controller {
     
     @Override
     public void advanceTurn() {
-        // TODO generate a GameAction depending on the current team and player & push it to the model
         /* NB: before proceeding, read:
          *   - ca.concordia.encs.comp354.model.GameState
          *   - ca.concordia.encs.comp354.controller.action.GiveClueAction
