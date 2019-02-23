@@ -102,13 +102,13 @@ public class Card {
             }
             lineNumber.set(i,number);
         }
-
         //====================
         //--------TEST--------
         //====================
 //        for(int i = 0; i < 25; i++){
 //            System.out.println(lineNumber.get(i));
 //        }
+//        lineNumber.set(24,400); if one of the generated random number is 400
 
 
         //parse database for 25 words
@@ -128,6 +128,10 @@ public class Card {
             We skip that line number and we take the next line. This line will represents the word we use in the board. */
             for (int i = 0; i < 25; i++) {
                 try (Stream<String> lines = Files.lines(Paths.get(databaseFile.toString()))) {
+                    if(lineNumber.get(i) == 400){
+                        words[i] = Files.readAllLines(Paths.get(databaseFile.toString())).get(0);
+                    }
+                    else
                     words[i] = lines.skip(lineNumber.get(i)).findFirst().get();
                 }
                 catch (NoSuchElementException e) {
@@ -143,6 +147,26 @@ public class Card {
 //            System.out.println("Word: " + i + " - " + w);
 //            i++;
 //        }
+
+
+        //====================
+        //--------TEST--------
+        //====================
+//        for (int i = 0; i < 25; i++) {
+//            try (Stream<String> lines = Files.lines(Paths.get(databaseFile.toString()))) {
+//                if(lineNumber.get(i) == 400){
+//                    words[i] = Files.readAllLines(Paths.get(databaseFile.toString())).get(0);
+//                }
+//                else
+//                    words[i] = lines.skip(lineNumber.get(i)).findFirst().get();
+//            }
+//            catch (NoSuchElementException e) {
+//                throw new IOException("database file must have at least 25 elements", e);
+//            }
+//            System.out.println(lineNumber.get(i) + " " + words[i]);
+//        }
+
+
 
         return words;
     }//END OF parseDatabaseFile()
