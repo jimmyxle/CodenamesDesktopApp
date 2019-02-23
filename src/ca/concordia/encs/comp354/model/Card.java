@@ -4,11 +4,13 @@ package ca.concordia.encs.comp354.model;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.Scanner;
+import java.util.Random;
+import java.util.stream.*;
 
 /**
  * Represents a card - one of the twenty five placed on the board for the game. Words & an associated word list are
@@ -17,6 +19,7 @@ import java.util.Scanner;
  * Strategy Implemented: a simple factory method for creating a card.
  *
  * @author Zachary Hynes
+ * @author Alexandre Kang
  *
  */
 public class Card {
@@ -83,27 +86,54 @@ public class Card {
         //generate 25 random numbers between 0 and 400
 //        generateRandomNumber();
 
+        /*Initialize Arraylist by adding element in order to use the contains function. 401 because we do not have
+        401 lines in the database (words.txt). Also, we are going to replace that element (401) with random generated number*/
+        ArrayList<Integer> lineNumber = new ArrayList<>(25);
+        for(int i = 0; i< 25; i++){
+            lineNumber.add(i,401);
+        }
+
+        //generate 25 random numbers between 0 and 400 with no duplicates of random generated number
+        Random random = new Random();
+        for(int i = 0; i < 25; i++){
+            int number = random.nextInt(400 - 0 + 1) + 0;
+            while(lineNumber.contains(number)){
+                number = random.nextInt(400 - 0 + 1) + 0;
+            }
+            lineNumber.set(i,number);
+        }
+
+        //====================
+        //--------TEST--------
+        //====================
+//        for(int i = 0; i < 25; i++){
+//            System.out.println(lineNumber.get(i));
+//        }
+
+
         //parse database for 25 words
-        String[] words = parseDatabaseFile(databaseFile);
+        String[] words = parseDatabaseFile(databaseFile, lineNumber);
 
         //turn the 25 words into 25 CodenameWord Objects
         return generateCodenameWordList(words);
     }//END OF createRandomCodenameList()
 
-    private static String[] parseDatabaseFile(Path databaseFile) throws IOException {
+    private static String[] parseDatabaseFile(Path databaseFile, ArrayList<Integer> lineNumber) throws IOException {
         //====================
         //--PARSING DATABASE--
         //====================
         String[] words = new String[25];
 
-        try (Scanner inputFromDatabase = new Scanner(Files.newBufferedReader(databaseFile))) {
-            //use the 25 parsed lines to create 25 AssociatedWords Lists
+            /* Looking for the line number in words.txt generated in createRandomCodenameList (Line 96 of the code).
+            We skip that line number and we take the next line. This line will represents the word we use in the board. */
             for (int i = 0; i < 25; i++) {
-                words[i] = inputFromDatabase.nextLine();
+                try (Stream<String> lines = Files.lines(Paths.get(databaseFile.toString()))) {
+                    words[i] = lines.skip(lineNumber.get(i)).findFirst().get();
+                }
+                catch (NoSuchElementException e) {
+                    throw new IOException("database file must have at least 25 elements", e);
+                }
             }
-        } catch (NoSuchElementException e) {
-            throw new IOException("database file must have at least 25 elements", e);
-        }
 
         //====================
         //--------TEST--------
