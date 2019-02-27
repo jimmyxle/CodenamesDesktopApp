@@ -96,9 +96,9 @@ public class Card {
         //generate 25 random numbers between 0 and 400 with no duplicates of random generated number
         Random random = new Random();
         for(int i = 0; i < 25; i++){
-            int number = random.nextInt(400 - 0 + 1) + 0;
+            int number = random.nextInt(25 - 0 + 1) + 0;
             while(lineNumber.contains(number)){
-                number = random.nextInt(400 - 0 + 1) + 0;
+                number = random.nextInt(25 - 0 + 1) + 0;
             }
             lineNumber.set(i,number);
         }
@@ -128,7 +128,7 @@ public class Card {
             We skip that line number and we take the next line. This line will represents the word we use in the board. */
             for (int i = 0; i < 25; i++) {
                 try (Stream<String> lines = Files.lines(Paths.get(databaseFile.toString()))) {
-                    if(lineNumber.get(i) == 400){
+                    if(lineNumber.get(i) == 25){
                         words[i] = Files.readAllLines(Paths.get(databaseFile.toString())).get(0);
                     }
                     else
