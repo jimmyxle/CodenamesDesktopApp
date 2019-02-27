@@ -22,12 +22,14 @@ public class SequentialSpyMasterStrategy extends AbstractPlayerStrategy implemen
     @Override
     public Clue giveClue(SpyMaster owner, ReadOnlyGameState state) {
         List<Coordinates> guesses = beginTurn(owner, state);
+        //System.out.println("Sequential spymaster strategy coordinates of cards to be picked "+ guesses.toString());
         return guesses.isEmpty()? null : getAssociatedWord(state.boardProperty().get(), guesses.get(0));
     }
 
     private Clue getAssociatedWord(Board board, Coordinates coords) {
         Card card = board.getCard(coords);
         List<AssociatedWord> words = card.getAssociatedWords();
+        //System.out.println("Associated words of " + words.get(random.nextInt(words.size())).getWord());
         return new Clue(words.get(random.nextInt(words.size())).getWord(), 1);
     }
 
