@@ -52,6 +52,7 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
         while (scanner.hasNextLine()){
             lineContent.add(scanner.nextLine());
         }
+        scanner.close();
 
 //        for (String s: lineContent){
 //            System.out.println("Linecontent: "+ s);
@@ -68,7 +69,7 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
             int inty = Character.getNumericValue(y);
             String clueword = board.getCard(intx, inty).getCodename();
             arrayClueword[i] = clueword;
-            System.out.println("Clueword[" + i + "] is: " + arrayClueword[i]);
+            //System.out.println("Clueword[" + i + "] is: " + arrayClueword[i]);
         }
 
         //look if arrayClueword[i] is in lineContent
@@ -77,41 +78,52 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
                 //System.out.println("arrayClueword of " + i + " : " + arrayClueword[i]);
                 //System.out.println("LineContent of " + k + " : " + lineContent.get(k));
                 // if arrayClueword[i] is in lineContent, create a list of associated word for this arrayClueword[i]
-                if(lineContent.get(k).indexOf(arrayClueword[i])!=-1){
+                //if(lineContent.get(k).indexOf(arrayClueword[i])!=-1){
                     try (Stream<String> lines = Files.lines(Paths.get(databaseFile.toString()))) {
                         String s = lines.skip(k).findFirst().get();
+                        //System.out.println("S: " + s);
                         Scanner scannerRemoveClueword = new Scanner(s).useDelimiter("\\s*associatedWord\\s*");
                         scannerRemoveClueword.next();
                         String extractAssociatedWord = scannerRemoveClueword.next();
+                        //System.out.println("ExtractedAssociatedWord : " + extractAssociatedWord);
                         String associatedWord = extractAssociatedWord.substring(2, extractAssociatedWord.indexOf("',"));
+                        System.out.println("Associated Word 1 : " + associatedWord);
                         String stringWeight = extractAssociatedWord.substring(extractAssociatedWord.indexOf("ht=") + 3, extractAssociatedWord.indexOf("}"));
                         int weight = Integer.parseInt(stringWeight);
+                        System.out.println("Weight 1 : " + weight);
                         AssociatedWord associatedWordAndWeight = new AssociatedWord(associatedWord, weight);
-                        System.out.println("1: " + associatedWordAndWeight.toString());
+                        //System.out.println("1: " + associatedWordAndWeight.toString());
                         listOfAssociatedWord.add(associatedWordAndWeight);
-                        System.out.println("1 - List of associated words: " + listOfAssociatedWord);
-                        while (scannerRemoveClueword.hasNextLine()) {
+                        //System.out.println("1 - List of associated words: " + listOfAssociatedWord);
+
+                        // read 10 because we have 10 associatedwords for each arrayClueword[i]
+                        for(int j = 0; j < 9; j++){
                             extractAssociatedWord = scannerRemoveClueword.next();
+                            //System.out.println("ExtractedAssociatedWord : " + extractAssociatedWord);
                             associatedWord = extractAssociatedWord.substring(2, extractAssociatedWord.indexOf("',"));
+                            System.out.println("Associated Word : " + associatedWord);
                             stringWeight = extractAssociatedWord.substring(extractAssociatedWord.indexOf("ht=") + 3, extractAssociatedWord.indexOf("}"));
                             weight = Integer.parseInt(stringWeight);
+                            System.out.println("Weight : " + weight);
                             associatedWordAndWeight = new AssociatedWord(associatedWord, weight);
-                            System.out.println("In the while loop: " + associatedWordAndWeight.toString());
+                            //System.out.println("Associated word and its weight: " + associatedWordAndWeight.toString());
                             listOfAssociatedWord.add(associatedWordAndWeight);
-                            System.out.println("In the while loop - List of associated words: " + listOfAssociatedWord);
                         }
-                    }
+                        scannerRemoveClueword.reset();
+//                        for (AssociatedWord a: listOfAssociatedWord
+//                             ) {
+//                            System.out.println(a);
+//                        }
+                        }
                     catch (IOException e) {
                         e.printStackTrace();
                     }
-                    //System.out.println("Element " + i + ": " + listOfCodenameWord.get(i));
-                    CodenameWord codenameWord = new CodenameWord(arrayClueword[i],listOfAssociatedWord);
-                    listOfCodenameWord.add(i,codenameWord);
-                }
+                //}
             }
-
+            CodenameWord codenameWord = new CodenameWord(arrayClueword[i],listOfAssociatedWord);
+            listOfCodenameWord.add(codenameWord);
 //            for (CodenameWord c:listOfCodenameWord
-//                 ) { System.out.println(c);
+//            ) { System.out.println("Codenames: " + c);
 //            }
         }
        return listOfCodenameWord;
