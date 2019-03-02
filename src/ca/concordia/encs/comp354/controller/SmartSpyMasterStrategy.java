@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 import ca.concordia.encs.comp354.model.*;
 import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
+import com.sun.prism.shader.Solid_TextureSecondPassLCD_AlphaTest_Loader;
 
 /**
  * With this strategy, a spymaster picks a clue for a random card on the board.
@@ -114,51 +115,69 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
     //this method is to collect all associated words and its count to all cluewords  of team using smart spymaster strategy in an arraylist
     private List<CodenameWord.CountFrequencyAssociatedWords> countFrequencyAssociatedWordsList (List<CodenameWord> listOfCodenameword) {
         List<CodenameWord.CountFrequencyAssociatedWords> countFrequencyAssociatedWordsList = new ArrayList<CodenameWord.CountFrequencyAssociatedWords> ();
-        final int size = listOfCodenameword.size()*listOfCodenameword.get(0).getAssociatedWords().size();
 
-//        for (CodenameWord c: listOfCodenameword
-//        ) {
-//            System.out.println(c);
-//        }
+        for (CodenameWord c: listOfCodenameword
+        ) {
+            System.out.println(c + "\n");
+        }
+
+        int codenameWordSize = listOfCodenameword.size();
+        int associatedWordSize = listOfCodenameword.get(0).getAssociatedWords().size();
+        int totalSize = (codenameWordSize*10+associatedWordSize-codenameWordSize);
+
 
         // to initialize the arraylist
-        for(int k = 0; k < size ;k++){
-            CodenameWord.CountFrequencyAssociatedWords init = new CodenameWord.CountFrequencyAssociatedWords("",0);
-            countFrequencyAssociatedWordsList.add(init);
-        }
-
-
-        System.out.println(listOfCodenameword.size());
-        System.out.println(listOfCodenameword.get(0).getAssociatedWords().size());
-        for(int i = 0; i<listOfCodenameword.size();i++){
-            for (int k = 0; k<listOfCodenameword.get(i).getAssociatedWords().size(); k++){
-                String associatedWord = listOfCodenameword.get(i).getAssociatedWords().get(k).getWord();
-                int count = countFrequencyAssociatedWordsList.get(((i)*10)+k).getCount();
-                System.out.println("Associated words: i = " + i + " k = " + k + " " + associatedWord);
-                System.out.println("Count : " + count);
-
-                //check if associated word is already in countFrequencyAssociatedWordsList
-                // if it is already in countFrequencyAssociatedWordsList, increment by 1 the count
-                //System.out.println("For k = " + k + ", Boolean value: " + countFrequencyAssociatedWordsList.get(k).getWord().contains(associatedWord));
-                System.out.println("String: " + countFrequencyAssociatedWordsList.get(((i-1)*10)+k).getWord());
-                if (countFrequencyAssociatedWordsList.contains(associatedWord)) {
-                    CodenameWord.CountFrequencyAssociatedWords cfaw = new CodenameWord.CountFrequencyAssociatedWords(associatedWord, ++count);
-                    int indexOfSameAssociatedWord = countFrequencyAssociatedWordsList.indexOf(associatedWord);
-                    System.out.println("indexOfSameAssociatedWord : " + indexOfSameAssociatedWord);
-                    countFrequencyAssociatedWordsList.set(indexOfSameAssociatedWord, cfaw);
-                    }
-                else {
-                    CodenameWord.CountFrequencyAssociatedWords cfaw = new CodenameWord.CountFrequencyAssociatedWords(associatedWord, 1);
-                    countFrequencyAssociatedWordsList.set((i*10)+k,cfaw);
-                    }
+            for(int i = 0; i<totalSize;i++){
+                    CodenameWord.CountFrequencyAssociatedWords init = new CodenameWord.CountFrequencyAssociatedWords("",0);
+                    countFrequencyAssociatedWordsList.add(init);
                 }
 
+//        System.out.println(listOfCodenameword.size());
+//        System.out.println(listOfCodenameword.get(0).getAssociatedWords().size());
+        String associatedWord = "";
+        int count = 0;
+        //for each codenameword
+        for(int i = 0; i<listOfCodenameword.size();i++){
+            //read each associated word in for each codenameword
+            for (int k = 0; k<listOfCodenameword.get(i).getAssociatedWords().size(); k++) {
+                associatedWord = listOfCodenameword.get(i).getAssociatedWords().get(k).getWord();
+                //count = countFrequencyAssociatedWordsList.get((i * 10 + k - i)).getCount();
+                //System.out.println("Associated words: i = " + i + " k = " + k + " " + associatedWord);
+                //System.out.println("(i*10+k-i) : " + (i*10+k-i));
+                CodenameWord.CountFrequencyAssociatedWords cfaw = new CodenameWord.CountFrequencyAssociatedWords(associatedWord, 1);
+                countFrequencyAssociatedWordsList.set((i * 10 + k - i), cfaw);
+            }
         }
 
-//        for (CodenameWord.CountFrequencyAssociatedWords c: countFrequencyAssociatedWordsList
-//             ) {
-//            System.out.println(c);
-//        }
+        //check if associated word is already in countFrequencyAssociatedWordsList
+        //if it is already in countFrequencyAssociatedWordsList, increment by 1 the count
+            for(int i = 0; i<listOfCodenameword.size();i++){
+                //read each associated word in for each codenameword
+                for (int k = 0; k<listOfCodenameword.get(i).getAssociatedWords().size(); k++) {
+                    associatedWord = listOfCodenameword.get(i).getAssociatedWords().get(k).getWord();
+                    count = countFrequencyAssociatedWordsList.get((i * 10 + k - i)).getCount();
+                    System.out.println("\n");
+                    System.out.println("Associated words in second loop: i = " + i + " k = " + k + " " + associatedWord);
+                    //System.out.println("Count : " + count);
+                    System.out.println("Word value : " + countFrequencyAssociatedWordsList.get((i * 10 + k - i)).getWord());
+                    System.out.println("Int value: " + (countFrequencyAssociatedWordsList.get((i * 10 + k - i)).getWord().indexOf(associatedWord)));
+                    System.out.println("Boolean value: " + (countFrequencyAssociatedWordsList.get((i * 10 + k - i)).getWord().indexOf(associatedWord)!=-1));
+
+
+//                    if (countFrequencyAssociatedWordsList.get((i * 10 + k - i)).getWord().indexOf(associatedWord)!=-1) {
+//                        CodenameWord.CountFrequencyAssociatedWords cfaw = new CodenameWord.CountFrequencyAssociatedWords(associatedWord, ++count);
+//                        int indexOfSameAssociatedWord = countFrequencyAssociatedWordsList.get((i * 10 + k - i)).getWord().indexOf(associatedWord);
+//                        System.out.println("indexOfSameAssociatedWord : " + indexOfSameAssociatedWord);
+//                        countFrequencyAssociatedWordsList.set(indexOfSameAssociatedWord, cfaw);
+//                    }
+                }
+            }
+
+        for (CodenameWord.CountFrequencyAssociatedWords c: countFrequencyAssociatedWordsList
+        ) {
+            System.out.println(c);
+        }
+        System.out.println(countFrequencyAssociatedWordsList.size());
         return countFrequencyAssociatedWordsList;
     }
 
