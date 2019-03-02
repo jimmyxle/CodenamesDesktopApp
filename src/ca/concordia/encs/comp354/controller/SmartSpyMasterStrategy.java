@@ -27,8 +27,8 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
     @Override
     public Clue giveClue(SpyMaster owner, ReadOnlyGameState state) {
         List<Coordinates> guesses = beginTurn(owner, state);
-        System.out.println("Random spymaster strategy coordinates of cards to be picked "+ guesses.toString());
-        System.out.println("Number of Guesses to succeed winning the game: "+ guesses.size());
+        //System.out.println("Random spymaster strategy coordinates of cards to be picked "+ guesses.toString());
+        //System.out.println("Number of Guesses to succeed winning the game: "+ guesses.size());
         return guesses.isEmpty()? null : getAssociatedWord(state.boardProperty().get(), guesses.get(random.nextInt(guesses.size())), owner, state);
 
     }
@@ -54,10 +54,6 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
         }
         scanner.close();
 
-//        for (String s: lineContent){
-//            System.out.println("Linecontent: "+ s);
-//        }
-
         // get only the clueword that the team using smart spymaster strategy pattern and
         // put them in an array named arrayClueword
         for(int i = 0; i< guesses.size();i++) {
@@ -69,62 +65,48 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
             int inty = Character.getNumericValue(y);
             String clueword = board.getCard(intx, inty).getCodename();
             arrayClueword[i] = clueword;
-            //System.out.println("Clueword[" + i + "] is: " + arrayClueword[i]);
         }
 
         //look if arrayClueword[i] is in lineContent
         for (int i = 0; i < arrayClueword.length;i++){
             for(int k = 0; k < lineContent.size();k++){
-                //System.out.println("arrayClueword of " + i + " : " + arrayClueword[i]);
-                //System.out.println("LineContent of " + k + " : " + lineContent.get(k));
-                // if arrayClueword[i] is in lineContent, create a list of associated word for this arrayClueword[i]
-                //if(lineContent.get(k).indexOf(arrayClueword[i])!=-1){
+                // if arrayClueword[i] is in lineContent, create a list of associated word named
+                // listOfAssociatedWord for this arrayClueword[i]
+                if(lineContent.get(k).indexOf(arrayClueword[i])!=-1){
                     try (Stream<String> lines = Files.lines(Paths.get(databaseFile.toString()))) {
                         String s = lines.skip(k).findFirst().get();
-                        //System.out.println("S: " + s);
                         Scanner scannerRemoveClueword = new Scanner(s).useDelimiter("\\s*associatedWord\\s*");
                         scannerRemoveClueword.next();
                         String extractAssociatedWord = scannerRemoveClueword.next();
-                        //System.out.println("ExtractedAssociatedWord : " + extractAssociatedWord);
                         String associatedWord = extractAssociatedWord.substring(2, extractAssociatedWord.indexOf("',"));
-                        System.out.println("Associated Word 1 : " + associatedWord);
                         String stringWeight = extractAssociatedWord.substring(extractAssociatedWord.indexOf("ht=") + 3, extractAssociatedWord.indexOf("}"));
                         int weight = Integer.parseInt(stringWeight);
-                        System.out.println("Weight 1 : " + weight);
                         AssociatedWord associatedWordAndWeight = new AssociatedWord(associatedWord, weight);
-                        //System.out.println("1: " + associatedWordAndWeight.toString());
                         listOfAssociatedWord.add(associatedWordAndWeight);
-                        //System.out.println("1 - List of associated words: " + listOfAssociatedWord);
 
-                        // read 10 because we have 10 associatedwords for each arrayClueword[i]
+                        // read all others associatedwords for each arrayClueword[i] and put them in listOfAssociatedWord
                         for(int j = 0; j < 9; j++){
                             extractAssociatedWord = scannerRemoveClueword.next();
-                            //System.out.println("ExtractedAssociatedWord : " + extractAssociatedWord);
                             associatedWord = extractAssociatedWord.substring(2, extractAssociatedWord.indexOf("',"));
-                            System.out.println("Associated Word : " + associatedWord);
                             stringWeight = extractAssociatedWord.substring(extractAssociatedWord.indexOf("ht=") + 3, extractAssociatedWord.indexOf("}"));
                             weight = Integer.parseInt(stringWeight);
-                            System.out.println("Weight : " + weight);
                             associatedWordAndWeight = new AssociatedWord(associatedWord, weight);
-                            //System.out.println("Associated word and its weight: " + associatedWordAndWeight.toString());
                             listOfAssociatedWord.add(associatedWordAndWeight);
                         }
-                        scannerRemoveClueword.reset();
-//                        for (AssociatedWord a: listOfAssociatedWord
-//                             ) {
-//                            System.out.println(a);
-//                        }
-                        }
+                    }
                     catch (IOException e) {
                         e.printStackTrace();
                     }
-                //}
+                    //skip all k once found arrayClueword[i] in listContent
+                    k=lineContent.size();
+                }
             }
-            CodenameWord codenameWord = new CodenameWord(arrayClueword[i],listOfAssociatedWord);
+        }
+
+        // Create CodenameWord object using arrayClueword[i] and listOfAssociatedWord
+        for (int c = 0; c < guesses.size();c++){
+            CodenameWord codenameWord = new CodenameWord(arrayClueword[c],listOfAssociatedWord.subList(c*10,((c*10)+9)));
             listOfCodenameWord.add(codenameWord);
-//            for (CodenameWord c:listOfCodenameWord
-//            ) { System.out.println("Codenames: " + c);
-//            }
         }
        return listOfCodenameWord;
     }
@@ -139,6 +121,7 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
             CodenameWord.CountFrequencyAssociatedWords init = new CodenameWord.CountFrequencyAssociatedWords("",0);
             countFrequencyAssociatedWordsList.add(k,init);
         }
+
 
         for(int i = 0; i<listOfCodenameword.size(); i++) {
             System.out.println("i : " + i);
@@ -185,10 +168,10 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
 
     private Clue getAssociatedWord(Board board, Coordinates coords, SpyMaster owner, ReadOnlyGameState state) {
         Card card = board.getCard(coords);
-        System.out.println("First top card: " + board.getCard(0,0));
-        System.out.println("board = " + board);
-        System.out.println("(coords) = " + coords);
-        System.out.println("Board.getCard(coords) = " + card);
+        //System.out.println("First top card: " + board.getCard(0,0));
+        //System.out.println("board = " + board);
+        //System.out.println("(coords) = " + coords);
+        //System.out.println("Board.getCard(coords) = " + card);
 
         Path databaseFile = Paths.get("res/25wordswithcommonassociatedwords.txt");
         List<CodenameWord>listOfCodenameWord = listOfCodenameWord(state.boardProperty().get(),owner,state,databaseFile);
