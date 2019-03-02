@@ -150,7 +150,7 @@ public class CodenameWord {
         public String toString() {
             return "AssociatedWord{" +
                     "associatedWord='" + associatedWord + '\'' +
-                    //", count=" + count +
+                    ", count=" + count +
                     '}';
         }
 

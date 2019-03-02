@@ -12,12 +12,9 @@ import java.util.stream.Stream;
 import ca.concordia.encs.comp354.model.*;
 import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
 
-import static java.lang.Integer.*;
-
-
 /**
  * With this strategy, a spymaster picks a clue for a random card on the board.
- * @author Nikita Leonidov
+ * @author Alexandre Kang
  *
  */
 public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
@@ -27,6 +24,9 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
     @Override
     public Clue giveClue(SpyMaster owner, ReadOnlyGameState state) {
         List<Coordinates> guesses = beginTurn(owner, state);
+        Path databaseFile = Paths.get("res/25wordswithcommonassociatedwords.txt");
+        List<CodenameWord> listCodenameWord = listOfCodenameWord (state.boardProperty().get(), owner, state, databaseFile);
+        List<CodenameWord.CountFrequencyAssociatedWords> countFrequencyAssociatedWordsList = countFrequencyAssociatedWordsList(listCodenameWord);
         //System.out.println("Random spymaster strategy coordinates of cards to be picked "+ guesses.toString());
         //System.out.println("Number of Guesses to succeed winning the game: "+ guesses.size());
         return guesses.isEmpty()? null : getAssociatedWord(state.boardProperty().get(), guesses.get(random.nextInt(guesses.size())), owner, state);
@@ -112,57 +112,53 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
     }
 
     //this method is to collect all associated words and its count to all cluewords  of team using smart spymaster strategy in an arraylist
-    private List<CodenameWord.CountFrequencyAssociatedWords> countFrequencyAssociatedWordsList (List<CodenameWord> listOfCodenameword, List<AssociatedWord> listOfAssociatedWords) {
+    private List<CodenameWord.CountFrequencyAssociatedWords> countFrequencyAssociatedWordsList (List<CodenameWord> listOfCodenameword) {
         List<CodenameWord.CountFrequencyAssociatedWords> countFrequencyAssociatedWordsList = new ArrayList<CodenameWord.CountFrequencyAssociatedWords> ();
+        final int size = listOfCodenameword.size()*listOfCodenameword.get(0).getAssociatedWords().size();
+
+//        for (CodenameWord c: listOfCodenameword
+//        ) {
+//            System.out.println(c);
+//        }
 
         // to initialize the arraylist
-        for(int k = 0; k < listOfCodenameword.size()*listOfCodenameword.get(k).getAssociatedWords().size();k++){
-        //for(int k = 0; k < listOfClueword.size()*listOfAssociatedWords.size();k++){
+        for(int k = 0; k < size ;k++){
             CodenameWord.CountFrequencyAssociatedWords init = new CodenameWord.CountFrequencyAssociatedWords("",0);
-            countFrequencyAssociatedWordsList.add(k,init);
+            countFrequencyAssociatedWordsList.add(init);
         }
 
 
-        for(int i = 0; i<listOfCodenameword.size(); i++) {
-            System.out.println("i : " + i);
-            for(int j = 0; j<listOfAssociatedWords.size();j++) {
-                int count = countFrequencyAssociatedWordsList.get(j).getCount();
-                System.out.println(count);
-                String associatedWord = listOfCodenameword.get(i).getAssociatedWords().get(j).getWord();
-                //String associatedWord = listOfAssociatedWords.get(j).getWord();
-                System.out.println("Word in countFrequencyAssociatedWordsList at " + j + " " + countFrequencyAssociatedWordsList.get(j).getWord());
-                System.out.println("Associated word: " + associatedWord);
-                System.out.println("Boolean result: "+ countFrequencyAssociatedWordsList.get(j).getWord().contains(associatedWord));
+        System.out.println(listOfCodenameword.size());
+        System.out.println(listOfCodenameword.get(0).getAssociatedWords().size());
+        for(int i = 0; i<listOfCodenameword.size();i++){
+            for (int k = 0; k<listOfCodenameword.get(i).getAssociatedWords().size(); k++){
+                String associatedWord = listOfCodenameword.get(i).getAssociatedWords().get(k).getWord();
+                int count = countFrequencyAssociatedWordsList.get(((i)*10)+k).getCount();
+                System.out.println("Associated words: i = " + i + " k = " + k + " " + associatedWord);
+                System.out.println("Count : " + count);
 
-                if(i!=0) {
-                    associatedWord = listOfCodenameword.get(i).getAssociatedWords().get(i).getWord();
-                    System.out.println("Clueword # " + i + " " + associatedWord);
-                }
-
-                //if associated word is already in countFrequencyAssociatedWordsList
-                if (countFrequencyAssociatedWordsList.get(j).getWord().contains(associatedWord)) {
+                //check if associated word is already in countFrequencyAssociatedWordsList
+                // if it is already in countFrequencyAssociatedWordsList, increment by 1 the count
+                //System.out.println("For k = " + k + ", Boolean value: " + countFrequencyAssociatedWordsList.get(k).getWord().contains(associatedWord));
+                System.out.println("String: " + countFrequencyAssociatedWordsList.get(((i-1)*10)+k).getWord());
+                if (countFrequencyAssociatedWordsList.contains(associatedWord)) {
                     CodenameWord.CountFrequencyAssociatedWords cfaw = new CodenameWord.CountFrequencyAssociatedWords(associatedWord, ++count);
                     int indexOfSameAssociatedWord = countFrequencyAssociatedWordsList.indexOf(associatedWord);
                     System.out.println("indexOfSameAssociatedWord : " + indexOfSameAssociatedWord);
                     countFrequencyAssociatedWordsList.set(indexOfSameAssociatedWord, cfaw);
-                    System.out.println("One of the associated word is " + countFrequencyAssociatedWordsList.get(j).getWord() + " and its count is: " + countFrequencyAssociatedWordsList.get(j).getCount());
-                }
-                //else add (beware that "i" can be greater than 0, so it will not overwrite index [0-9])
-                else if(i!=0) {
-                    //TODO: BIG PROBLEM : need to reach the second clueword and its associative words
-                    //associatedWord = listOfClueword.get(i);
-                    //System.out.println("Clueword # " + i + " " + associatedWord);
-                    CodenameWord.CountFrequencyAssociatedWords cfaw = new CodenameWord.CountFrequencyAssociatedWords(associatedWord, 1);
-                    countFrequencyAssociatedWordsList.add((i*10)+j, cfaw);
-                    System.out.println("One of the associated word is " + countFrequencyAssociatedWordsList.get((i*10)+j).getWord() + " and its count is: " + countFrequencyAssociatedWordsList.get((i*10)+j).getCount());
-                }
+                    }
                 else {
                     CodenameWord.CountFrequencyAssociatedWords cfaw = new CodenameWord.CountFrequencyAssociatedWords(associatedWord, 1);
-                    countFrequencyAssociatedWordsList.add(j, cfaw);
-                    System.out.println("One of the associated word is " + countFrequencyAssociatedWordsList.get(j).getWord() + " and its count is: " + countFrequencyAssociatedWordsList.get(j).getCount());
+                    countFrequencyAssociatedWordsList.set((i*10)+k,cfaw);
+                    }
                 }
-            }
+
         }
+
+//        for (CodenameWord.CountFrequencyAssociatedWords c: countFrequencyAssociatedWordsList
+//             ) {
+//            System.out.println(c);
+//        }
         return countFrequencyAssociatedWordsList;
     }
 
