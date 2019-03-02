@@ -205,9 +205,9 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
         List<CodenameWord> listOfCodenameWord = listOfCodenameWord(state.boardProperty().get(),owner,state,databaseFile);
         List<CodenameWord.CountFrequencyAssociatedWords> countFrequencyAssociatedWordsList = countFrequencyAssociatedWordsList(listOfCodenameWord);
         int index = random.nextInt(countFrequencyAssociatedWordsList.size());
-        System.out.println("Index : " + index);
-        System.out.println("Word : " + countFrequencyAssociatedWordsList.get(index).getWord());
-        System.out.println("Count : " + countFrequencyAssociatedWordsList.get(index).getCount());
+//        System.out.println("Index : " + index);
+//        System.out.println("Word : " + countFrequencyAssociatedWordsList.get(index).getWord());
+//        System.out.println("Count : " + countFrequencyAssociatedWordsList.get(index).getCount());
         return new Clue(countFrequencyAssociatedWordsList.get(index).getWord(), countFrequencyAssociatedWordsList.get(index).getCount());
     }
 
