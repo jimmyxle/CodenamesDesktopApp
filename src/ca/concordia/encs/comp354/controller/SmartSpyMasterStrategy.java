@@ -25,9 +25,11 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
     @Override
     public Clue giveClue(SpyMaster owner, ReadOnlyGameState state) {
         List<Coordinates> guesses = beginTurn(owner, state);
-        Path databaseFile = Paths.get("res/25wordswithcommonassociatedwords.txt");
-        List<CodenameWord> listCodenameWord = listOfCodenameWord (state.boardProperty().get(), owner, state, databaseFile);
-        List<CodenameWord.CountFrequencyAssociatedWords> countFrequencyAssociatedWordsList = countFrequencyAssociatedWordsList(listCodenameWord);
+//        System.out.println("State property : " + state.boardProperty().get());
+//        System.out.println("Guesses size : " + guesses.size());
+//        System.out.println("Guesses random int : " + guesses.get(random.nextInt(guesses.size())));
+//        System.out.println("Owner : " + owner.toString());
+//        System.out.println("State : " + state.toString());
         return guesses.isEmpty()? null : getAssociatedWord(state.boardProperty().get(), guesses.get(random.nextInt(guesses.size())), owner, state);
 
     }
@@ -155,13 +157,18 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
         for(int i = 0; i<countFrequencyAssociatedWordsList.size();i++) {
             String elementToRemove = countFrequencyAssociatedWordsList.get(i).getWord();
             for(int j = 0; j< countFrequencyAssociatedWordsList.size();j++)
-            if (i == j || countFrequencyAssociatedWordsList.get(j).getWord().equals("")) {
+            if (i == j) {
                 continue;
             }
-            else if (elementToRemove.equals(countFrequencyAssociatedWordsList.get(j).getWord())) {
+            else if (elementToRemove.equals(countFrequencyAssociatedWordsList.get(j).getWord()) || countFrequencyAssociatedWordsList.get(j).getWord().equals("")) {
                 countFrequencyAssociatedWordsList.remove(j);
             }
         }
+
+//        System.out.println("Size of countFrequencyAssociatedWordsList : " + countFrequencyAssociatedWordsList.size());
+//        for (int i = 0; i<countFrequencyAssociatedWordsList.size();i++){
+//            System.out.println("countFrequencyAssociatedWordsList : " + countFrequencyAssociatedWordsList.get(i));
+//        }
         return countFrequencyAssociatedWordsList;
     }
 
@@ -194,6 +201,9 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
         List<CodenameWord> listOfCodenameWord = listOfCodenameWord(state.boardProperty().get(),owner,state,databaseFile);
         List<CodenameWord.CountFrequencyAssociatedWords> countFrequencyAssociatedWordsList = countFrequencyAssociatedWordsList(listOfCodenameWord);
         int index = random.nextInt(countFrequencyAssociatedWordsList.size());
+        System.out.println("Index : " + index);
+        System.out.println("Word : " + countFrequencyAssociatedWordsList.get(index).getWord());
+        System.out.println("Count : " + countFrequencyAssociatedWordsList.get(index).getCount());
         return new Clue(countFrequencyAssociatedWordsList.get(index).getWord(), countFrequencyAssociatedWordsList.get(index).getCount());
     }
 
