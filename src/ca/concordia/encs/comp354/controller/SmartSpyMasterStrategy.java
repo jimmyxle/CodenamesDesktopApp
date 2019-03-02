@@ -23,6 +23,7 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
     private final Random random = new Random();
 
     @Override
+    //this method the clue given by the spymaster
     public Clue giveClue(SpyMaster owner, ReadOnlyGameState state) {
         List<Coordinates> guesses = beginTurn(owner, state);
 //        System.out.println("State property : " + state.boardProperty().get());
@@ -195,9 +196,12 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
         return counter;
     }
 
+    //this method is to generate a clue containing an associated word and the count corresponding this associated word
+    // by the spymaster
     private Clue getAssociatedWord(Board board, Coordinates coords, SpyMaster owner, ReadOnlyGameState state) {
         Card card = board.getCard(coords);
-        Path databaseFile = Paths.get("res/25wordswithcommonassociatedwords.txt");
+        //Path databaseFile = Paths.get("res/25wordswithcommonassociatedwords.txt");
+        Path databaseFile = Paths.get("res/words.txt");
         List<CodenameWord> listOfCodenameWord = listOfCodenameWord(state.boardProperty().get(),owner,state,databaseFile);
         List<CodenameWord.CountFrequencyAssociatedWords> countFrequencyAssociatedWordsList = countFrequencyAssociatedWordsList(listOfCodenameWord);
         int index = random.nextInt(countFrequencyAssociatedWordsList.size());
