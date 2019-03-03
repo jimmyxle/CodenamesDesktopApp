@@ -11,7 +11,6 @@ import java.util.stream.Stream;
 
 import ca.concordia.encs.comp354.model.*;
 import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
-import com.sun.prism.shader.Solid_TextureSecondPassLCD_AlphaTest_Loader;
 
 /**
  * With this strategy, a spymaster picks a clue for a random card on the board.
@@ -23,16 +22,31 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
     private final Random random = new Random();
 
     @Override
-    //this method the clue given by the spymaster
+    //this method is the clue given by the spymaster
     public Clue giveClue(SpyMaster owner, ReadOnlyGameState state) {
         List<Coordinates> guesses = beginTurn(owner, state);
 //        System.out.println("State property : " + state.boardProperty().get());
 //        System.out.println("Guesses size : " + guesses.size());
 //        System.out.println("Guesses random int : " + guesses.get(random.nextInt(guesses.size())));
-//        System.out.println("Owner : " + owner.toString());
-//        System.out.println("State : " + state.toString());
+        System.out.println("Owner : " + owner.toString());
+        System.out.println("State : " + state.toString());
         return guesses.isEmpty()? null : getAssociatedWord(state.boardProperty().get(), guesses.get(random.nextInt(guesses.size())), owner, state);
 
+    }
+
+    //this method is to generate a clue containing an associated word and the count corresponding this associated word
+    // by the spymaster
+    private Clue getAssociatedWord(Board board, Coordinates coords, SpyMaster owner, ReadOnlyGameState state) {
+        Card card = board.getCard(coords);
+        Path databaseFile = Paths.get("res/25wordswithcommonassociatedwords.txt");
+        //Path databaseFile = Paths.get("res/words.txt");
+        List<CodenameWord> listOfCodenameWord = listOfCodenameWord(state.boardProperty().get(),owner,state,databaseFile);
+        List<CodenameWord.CountFrequencyAssociatedWords> countFrequencyAssociatedWordsList = countFrequencyAssociatedWordsList(listOfCodenameWord);
+        int index = random.nextInt(countFrequencyAssociatedWordsList.size());
+        System.out.println("Index : " + index);
+        System.out.println("Word : " + countFrequencyAssociatedWordsList.get(index).getWord());
+        System.out.println("Count : " + countFrequencyAssociatedWordsList.get(index).getCount());
+        return new Clue(countFrequencyAssociatedWordsList.get(index).getWord(), countFrequencyAssociatedWordsList.get(index).getCount());
     }
 
     // this method is to collect all cluewords with its associated word and their weight of team using smart spymaster
@@ -115,7 +129,7 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
     }
 
     //this method is to collect all associated words and its count to all cluewords of team using smart spymaster
-    // strategy in an arraylist
+    // strategy.
     private List<CodenameWord.CountFrequencyAssociatedWords> countFrequencyAssociatedWordsList (List<CodenameWord> listOfCodenameword) {
         List<CodenameWord.CountFrequencyAssociatedWords> countFrequencyAssociatedWordsList = new ArrayList<CodenameWord.CountFrequencyAssociatedWords> ();
         int codenameWordSize = listOfCodenameword.size();
@@ -136,11 +150,18 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
                 CodenameWord.CountFrequencyAssociatedWords cfaw = new CodenameWord.CountFrequencyAssociatedWords(associatedWord, 1);
                 countFrequencyAssociatedWordsList.set((i * 10 + k - i), cfaw);
             }
+        } //result: countFrequencyAssociatedWordsList contains all associated word and a count of 1. This list contains duplicates associated word
+
+        for (CodenameWord.CountFrequencyAssociatedWords c: countFrequencyAssociatedWordsList
+             ) {
+            System.out.println("Origin : " + c);
         }
 
+        // array of frequencies of associated word
         int [] c = getFrequency(countFrequencyAssociatedWordsList);
+
         for(int i = 0; i<listOfCodenameword.size();i++){
-            //read each associated word in for each codenameword
+            //read each associated word in each codenameword
             for (int k = 0; k<listOfCodenameword.get(i).getAssociatedWords().size(); k++) {
                 String associatedWord = listOfCodenameword.get(i).getAssociatedWords().get(k).getWord();
                 if(c[i * 10 + k - i] == 1){
@@ -166,15 +187,16 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
             }
         }
 
-//        System.out.println("Size of countFrequencyAssociatedWordsList : " + countFrequencyAssociatedWordsList.size());
-//        for (int i = 0; i<countFrequencyAssociatedWordsList.size();i++){
-//            System.out.println("countFrequencyAssociatedWordsList : " + countFrequencyAssociatedWordsList.get(i));
-//        }
+        for (CodenameWord.CountFrequencyAssociatedWords a: countFrequencyAssociatedWordsList
+        ) {
+            System.out.println("After : " + a);
+        }
         return countFrequencyAssociatedWordsList;
     }
 
     //this method is to count frequencies of all associated words of all cluewords of team using smart spymaster
     // strategy in an array of integer
+    // countFrequencyAssociatedWordsList = associatedWord (i), counter [i];
     private int [] getFrequency(List<CodenameWord.CountFrequencyAssociatedWords> countFrequencyAssociatedWordsList) {
         int[] counter = new int[countFrequencyAssociatedWordsList.size()];
         // initialize array counter since we know all countFrequencyAssociatedWordsList contains at least 1 frequency
@@ -194,21 +216,6 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
             }
         }
         return counter;
-    }
-
-    //this method is to generate a clue containing an associated word and the count corresponding this associated word
-    // by the spymaster
-    private Clue getAssociatedWord(Board board, Coordinates coords, SpyMaster owner, ReadOnlyGameState state) {
-        Card card = board.getCard(coords);
-        //Path databaseFile = Paths.get("res/25wordswithcommonassociatedwords.txt");
-        Path databaseFile = Paths.get("res/words.txt");
-        List<CodenameWord> listOfCodenameWord = listOfCodenameWord(state.boardProperty().get(),owner,state,databaseFile);
-        List<CodenameWord.CountFrequencyAssociatedWords> countFrequencyAssociatedWordsList = countFrequencyAssociatedWordsList(listOfCodenameWord);
-        int index = random.nextInt(countFrequencyAssociatedWordsList.size());
-//        System.out.println("Index : " + index);
-//        System.out.println("Word : " + countFrequencyAssociatedWordsList.get(index).getWord());
-//        System.out.println("Count : " + countFrequencyAssociatedWordsList.get(index).getCount());
-        return new Clue(countFrequencyAssociatedWordsList.get(index).getWord(), countFrequencyAssociatedWordsList.get(index).getCount());
     }
 
     @Override
