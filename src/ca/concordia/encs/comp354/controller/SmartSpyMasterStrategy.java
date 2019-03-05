@@ -144,9 +144,12 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
 
         //for each codenameword
         for(int i = 0; i<listOfCodenameword.size();i++){
+            String clueword = listOfCodenameword.get(i).getClueWord();
+            System.out.println("listOfCodenameword.get(" + i + ").getClueWord() : " + clueword);
             //read each associated word in for each codenameword
             for (int k = 0; k<listOfCodenameword.get(i).getAssociatedWords().size(); k++) {
                 String associatedWord = listOfCodenameword.get(i).getAssociatedWords().get(k).getWord();
+                System.out.println("listOfCodenameword.get(" + i + ").getAssociatedWords().get(" + k + ").getWord() : " + associatedWord);
                 CodenameWord.CountFrequencyAssociatedWords cfaw = new CodenameWord.CountFrequencyAssociatedWords(associatedWord, 1);
                 countFrequencyAssociatedWordsList.set((i * 10 + k - i), cfaw);
             }
