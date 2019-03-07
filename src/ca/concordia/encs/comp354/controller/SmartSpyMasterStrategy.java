@@ -20,8 +20,6 @@ import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
  */
 public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
 
-    private final Random random = new Random();
-
     @Override
     //this method is the clue given by the spymaster
     public Clue giveClue(SpyMaster owner, ReadOnlyGameState state) {
@@ -39,13 +37,6 @@ public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements Sp
                     wordFrequencies.put(word,1);
                 }*/
                 wordFrequencies.put(word.getWord(), wordFrequencies.getOrDefault(word.getWord(),0)+1);
-//                wordFrequencies.compute(word, (k,v) -> v==null? 1 : v+1);
-//                wordFrequencies.compute(word, new BiFunction<AssociatedWord, Integer, Integer>() {
-//                    @Override
-//                    public Integer apply(AssociatedWord k, Integer v) {
-//                        return v==null?1:v+1;
-//                    }
-//                });
             }
         }
 
