@@ -43,7 +43,7 @@ public class SmartSpyMasterTest {
 
 		model = new GameState(new Board(codenameWords, keycard));
 		seqSpy = new SpyMaster(Team.RED, new SequentialSpyMasterStrategy());
-		smartSpy = new SpyMaster(Team.BLUE, new SmartSpyMasterStrategy());
+		smartSpy = new SpyMaster(Team.BLUE, new SpyMasterCountStrategy());
 	}
 
 

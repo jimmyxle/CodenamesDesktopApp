@@ -1,24 +1,17 @@
 package ca.concordia.encs.comp354.controller;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.function.BiFunction;
-import java.util.stream.Stream;
+
 
 import ca.concordia.encs.comp354.model.*;
 import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
 
 /**
- * With this strategy, a spymaster picks a clue for a random card on the board.
+ * With this strategy, a spymaster picks a clue for the most count of associated words.
  * @author Alexandre Kang
  *
  */
-public class SmartSpyMasterStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
+public class SpyMasterCountStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
 
     @Override
     //this method is the clue given by the spymaster
