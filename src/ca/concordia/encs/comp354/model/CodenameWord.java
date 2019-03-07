@@ -148,7 +148,7 @@ public class CodenameWord {
 
         @Override
         public String toString() {
-            return "AssociatedWord{" +
+            return "CountFrequencyAssociatedWords{" +
                     "associatedWord='" + associatedWord + '\'' +
                     ", count=" + count +
                     '}';
