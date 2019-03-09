@@ -16,6 +16,7 @@ public class IterativeOperativeStrategy extends AbstractPlayerStrategy implement
 
     @Override
     public Coordinates guessCard(Operative owner, ReadOnlyGameState state, Clue clue) {
+    	//use the given Clue
         List<Coordinates> guesses = beginTurn(owner, state);
         return guesses.isEmpty()? null : guesses.remove(0);
     }
