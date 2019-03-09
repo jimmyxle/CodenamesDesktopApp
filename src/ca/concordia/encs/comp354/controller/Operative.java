@@ -44,7 +44,7 @@ public class Operative extends Player {
 	
 	
 	public static void main(String[] args) throws IOException {
-		List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/words.txt"));
+		List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/25wordswithcommonassociatedwords.txt"));
 		Keycard keycard = Keycard.createRandomKeycard();
 
 	    GameState state = new GameState(new Board(codenameWords, keycard));
@@ -56,8 +56,8 @@ public class Operative extends Player {
 	    System.out.println("Printing out the game board: ");
 	    System.out.println(state.boardProperty().get().toString());
 	    
-	    SpyMaster spy = new SpyMaster(Team.RED, new SequentialSpyMasterStrategy());
-	    Operative op = new Operative(Team.RED, new SequentialOperativeStrategy());
+	    SpyMaster spy = new SpyMaster(Team.RED, new RandomSpyMasterStrategy());
+	    Operative op = new Operative(Team.RED, new IterativeOperativeStrategy());
 	    
 	    Clue clue = spy.giveClue(state);
 	    System.out.println("First clue: " + clue);
