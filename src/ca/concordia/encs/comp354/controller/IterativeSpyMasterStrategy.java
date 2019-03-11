@@ -11,7 +11,7 @@ import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
  * @author Alexandre Kang
  *
  */
-public class SpyMasterCountStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
+public class IterativeSpyMasterStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
 
     @Override
     //this method is the clue given by the spymaster
@@ -21,14 +21,6 @@ public class SpyMasterCountStrategy extends AbstractPlayerStrategy implements Sp
         Board board = state.boardProperty().get();
         for (Coordinates coord: guesses) {
             for(AssociatedWord word: board.getCard(coord).getAssociatedWords()){
-/*                if(wordFrequencies.containsKey(word)){
-                    Integer freq = wordFrequencies.get(word);
-                    ++freq;
-                    wordFrequencies.put(word,freq);
-                }
-                else {
-                    wordFrequencies.put(word,1);
-                }*/
                 wordFrequencies.put(word.getWord(), wordFrequencies.getOrDefault(word.getWord(),0)+1);
             }
         }

@@ -39,7 +39,7 @@ public class Codenames extends Application {
 		        .setInitialTurn(Team.RED)
 		        .setRedSpyMaster (new SpyMaster(Team.RED,  new SequentialSpyMasterStrategy()))
 		        .setRedOperative (new Operative(Team.RED,  new SequentialOperativeStrategy()))
-		        .setBlueSpyMaster(new SpyMaster(Team.BLUE, new SpyMasterWeightStrategy()))
+		        .setBlueSpyMaster(new SpyMaster(Team.BLUE, new IterativeSpyMasterStrategy()))
 		        .setBlueOperative(new Operative(Team.BLUE, new RandomOperativeStrategy()))
 		        .create();
 		

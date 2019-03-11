@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * With this strategy, a spymaster picks a clue for a random card on the board.
+ * With this strategy, a spymaster picks a clue for the most count of associated words having weight equals to 100.
  * @author Alexandre Kang
  *
  */
-public class SpyMasterWeightStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
+public class WeightSpyMasterStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
 
     @Override
     //this method is the clue given by the spymaster
@@ -25,27 +25,19 @@ public class SpyMasterWeightStrategy extends AbstractPlayerStrategy implements S
         for (Coordinates coord : guesses) {
             for (AssociatedWord word : board.getCard(coord).getAssociatedWords()) {
                 if (word.getWeight() == 100) {
-                    if (wordWeight.containsKey(word)) {
-                        Integer freq = wordWeight.get(word);
-                        ++freq;
-                        wordWeight.put(word.getWord(), freq);
-                    } else {
-                        wordWeight.put(word.getWord(), 1);
-                    }
+                    wordWeight.put(word.getWord(), wordWeight.getOrDefault(word.getWord(), 0) + 1);
                 }
             }
         }
-
-        Map.Entry<String, Integer> highest = null;
-        for (Map.Entry<String,Integer> e : wordWeight.entrySet()) {
-            if (highest == null || highest.getValue()<e.getValue()) {
-                highest = e;
+            Map.Entry<String, Integer> highest = null;
+            for (Map.Entry<String, Integer> e : wordWeight.entrySet()) {
+                if (highest == null || highest.getValue() < e.getValue()) {
+                    highest = e;
+                }
             }
+
+            return highest == null ? null : new Clue(highest.getKey(), highest.getValue());
         }
-
-        return highest == null ? null : new Clue(highest.getKey(),highest.getValue());
-
-    }
 
     @Override
     protected boolean isValidGuess(Player owner, Board board, int x, int y) {
