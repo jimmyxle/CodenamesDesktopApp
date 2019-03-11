@@ -1,0 +1,60 @@
+00: It is now RED's turn; red: 0, blue: 0
+01: RED spymaster gave a clue: Parity 1; red: 0, blue: 0
+02: RED operative guessed: teaching; red: 0, blue: 0 (turn ended)
+03: It is now BLUE's turn; red: 0, blue: 0
+04: BLUE spymaster gave a clue: Oratory 1; red: 0, blue: 0
+05: BLUE operative guessed: lab; red: 0, blue: 1
+06: It is now RED's turn; red: 0, blue: 1
+07: RED spymaster gave a clue: Parity 1; red: 0, blue: 1
+08: RED operative guessed: basis; red: 1, blue: 1
+09: It is now BLUE's turn; red: 1, blue: 1
+10: BLUE spymaster gave a clue: Discount 1; red: 1, blue: 1
+11: BLUE operative guessed: supermarket; red: 1, blue: 2
+12: It is now RED's turn; red: 1, blue: 2
+13: RED spymaster gave a clue: Inverse 1; red: 1, blue: 2
+14: RED operative guessed: sympathy; red: 1, blue: 2 (turn ended)
+15: It is now BLUE's turn; red: 1, blue: 2
+16: BLUE spymaster gave a clue: Classroom 1; red: 1, blue: 2
+17: BLUE operative guessed: student; red: 1, blue: 2 (turn ended)
+18: It is now RED's turn; red: 1, blue: 2
+19: RED spymaster gave a clue: Isotope 1; red: 1, blue: 2
+20: RED operative guessed: understanding; red: 1, blue: 3 (turn ended)
+21: It is now BLUE's turn; red: 1, blue: 3
+22: BLUE spymaster gave a clue: Classroom 1; red: 1, blue: 3
+23: BLUE operative guessed: ratio; red: 2, blue: 3 (turn ended)
+24: It is now RED's turn; red: 2, blue: 3
+25: RED spymaster gave a clue: Poster 1; red: 2, blue: 3
+26: RED operative guessed: ad; red: 2, blue: 3 (turn ended)
+27: It is now BLUE's turn; red: 2, blue: 3
+28: BLUE spymaster gave a clue: Classroom 1; red: 2, blue: 3
+29: BLUE operative guessed: teacher; red: 2, blue: 4
+30: It is now RED's turn; red: 2, blue: 4
+31: RED spymaster gave a clue: Misleading 1; red: 2, blue: 4
+32: RED operative guessed: advertising; red: 3, blue: 4
+33: It is now BLUE's turn; red: 3, blue: 4
+34: BLUE spymaster gave a clue: Bilateral 1; red: 3, blue: 4
+35: BLUE operative guessed: relation; red: 3, blue: 5
+36: It is now RED's turn; red: 3, blue: 5
+37: RED spymaster gave a clue: Hydroelectric 1; red: 3, blue: 5
+38: RED operative guessed: storage; red: 4, blue: 5
+39: It is now BLUE's turn; red: 4, blue: 5
+40: BLUE spymaster gave a clue: Trait 1; red: 4, blue: 5
+41: BLUE operative guessed: personality; red: 4, blue: 6
+42: It is now RED's turn; red: 4, blue: 6
+43: RED spymaster gave a clue: Advertiser 1; red: 4, blue: 6
+44: RED operative guessed: skill; red: 4, blue: 6 (turn ended)
+45: It is now BLUE's turn; red: 4, blue: 6
+46: BLUE spymaster gave a clue: Interpersonal 1; red: 4, blue: 6
+47: BLUE operative guessed: context; red: 4, blue: 6 (turn ended)
+48: It is now RED's turn; red: 4, blue: 6
+49: RED spymaster gave a clue: Applause 1; red: 4, blue: 6
+50: RED operative guessed: communication; red: 4, blue: 6 (turn ended)
+51: It is now BLUE's turn; red: 4, blue: 6
+52: BLUE spymaster gave a clue: Interpersonal 1; red: 4, blue: 6
+53: BLUE operative guessed: relationship; red: 4, blue: 7
+54: It is now RED's turn; red: 4, blue: 7
+55: RED spymaster gave a clue: Receptive 1; red: 4, blue: 7
+56: RED operative guessed: audience; red: 5, blue: 7
+57: It is now BLUE's turn; red: 5, blue: 7
+58: BLUE spymaster gave a clue: Eighteen 1; red: 5, blue: 7
+59: BLUE operative guessed: month; red: 5, blue: 8 (game over: blue wins)
