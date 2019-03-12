@@ -38,8 +38,8 @@ public class IterativeOperativeStrategy extends AbstractPlayerStrategy implement
                 String word = assoc.getWord();
                 if(word.equalsIgnoreCase(clue.getWord()))
                 {
-                	System.out.println(test);
-                	System.out.println("FOUND "+clue.getWord()+"("+assoc.getWeight()+")\t"+board.getCard(coords).getCodename()+":\t("+coords.getX()+","+coords.getY()+")");
+                	//System.out.println(test);
+                	//System.out.println("FOUND "+clue.getWord()+"("+assoc.getWeight()+")\t"+board.getCard(coords).getCodename()+":\t("+coords.getX()+","+coords.getY()+")");
                 	return coords;
                 }
             }
