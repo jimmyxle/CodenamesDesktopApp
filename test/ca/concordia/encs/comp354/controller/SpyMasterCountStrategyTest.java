@@ -1,6 +1,6 @@
 package ca.concordia.encs.comp354.controller;
 
-import ca.concordia.encs.comp354.model.CodenameWord;
+import ca.concordia.encs.comp354.model.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -11,7 +11,6 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 public class SpyMasterCountStrategyTest {
-
     @Test
     public void giveClue() {
         //Need a Map to keep track of frequencies of associatedWord
@@ -31,6 +30,7 @@ public class SpyMasterCountStrategyTest {
         CodenameWord.AssociatedWord a8 = new CodenameWord.AssociatedWord("grade", 88);
         CodenameWord.AssociatedWord a9 = new CodenameWord.AssociatedWord("class", 86);
 
+        //Put the created object in the list
         associatedWordList.add(a0);
         associatedWordList.add(a1);
         associatedWordList.add(a2);
@@ -42,15 +42,24 @@ public class SpyMasterCountStrategyTest {
         associatedWordList.add(a8);
         associatedWordList.add(a9);
 
+        // increment the count if associatedWord repeat in the list, else put the count to 1.
         for(int i = 0; i<associatedWordList.size();i++){
             wordFrequencies.put(associatedWordList.get(i).getWord(), wordFrequencies.getOrDefault(associatedWordList.get(i).getWord(),0)+1);
         }
 
+        //Keep track the associatedWord having the highest count
         Map.Entry<String, Integer> highest = null;
         for (Map.Entry<String,Integer> e : wordFrequencies.entrySet()) {
             if (highest == null || highest.getValue()<e.getValue()) {
                 highest = e;
             }
         }
+
+        assertEquals(highest.getKey(),"class");
+        assertEquals(highest.getValue(), (Integer)3);
+
+        //test that does not work (we expect to fail)
+        //assertEquals(highest.getKey(),"apple");
+        //assertEquals(highest.getValue(), (Integer)1);
     }
 }
