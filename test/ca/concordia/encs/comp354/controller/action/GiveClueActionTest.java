@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 /**
  * Test class for {@link GiveClueAction}.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public class GiveClueActionTest extends AbstractActionTest {

@@ -11,7 +11,7 @@ import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 
 /**
  * With this strategy, a spymaster picks a clue for a random card on the board.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public class RandomSpyMasterStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {

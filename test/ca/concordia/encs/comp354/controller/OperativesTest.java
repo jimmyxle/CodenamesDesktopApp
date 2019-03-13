@@ -16,7 +16,6 @@ import ca.concordia.encs.comp354.model.Keycard;
 import ca.concordia.encs.comp354.model.Team;
 
 public class OperativesTest extends AbstractPlayerTest {
-
     final GameState model;
 
     public OperativesTest() throws IOException {
@@ -69,7 +68,4 @@ public class OperativesTest extends AbstractPlayerTest {
             model.chooseCard(guess);
         }
     }
-
-
-
 }

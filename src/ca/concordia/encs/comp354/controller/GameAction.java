@@ -6,7 +6,7 @@ import javafx.beans.property.IntegerProperty;
 
 /**
  * A superclass for game commands.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public abstract class GameAction {

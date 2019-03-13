@@ -8,7 +8,7 @@ import ca.concordia.encs.comp354.model.Team;
 
 /**
  * Represents the start of the next team's turn.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public class ChangeTurnAction extends GameAction {

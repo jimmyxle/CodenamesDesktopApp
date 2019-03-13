@@ -13,7 +13,7 @@ import ca.concordia.encs.comp354.model.Team;
 /**
  * Spymasters are players that produce clues for {@link Operative}s.
  * @author Alex Abrams
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public class SpyMaster extends Player {

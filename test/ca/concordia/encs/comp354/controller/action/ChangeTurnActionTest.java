@@ -8,7 +8,7 @@ import static ca.concordia.encs.comp354.model.Team.*;
 
 /**
  * Test class for {@link ChangeTurnAction}.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public class ChangeTurnActionTest extends AbstractActionTest {

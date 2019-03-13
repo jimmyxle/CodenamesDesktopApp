@@ -12,12 +12,14 @@ import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 /**
  * With this strategy, a spymaster picks a clue for a sequentially chosen card, starting from the top-left corner
  * @author Alex Abrams
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public class SequentialSpyMasterStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
     
     private final Random random = new Random();
+    
+    private int counter;
 
     @Override
     public Clue giveClue(SpyMaster owner, ReadOnlyGameState state) {
