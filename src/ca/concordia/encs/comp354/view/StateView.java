@@ -12,7 +12,7 @@ import javafx.scene.layout.StackPane;
 
 /**
  * Displays game actions and turns in a JavaFX node.
- * @author Nikita
+ * @author Mykyta Leonidov
  *
  */
 public class StateView extends StackPane {

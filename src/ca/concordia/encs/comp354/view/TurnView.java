@@ -21,7 +21,7 @@ import java.util.Locale;
 
 /**
  * Displays "turn changed" events.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public class TurnView extends StackPane {

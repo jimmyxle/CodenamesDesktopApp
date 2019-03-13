@@ -9,7 +9,7 @@ import ca.concordia.encs.comp354.controller.SpyMaster;
 
 /**
  * Represents a {@link SpyMaster} giving a clue.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public class GiveClueAction extends GameAction {

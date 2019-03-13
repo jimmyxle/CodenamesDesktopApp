@@ -1,6 +1,11 @@
 package ca.concordia.encs.comp354.model;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.List;
+
 /**
  * Represents a Codename Word. Each word has a clue word which the spy master is going to give as a clue to
  * the operatives to guess. Each clue word has an associated word list, sorted in descending order by "weight" of
@@ -112,7 +117,7 @@ public class CodenameWord {
         }
     }//END OF AssociatedWord CLASS
 
-
+  
     //============================
     //--------INNER CLASS--------
     //============================
@@ -160,7 +165,6 @@ public class CodenameWord {
             return Objects.hash(associatedWord, count);
         }
     }//END OF CountFrequencyAssociatedWord CLASS
-
 }//END OF CodenameWord CLASS
 
 
