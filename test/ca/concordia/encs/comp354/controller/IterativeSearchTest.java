@@ -2,6 +2,7 @@ package ca.concordia.encs.comp354.controller;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import static org.hamcrest.CoreMatchers.*;
 
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.CardValue;
 import ca.concordia.encs.comp354.model.CodenameWord;
 import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
+import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Keycard;
 import ca.concordia.encs.comp354.model.Team;
@@ -31,36 +33,36 @@ public class IterativeSearchTest {
 	final GameState state;
 	final Board board;
 	
+	Clue clue; 
+	Coordinates guess;
+	
 	public IterativeSearchTest() throws IOException {
 
-		codenameWords = Card.createRandomCodenameList(Paths.get("res/25wordswithcommonassociatedwords.txt"));
+		codenameWords = Card.createRandomCodenameList(Paths.get("res/operative_test_word_bank"));
 		keycard = Keycard.createRandomKeycard();
 
 		state = new GameState(new Board(codenameWords, keycard));
 		board = state.boardProperty().get();
 		
-		
-		
-		masterSpy = new SpyMaster(Team.RED, new SequentialSpyMasterStrategy());
+		masterSpy = new SpyMaster(Team.RED, new SpyMasterCountStrategy());
 		iterative = new Operative(Team.RED, new IterativeOperativeStrategy());
 	}
 	
 	@Test
-	public void test1() {
+	public void iterative_success() {
 		
+		clue = masterSpy.giveClue(state);
+		guess = iterative.guessCard(state, clue);
 		
-		    
-		Clue clue = masterSpy.giveClue(state);
-		
-		
-		assertEquals(1, 1);
-		//fail("Not yet implemented");
+		assertEquals("supermarket", board.getCard(guess.getX(), guess.getY()).getCodename() );
 	}
 	
 	@Test
-	public void test2() {
-		assertEquals(1, 1);
-		//fail("Not yet implemented");
+	public void iterative_fail() {
+		clue = masterSpy.giveClue(state);
+		guess = iterative.guessCard(state, clue);
+
+		assertThat("pollution", not(board.getCard(guess.getX(), guess.getY()).getCodename()) );
 	}
 
 }
