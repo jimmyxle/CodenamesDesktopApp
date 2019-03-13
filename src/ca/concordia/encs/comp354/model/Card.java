@@ -4,11 +4,8 @@ package ca.concordia.encs.comp354.model;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
+
 
 /**
  * Represents a card - one of the twenty five placed on the board for the game. Words & an associated word list are
@@ -17,6 +14,8 @@ import java.util.Scanner;
  * Strategy Implemented: a simple factory method for creating a card.
  *
  * @author Zachary Hynes
+ * @author Nikita Leonidov
+ * @author Alexandre Kang
  *
  */
 public class Card {
@@ -80,44 +79,24 @@ public class Card {
      * @return a list containing 25 Codename Words
      */
     public static List<CodenameWord> createRandomCodenameList(Path databaseFile) throws IOException {
-        //generate 25 random numbers between 0 and 400
-//        generateRandomNumber();
-
         //parse database for 25 words
-        String[] words = parseDatabaseFile(databaseFile);
+        List <String> words = parseDatabaseFile(databaseFile);
 
         //turn the 25 words into 25 CodenameWord Objects
         return generateCodenameWordList(words);
     }//END OF createRandomCodenameList()
 
-    private static String[] parseDatabaseFile(Path databaseFile) throws IOException {
+    private static List<String> parseDatabaseFile(Path databaseFile) throws IOException {
         //====================
         //--PARSING DATABASE--
         //====================
-        String[] words = new String[25];
 
-        try (Scanner inputFromDatabase = new Scanner(Files.newBufferedReader(databaseFile))) {
-            //use the 25 parsed lines to create 25 AssociatedWords Lists
-            for (int i = 0; i < 25; i++) {
-                words[i] = inputFromDatabase.nextLine();
-            }
-        } catch (NoSuchElementException e) {
-            throw new IOException("database file must have at least 25 elements", e);
-        }
-
-        //====================
-        //--------TEST--------
-        //====================
-//        int i = 0;
-//        for (String w : words) {
-//            System.out.println("Word: " + i + " - " + w);
-//            i++;
-//        }
-
-        return words;
+        List <String> lines = new ArrayList<>(Files.readAllLines(databaseFile));
+        Collections.shuffle(lines);
+        return lines.subList(0,25);
     }//END OF parseDatabaseFile()
 
-    private static List<CodenameWord> generateCodenameWordList(String[] words) {
+    private static List<CodenameWord> generateCodenameWordList(List<String> words) {
         List<CodenameWord> codenameWordList = new ArrayList<>();
 
         //for each word, create a codenameWord and insert it into the codenameWordList

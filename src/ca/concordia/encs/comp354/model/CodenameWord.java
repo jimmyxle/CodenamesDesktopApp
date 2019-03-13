@@ -1,11 +1,6 @@
 package ca.concordia.encs.comp354.model;
 
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.List;
-
+import java.util.*;
 /**
  * Represents a Codename Word. Each word has a clue word which the spy master is going to give as a clue to
  * the operatives to guess. Each clue word has an associated word list, sorted in descending order by "weight" of
@@ -116,6 +111,55 @@ public class CodenameWord {
             return Objects.hash(associatedWord, weight);
         }
     }//END OF AssociatedWord CLASS
+
+
+    //============================
+    //--------INNER CLASS--------
+    //============================
+    public static class CountFrequencyAssociatedWords {
+        //============================
+        //---------VARIABLES---------
+        //============================
+        private String associatedWord;
+        private int count;
+
+
+        //============================
+        //--------CONSTRUCTORS--------
+        //============================
+        public CountFrequencyAssociatedWords(String associatedWord, int count) {
+            this.associatedWord = associatedWord;
+            this.count = count;
+        }
+
+
+        //============================
+        //----------METHODS----------
+        //============================
+        public String getWord() {
+            return associatedWord;
+        }
+        public int getCount() {
+            return count;
+        }
+        public void setCount(int count) {
+            this.count = count;
+        }
+
+        @Override
+        public String toString() {
+            return "CountFrequencyAssociatedWords{" +
+                    "associatedWord='" + associatedWord + '\'' +
+                    ", count=" + count +
+                    '}';
+        }
+        
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(associatedWord, count);
+        }
+    }//END OF CountFrequencyAssociatedWord CLASS
 
 }//END OF CodenameWord CLASS
 

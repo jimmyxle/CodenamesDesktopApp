@@ -5,4 +5,5 @@
 .project
 *.iml
 log.txt
-/res/lastRunGamesKeyCards.txt
+/res/lastRunGamesKeyCards.txt.idea
+/.idea/
