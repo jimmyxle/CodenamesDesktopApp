@@ -56,11 +56,6 @@ public class SpyMasterCountStrategyTest {
         }
 
         assertEquals(highest.getKey(),"class");
-        //assertEquals(highest.getValue(), (Integer)3);
-
-        //test that does not work (we expect to fail)
-        //assertEquals(highest.getKey(),"apple");
-        //assertEquals(highest.getValue(), (Integer)1);
     }
 
     @Test
@@ -107,11 +102,6 @@ public class SpyMasterCountStrategyTest {
             }
         }
 
-        //assertEquals(highest.getKey(),"class");
-        //assertEquals(highest.getValue(), (Integer)3);
-
-        //test that does not work (we expect to fail)
-        //assertEquals(highest.getKey(),"apple");
         assertEquals(highest.getValue(), (Integer)1);
     }
 }
