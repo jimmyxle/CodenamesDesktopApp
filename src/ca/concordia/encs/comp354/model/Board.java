@@ -1,6 +1,5 @@
 package ca.concordia.encs.comp354.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import java.lang.IllegalArgumentException;
@@ -94,19 +93,6 @@ public class Board {
 
         return str.toString();
     }
-
-    //this method is to get all clue word for the blue team. We need that to use it in RandomSpyMasterStrategy
-/*    public List<String> getBlueClueword(List<CodenameWord> words, Keycard keycard){
-        List<String> allBlueClueword = new ArrayList<String>();
-        for(int i = 0; i < keycard.getLength(); i++){
-            for(int j = 0; j< keycard.getWidth();j++){
-                if(keycard.getCardValue(i,j)==CardValue.BLUE){
-                    allBlueClueword.add(getCard(i,j).getCodename());
-                }
-            }
-        }
-        return allBlueClueword;
-    }*/
 
     //====================
     //--------TEST--------

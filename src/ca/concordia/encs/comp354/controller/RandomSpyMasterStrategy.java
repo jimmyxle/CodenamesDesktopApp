@@ -15,13 +15,13 @@ import ca.concordia.encs.comp354.model.ReadOnlyGameState;
  *
  */
 public class RandomSpyMasterStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
-
+    
     private final Random random = new Random();
 
     @Override
     public Clue giveClue(SpyMaster owner, ReadOnlyGameState state) {
         List<Coordinates> guesses = beginTurn(owner, state);
-
+        
         return guesses.isEmpty()? null : getAssociatedWord(state.boardProperty().get(), guesses.get(random.nextInt(guesses.size())));
     }
 
@@ -30,7 +30,7 @@ public class RandomSpyMasterStrategy extends AbstractPlayerStrategy implements S
         List<AssociatedWord> words = card.getAssociatedWords();
         return new Clue(words.get(random.nextInt(words.size())).getWord(), 1);
     }
-
+    
     @Override
     protected boolean isValidGuess(Player owner, Board board, int x, int y) {
         // valid iff card belongs to our team
