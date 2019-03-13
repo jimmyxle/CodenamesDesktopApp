@@ -27,8 +27,8 @@ public class Codenames extends Application {
 	public void start(Stage stage) throws IOException {
 		// configure game
 	    //--------------------------------------------------------------------------------------------------------------
-		//List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/words.txt"));
-		List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/25wordswithcommonassociatedwords.txt"));
+		List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/words.txt"));
+		//List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/25wordswithcommonassociatedwords.txt"));
 		List<Keycard> keycards = Keycard.createRandomKeycards(Keycard.NUMBER_OF_KEYCARDS);
 
 		// create game state & controller
@@ -37,8 +37,8 @@ public class Codenames extends Application {
 		        new GameController.Builder()
 		        .setModel(game)
 		        .setInitialTurn(Team.RED)
-		        .setRedSpyMaster (new SpyMaster(Team.RED,  new SequentialSpyMasterStrategy()))
-		        .setRedOperative (new Operative(Team.RED,  new SequentialOperativeStrategy()))
+		        .setRedSpyMaster (new SpyMaster(Team.RED,  new SpyMasterWeightStrategy()))
+		        .setRedOperative (new Operative(Team.RED,  new WeightedOperativeStrategy()))
 		        .setBlueSpyMaster(new SpyMaster(Team.BLUE, new SpyMasterCountStrategy()))
 		        .setBlueOperative(new Operative(Team.BLUE, new IterativeOperativeStrategy()))
 		        .create();
