@@ -111,56 +111,6 @@ public class CodenameWord {
             return Objects.hash(associatedWord, weight);
         }
     }//END OF AssociatedWord CLASS
-
-
-    //============================
-    //--------INNER CLASS--------
-    //============================
-    public static class CountFrequencyAssociatedWords {
-        //============================
-        //---------VARIABLES---------
-        //============================
-        private String associatedWord;
-        private int count;
-
-
-        //============================
-        //--------CONSTRUCTORS--------
-        //============================
-        public CountFrequencyAssociatedWords(String associatedWord, int count) {
-            this.associatedWord = associatedWord;
-            this.count = count;
-        }
-
-
-        //============================
-        //----------METHODS----------
-        //============================
-        public String getWord() {
-            return associatedWord;
-        }
-        public int getCount() {
-            return count;
-        }
-        public void setCount(int count) {
-            this.count = count;
-        }
-
-        @Override
-        public String toString() {
-            return "CountFrequencyAssociatedWords{" +
-                    "associatedWord='" + associatedWord + '\'' +
-                    ", count=" + count +
-                    '}';
-        }
-        
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(associatedWord, count);
-        }
-    }//END OF CountFrequencyAssociatedWord CLASS
-
 }//END OF CodenameWord CLASS
 
 
