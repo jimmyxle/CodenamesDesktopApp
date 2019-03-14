@@ -1,25 +1,25 @@
-Word{clueWord='pollution', AssociatedWords=[AssociatedWords{associatedWord='Pollutant', weight=100}, AssociatedWords{associatedWord='Deforestation', weight=96}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100},AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='pollution2', AssociatedWords=[AssociatedWords{associatedWord='Pollutant', weight=100}, AssociatedWords{associatedWord='Deforestation', weight=96} ]}
+Word{clueWord='teacher', AssociatedWords=[AssociatedWords{associatedWord='Classroom', weight=100}, AssociatedWords{associatedWord='Pedagogy', weight=79}]}
+Word{clueWord='basis', AssociatedWords=[AssociatedWords{associatedWord='Classroom', weight=100}, AssociatedWords{associatedWord='Enrollment', weight=91}]}
+Word{clueWord='lab', AssociatedWords=[AssociatedWords{associatedWord='Tech', weight=100}, AssociatedWords{associatedWord='Classroom', weight=96}]} 
+Word{clueWord='ratio', AssociatedWords=[AssociatedWords{associatedWord='Compression', weight=100}, AssociatedWords{associatedWord='Isotope', weight=83}]}
+Word{clueWord='student', AssociatedWords=[AssociatedWords{associatedWord='Enrollment', weight=100}, AssociatedWords{associatedWord='Extracurricular', weight=86}]}
+Word{clueWord='teaching', AssociatedWords=[AssociatedWords{associatedWord='Pedagogy', weight=100}, AssociatedWords{associatedWord='Buddha', weight=88}]}
+Word{clueWord='sympathy', AssociatedWords=[AssociatedWords{associatedWord='Empathy', weight=100}, AssociatedWords{associatedWord='Compassion', weight=93}]}
+Word{clueWord='understanding', AssociatedWords=[AssociatedWords{associatedWord='Memorandum', weight=100}, AssociatedWords{associatedWord='Deepen', weight=70}]}
+Word{clueWord='death', AssociatedWords=[AssociatedWords{associatedWord='Sentence', weight=100}, AssociatedWords{associatedWord='Afterlife', weight=87}]}
+Word{clueWord='year', AssociatedWords=[AssociatedWords{associatedWord='Ago', weight=100}, AssociatedWords{associatedWord='Thirty', weight=65}]}
+Word{clueWord='month', AssociatedWords=[AssociatedWords{associatedWord='Eighteen', weight=100}, AssociatedWords{associatedWord='Playmate', weight=99}]}
+Word{clueWord='relationship', AssociatedWords=[AssociatedWords{associatedWord='Interpersonal', weight=100}, AssociatedWords{associatedWord='Phylogenetic', weight=92}]}
+Word{clueWord='skill', AssociatedWords=[AssociatedWords{associatedWord='Competency', weight=100}, AssociatedWords{associatedWord='Interpersonal', weight=99}]}
+Word{clueWord='personality', AssociatedWords=[AssociatedWords{associatedWord='Trait', weight=100}, AssociatedWords{associatedWord='Dsm', weight=91}]}
+Word{clueWord='relation', AssociatedWords=[AssociatedWords{associatedWord='Bilateral', weight=100}, AssociatedWords{associatedWord='Diplomatic', weight=97}]}
+Word{clueWord='context', AssociatedWords=[AssociatedWords{associatedWord='Contextual', weight=100}, AssociatedWords{associatedWord='Pragmatic', weight=63}]}
+Word{clueWord='communication', AssociatedWords=[AssociatedWords{associatedWord='Fcc', weight=100}, AssociatedWords{associatedWord='Interpersonal', weight=87}]}
+Word{clueWord='advertising', AssociatedWords=[AssociatedWords{associatedWord='Advertiser', weight=100}, AssociatedWords{associatedWord='Marketing', weight=84}]}
+Word{clueWord='newspaper', AssociatedWords=[AssociatedWords{associatedWord='Columnist', weight=100}, AssociatedWords{associatedWord='Editorial', weight=95}]}
+Word{clueWord='ad', AssociatedWords=[AssociatedWords{associatedWord='Din', weight=100}, AssociatedWords{associatedWord='Lib', weight=100}]}
+Word{clueWord='audience', AssociatedWords=[AssociatedWords{associatedWord='Applause', weight=100}, AssociatedWords{associatedWord='Applaud', weight=91}]}
+Word{clueWord='grocery', AssociatedWords=[AssociatedWords{associatedWord='Store', weight=100}, AssociatedWords{associatedWord='Supermarket', weight=90}]}
 Word{clueWord='storage', AssociatedWords=[AssociatedWords{associatedWord='Retrieval', weight=100}, AssociatedWords{associatedWord='Pump', weight=83}]}
+Word{clueWord='supermarket', AssociatedWords=[AssociatedWords{associatedWord='Discount', weight=100}, AssociatedWords{associatedWord='Grocery', weight=99}]}
+Word{clueWord='pollution', AssociatedWords=[AssociatedWords{associatedWord='Pollutant', weight=100}, AssociatedWords{associatedWord='Deforestation', weight=96}]}
