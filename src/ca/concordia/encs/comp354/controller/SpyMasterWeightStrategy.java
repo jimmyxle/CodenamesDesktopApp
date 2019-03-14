@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * With this strategy, a spymaster picks a clue for a random card on the board.
+ * With this strategy, a spymaster gives a clue
+ * containing the most frequent associatedWord having a weight equals to 100 and its count.
  * @author Alexandre Kang
  *
  */
@@ -19,9 +20,14 @@ public class SpyMasterWeightStrategy extends AbstractPlayerStrategy implements S
     @Override
     //this method is the clue given by the spymaster
     public Clue giveClue(SpyMaster owner, ReadOnlyGameState state) {
+        // variable guesses has the coordinate of all cards of team using
+        // the SpyMasterCountStrategy
         List<Coordinates> guesses = beginTurn(owner, state);
         Map<String, Integer> wordWeight = new HashMap<>();
         Board board = state.boardProperty().get();
+        // take all associatedWord of all clueWord (word on the board) having a weight
+        // equals to 100 of team using the SpyMasterCountStrategy.
+        // Increment the count if associatedword repeats.
         for (Coordinates coord : guesses) {
             for (AssociatedWord word : board.getCard(coord).getAssociatedWords()) {
                 if (word.getWeight() == 100) {
@@ -36,6 +42,7 @@ public class SpyMasterWeightStrategy extends AbstractPlayerStrategy implements S
             }
         }
 
+        //sort the map from the highest count to the lowest count
         Map.Entry<String, Integer> highest = null;
         for (Map.Entry<String,Integer> e : wordWeight.entrySet()) {
             if (highest == null || highest.getValue()<e.getValue()) {
@@ -43,6 +50,7 @@ public class SpyMasterWeightStrategy extends AbstractPlayerStrategy implements S
             }
         }
 
+        //return the clue (associatedWord) having the highest count with its count
         return highest == null ? null : new Clue(highest.getKey(),highest.getValue());
 
     }
