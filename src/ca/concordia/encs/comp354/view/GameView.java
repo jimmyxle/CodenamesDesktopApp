@@ -11,17 +11,34 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.beans.Observable;
+import javafx.geometry.Pos;
 
 /**
  * A graphical interface for an active game.
- * @author Nikita
+ * @author Mykyta Leonidov
  *
  */
 public class GameView extends StackPane {
     
+    /**
+     * Specifies the actions the GUI must be able to issue to the controller as a result of user input.
+     * @author Mykyta Leonidov
+     *
+     */
     public interface Controller {
+        /**
+         * Advances the game to the next action.
+         */
         void    advanceTurn();
+        /**
+         * Reverses the most recently executed action.
+         * @return <tt>true</tt> iff a previously executed action was available for this operation
+         */
         boolean undoTurn();
+        /**
+         * Re-applies the most recently undone action.
+         * @return <tt>true</tt> iff a previously undone action was available for this operation
+         */
         boolean redoTurn();
     }
     
@@ -43,6 +60,8 @@ public class GameView extends StackPane {
         
         root = new BorderPane();
         getChildren().add(root);
+        root.getStyleClass().clear();
+        root.getStyleClass().add("game-view");
         
         // create game view elements
         //--------------------------------------------------------------------------------------------------------------
@@ -66,6 +85,7 @@ public class GameView extends StackPane {
         top.getChildren().addAll(scoreView, showOverlay);
         
         HBox.setHgrow(scoreView, Priority.ALWAYS);
+        top.setAlignment(Pos.CENTER);
         
         root.setTop(top);
         
@@ -92,6 +112,7 @@ public class GameView extends StackPane {
         gameEventView.stepProperty().bind(game.lastStepProperty());
         turnView.turnProperty().bind(game.turnProperty());
         
+        scoreView.clueProperty().bind(game.lastClueProperty());
         scoreView.redScoreProperty().bind(game.redScoreProperty());
         scoreView.blueScoreProperty().bind(game.blueScoreProperty());
         

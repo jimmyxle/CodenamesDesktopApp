@@ -20,7 +20,7 @@ import static ca.concordia.encs.comp354.controller.GameEvent.*;
 
 /**
  * Displays "game over" event overlays.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public class GameEventView extends StackPane {

@@ -5,7 +5,7 @@ import ca.concordia.encs.comp354.controller.GameEvent;
 
 /**
  * An entry in the model's {@link GameState#getHistory() history}.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public class GameStep {

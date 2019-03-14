@@ -34,7 +34,7 @@ import javafx.util.Duration;
 /**
  * JavaFX node for the display of a board's state.
  * 
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  * 
  */
 public class BoardView extends StackPane {
@@ -188,7 +188,7 @@ public class BoardView extends StackPane {
     /**
      * A region that displays whether a given space on the keycard is red, blue, neutral, or the assassin.
      * 
-     * @author Nikita Leonidov
+     * @author Mykyta Leonidov
      *
      */
     private final class KeycardRegion extends Region {

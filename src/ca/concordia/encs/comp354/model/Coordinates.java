@@ -2,7 +2,7 @@ package ca.concordia.encs.comp354.model;
 
 /**
  * Coordinates for a card on the board.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public final class Coordinates {

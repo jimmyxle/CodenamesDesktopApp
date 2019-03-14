@@ -11,7 +11,7 @@ import javafx.collections.ObservableSet;
 
 /**
  * A read-only view of a {@link GameState}.
- * @author Nikita Leonidov
+ * @author Mykyta Leonidov
  *
  */
 public interface ReadOnlyGameState {
