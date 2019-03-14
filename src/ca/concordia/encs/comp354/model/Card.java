@@ -95,6 +95,7 @@ public class Card {
         Collections.shuffle(lines);
         return lines.subList(0,25);
     }//END OF parseDatabaseFile()
+    
 
     private static List<CodenameWord> generateCodenameWordList(List<String> words) {
         List<CodenameWord> codenameWordList = new ArrayList<>();
@@ -171,7 +172,22 @@ public class Card {
         return new CodenameWord(codeName, associatedWordList);
     }//END OF parseCodenameObject(String str)
 
+    public static List<CodenameWord> createNonRandomCodenameList(Path databaseFile) throws IOException {
+        //parse database for 25 words
+        List <String> words = parseDatabaseFileNonRandom(databaseFile);
 
+        //turn the 25 words into 25 CodenameWord Objects
+        return generateCodenameWordList(words);
+    }//END OF createRandomCodenameList()
+    
+    private static List<String> parseDatabaseFileNonRandom(Path databaseFile) throws IOException {
+        //====================
+        //--PARSING DATABASE--
+        //====================
+
+        List <String> lines = new ArrayList<>(Files.readAllLines(databaseFile));
+        return lines.subList(0,25);
+    }//END OF parseDatabaseFile()
 
     //====================
     //--------TEST--------

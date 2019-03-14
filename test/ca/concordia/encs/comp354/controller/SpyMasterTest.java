@@ -47,7 +47,7 @@ public class SpyMasterTest extends AbstractPlayerTest {
 	}
 	
 	//Tests that the SpyMaster can't generate extra clues
-	@Test (expected = ArithmeticException.class)
+	@Test (expected = IllegalStateException.class)
 	public void sequentialStrategyFailsNoMoreClues() {
         for (int x=0; x<model.getBoard().getWidth(); x++) {
             for (int y=0; y<model.getBoard().getLength(); y++) {
