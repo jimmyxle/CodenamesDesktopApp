@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class SpyMasterCountStrategyTest {
     @Test
-    public void giveClue() {
+    public void giveClueSpyMasterCountStrategy() {
         //Need a Map to keep track of frequencies of associatedWord
         //Need a list of associatedWord to test the increment of count if associatedWord repeats in the list
         Map<String,Integer> wordFrequencies = new HashMap<>();
@@ -58,8 +58,8 @@ public class SpyMasterCountStrategyTest {
         assertEquals(highest.getKey(),"class");
     }
 
-    @Test
-    public void giveGuessesFail() {
+    @Test(expected = AssertionError.class)
+    public void giveGuessesFailSpyMasterCountStrategy() {
         //Need a Map to keep track of frequencies of associatedWord
         //Need a list of associatedWord to test the increment of count if associatedWord repeats in the list
         Map<String,Integer> wordFrequencies = new HashMap<>();
