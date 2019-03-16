@@ -12,8 +12,7 @@ import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
 /**
  * With this strategy, an operative picks a strategy by iterative through the list of his team's cards
  * @author Jimmy Le
- * 
- *
+
  */
 public class IterativeOperativeStrategy extends AbstractPlayerStrategy implements Operative.Strategy {
 
@@ -22,7 +21,6 @@ public class IterativeOperativeStrategy extends AbstractPlayerStrategy implement
     public Coordinates guessCard(Operative owner, ReadOnlyGameState state, Clue clue) {    	
         List<Coordinates> guesses = beginTurn(owner, state);
         Board board = state.boardProperty().get();
-        
         /*
          * for each card on the board
          * 		get the coord
@@ -37,11 +35,7 @@ public class IterativeOperativeStrategy extends AbstractPlayerStrategy implement
             {
                 String word = assoc.getWord();
                 if(word.equalsIgnoreCase(clue.getWord()))
-                {
-                	//System.out.println(test);
-                	//System.out.println("FOUND "+clue.getWord()+"("+assoc.getWeight()+")\t"+board.getCard(coords).getCodename()+":\t("+coords.getX()+","+coords.getY()+")");
                 	return coords;
-                }
             }
         }
         return guesses.isEmpty()? null : guesses.remove(0);

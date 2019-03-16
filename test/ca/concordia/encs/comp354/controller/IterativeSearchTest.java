@@ -20,6 +20,11 @@ import ca.concordia.encs.comp354.model.Keycard;
 import ca.concordia.encs.comp354.model.Team;
 
 
+/**
+ * Tests for the iterative search strategy
+ * @author Jimmy Le
+ */
+
 
 
 
@@ -41,6 +46,9 @@ public class IterativeSearchTest {
 	
 	String result;
 	
+	/*
+	 * Initialize all relevant variables 
+	 */
 	public IterativeSearchTest() throws IOException {
 
 		codenameWords = Card.createNonRandomCodenameList(Paths.get("res/operative_test_word_bank"));
