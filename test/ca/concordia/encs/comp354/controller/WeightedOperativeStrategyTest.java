@@ -1,6 +1,5 @@
 package ca.concordia.encs.comp354.controller;
 
-
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -21,8 +20,19 @@ import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Keycard;
 import ca.concordia.encs.comp354.model.Team;
 
+/** 
+ * Testing class for the WeightedOperativeStrategy class. Creates a JUnit
+ * case and tests the methods in the class mentioned previously.
+ * 
+ * @author Elie Khoury
+ * 
+ * */
+
 public class WeightedOperativeStrategyTest {
 	
+	//================================
+	//-----------VARIABLES------------
+	//================================
 	SpyMaster s_master;
 	Operative o_weighted;
 	
@@ -44,9 +54,14 @@ public class WeightedOperativeStrategyTest {
 	String result;
 	int w_result;
 	
-	@Test
+	//=================================
+	//-------------METHODS-------------
+	//=================================
+	
+	// Sets the scene for the testing methods.
+	@Test 
 	public void WeightedSearchTest() throws IOException {
-		codenameWords = Card.createNonRandomCodenameList(Paths.get("res/operative_test_word_bank"));
+		codenameWords = Card.createNonRandomCodenameList(Paths.get("res/weighted_operative_test_word_bank"));
 		k_card = Keycard.createRandomKeycard();
 		
 		g_state = new GameState(new Board(codenameWords, k_card));
@@ -64,10 +79,11 @@ public class WeightedOperativeStrategyTest {
 		w_actual = new HashSet<Integer>();
 		w_expected = new HashSet<Integer>();
 		w_expected.add(100);
-		w_expected.add(90);
-		w_expected.add(60);
+		w_expected.add(100);
+		w_expected.add(100);
 	}
 	
+	// Checks to see if the guesses detect the clue as an associated word.
 	@Test
 	public void WeightedSuccessfulWordTest()
 	{
@@ -80,6 +96,7 @@ public class WeightedOperativeStrategyTest {
 		assertEquals("pollution", result);
 	}
 	
+	// Checks to see if the guesses detect the clue and return the associated word with the highest weight.
 	@Test
 	public void WeightedSuccessfulWeightTest()
 	{
@@ -97,6 +114,7 @@ public class WeightedOperativeStrategyTest {
 		}
 	}
 	
+	// Same as the WeightedSuccessfulWordTest, but with a set of words instead of a single one.
 	@Test
 	public void WeightedSetWordTest()
 	{
@@ -118,7 +136,62 @@ public class WeightedOperativeStrategyTest {
 		assertEquals(actual, expected);
 	}
 
-	// TODO: WeightedSetWeightTest(), fix word bank.
+	// Same as the WeightedSuccessfulWeightTest, but with a set of words instead of a single one.
+	@Test
+	public void WeightedSetWeightTest()
+	{
+		clue = new Clue("classroom", 1);
+		guess = o_weighted.guessCard(g_state, clue);
+		String clue_word = clue.getWord();
+		for (int i = 0; i < board.getCard(guess.getX(), guess.getY()).getAssociatedWords().size(); i++)
+		{
+			if (clue_word.equalsIgnoreCase(board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWord()))
+			{
+				w_result = board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWeight();
+			}
+		}
+		w_actual.add(w_result);
+		
+		clue = new Clue("classroom", 1);
+		guess = o_weighted.guessCard(g_state, clue);
+		clue_word = clue.getWord();
+		for (int i = 0; i < board.getCard(guess.getX(), guess.getY()).getAssociatedWords().size(); i++)
+		{
+			if (clue_word.equalsIgnoreCase(board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWord()))
+			{
+				w_result = board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWeight();
+			}
+		}
+		w_actual.add(w_result);
+		
+		clue = new Clue("Trait", 1);
+		guess = o_weighted.guessCard(g_state, clue);
+		clue_word = clue.getWord();
+		for (int i = 0; i < board.getCard(guess.getX(), guess.getY()).getAssociatedWords().size(); i++)
+		{
+			if (clue_word.equalsIgnoreCase(board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWord()))
+			{
+				w_result = board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWeight();
+			}
+		}
+		w_actual.add(w_result);
+		
+		assertEquals(w_actual, w_expected);
+	}
 	
-	
+	// This test was taken from another class where we check to see that the strategy will eventually choose
+	// all the cards on the board. The chooseCard() method will add cards to the state's list and we check 
+	// that the size of that list is equal to size of the game board.
+	@Test
+	public void weightedStrategyPicksAllCards()
+	{
+		clue = new Clue("test", 1);
+		for (int i = 0; i < 25; i++)
+		{
+			Coordinates guess = o_weighted.guessCard(g_state, clue);
+			g_state.chooseCard(guess);
+		}
+		
+		assertTrue(g_state.getChosenCards().size() == g_state.getBoard().getLength() * g_state.getBoard().getWidth());
+	}
 }
