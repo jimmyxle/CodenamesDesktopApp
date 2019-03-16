@@ -1,8 +1,8 @@
 Word{clueWord='teacher', AssociatedWords=[AssociatedWords{associatedWord='Classroom', weight=100}, AssociatedWords{associatedWord='Pedagogy', weight=79}]}
-Word{clueWord='basis', AssociatedWords=[AssociatedWords{associatedWord='Classroom', weight=100}, AssociatedWords{associatedWord='Enrollment', weight=91}]}
+Word{clueWord='basis', AssociatedWords=[AssociatedWords{associatedWord='Expected', weight=100}, AssociatedWords{associatedWord='Enrollment', weight=91}]}
 Word{clueWord='lab', AssociatedWords=[AssociatedWords{associatedWord='Tech', weight=100}, AssociatedWords{associatedWord='Classroom', weight=96}]} 
 Word{clueWord='ratio', AssociatedWords=[AssociatedWords{associatedWord='Compression', weight=100}, AssociatedWords{associatedWord='Isotope', weight=83}]}
-Word{clueWord='student', AssociatedWords=[AssociatedWords{associatedWord='Enrollment', weight=100}, AssociatedWords{associatedWord='Extracurricular', weight=86}]}
+Word{clueWord='student', AssociatedWords=[AssociatedWords{associatedWord='Indebt', weight=100}, AssociatedWords{associatedWord='Extracurricular', weight=86}]}
 Word{clueWord='teaching', AssociatedWords=[AssociatedWords{associatedWord='Pedagogy', weight=100}, AssociatedWords{associatedWord='Buddha', weight=88}]}
 Word{clueWord='sympathy', AssociatedWords=[AssociatedWords{associatedWord='Empathy', weight=100}, AssociatedWords{associatedWord='Compassion', weight=93}]}
 Word{clueWord='understanding', AssociatedWords=[AssociatedWords{associatedWord='Memorandum', weight=100}, AssociatedWords{associatedWord='Deepen', weight=70}]}

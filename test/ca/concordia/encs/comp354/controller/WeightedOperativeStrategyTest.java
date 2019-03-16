@@ -54,13 +54,10 @@ public class WeightedOperativeStrategyTest {
 	String result;
 	int w_result;
 	
-	//=================================
-	//-------------METHODS-------------
-	//=================================
-	
 	// Sets the scene for the testing methods.
-	@Test 
-	public void WeightedSearchTest() throws IOException {
+
+	public WeightedOperativeStrategyTest() throws IOException
+	{
 		codenameWords = Card.createNonRandomCodenameList(Paths.get("res/weighted_operative_test_word_bank"));
 		k_card = Keycard.createRandomKeycard();
 		
@@ -73,8 +70,8 @@ public class WeightedOperativeStrategyTest {
 		actual = new HashSet<String>();
 		expected = new HashSet<String>();
 		expected.add("teacher");
-		expected.add("basis");
-		expected.add("personality");	
+		expected.add("death");
+		expected.add("basis");	
 		
 		w_actual = new HashSet<Integer>();
 		w_expected = new HashSet<Integer>();
@@ -83,12 +80,18 @@ public class WeightedOperativeStrategyTest {
 		w_expected.add(100);
 	}
 	
+	//=================================
+	//-------------METHODS-------------
+	//=================================
+	
+
+	
 	// Checks to see if the guesses detect the clue as an associated word.
 	@Test
 	public void WeightedSuccessfulWordTest()
 	{
-		clue = new Clue("polluant", 1);
-		
+		clue = new Clue("pollutant", 1);
+
 		guess = o_weighted.guessCard(g_state, clue);
 		
 		String result = board.getCard(guess.getX(), guess.getY()).getCodename();
@@ -100,7 +103,8 @@ public class WeightedOperativeStrategyTest {
 	@Test
 	public void WeightedSuccessfulWeightTest()
 	{
-		clue = new Clue("polluant", 1);
+		clue = new Clue("pollutant", 1);
+
 		guess = o_weighted.guessCard(g_state, clue);
 		
 		for (int i = 0; i < board.getCard(guess.getX(), guess.getY()).getAssociatedWords().size(); i++)
@@ -123,17 +127,17 @@ public class WeightedOperativeStrategyTest {
 		result = board.getCard(guess.getX(), guess.getY()).getCodename();
 		actual.add(result);
 		
-		clue = new Clue("Enrollment", 1);
+		clue = new Clue("Sentence", 1);
 		guess = o_weighted.guessCard(g_state, clue);
 		result = board.getCard(guess.getX(), guess.getY()).getCodename();
 		actual.add(result);
 		
-		clue = new Clue("Dsm", 1);
+		clue = new Clue("Expected", 1);
 		guess = o_weighted.guessCard(g_state, clue);
 		result = board.getCard(guess.getX(), guess.getY()).getCodename();
 		actual.add(result);
 		
-		assertEquals(actual, expected);
+		assertEquals( expected, actual);
 	}
 
 	// Same as the WeightedSuccessfulWeightTest, but with a set of words instead of a single one.
@@ -141,6 +145,7 @@ public class WeightedOperativeStrategyTest {
 	public void WeightedSetWeightTest()
 	{
 		clue = new Clue("classroom", 1);
+
 		guess = o_weighted.guessCard(g_state, clue);
 		String clue_word = clue.getWord();
 		for (int i = 0; i < board.getCard(guess.getX(), guess.getY()).getAssociatedWords().size(); i++)
@@ -186,12 +191,14 @@ public class WeightedOperativeStrategyTest {
 	public void weightedStrategyPicksAllCards()
 	{
 		clue = new Clue("test", 1);
+
 		for (int i = 0; i < 25; i++)
 		{
-			Coordinates guess = o_weighted.guessCard(g_state, clue);
+			guess = o_weighted.guessCard(g_state, clue);
 			g_state.chooseCard(guess);
 		}
 		
 		assertTrue(g_state.getChosenCards().size() == g_state.getBoard().getLength() * g_state.getBoard().getWidth());
 	}
+	
 }
