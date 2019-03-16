@@ -60,7 +60,11 @@ public class WeightedOperativeStrategy extends AbstractPlayerStrategy implements
         }
 
         // Returns the Coordinate object.
-        return maxCoordinates;
+        if (maxCoordinates != null)
+        	return maxCoordinates;
+        else
+            return guesses.isEmpty()? null : guesses.remove(0);
+
     }
 
     @Override
