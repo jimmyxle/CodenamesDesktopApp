@@ -47,30 +47,30 @@ public class Operative extends Player {
 	//====================
     //--------TEST--------
     //====================
-	public static void main(String[] args) throws IOException {
-		List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/25wordswithcommonassociatedwords.txt"));
-		Keycard keycard = Keycard.createRandomKeycard();
-	    GameState state = new GameState(new Board(codenameWords, keycard));
-	    Board board = state.boardProperty().get();
-	 
-	    //print out the card list, then return clue and guess for first 2 red cards
-	    System.out.println("Printing out the game board: ");
-	    System.out.println(state.boardProperty().get().toString());
-	    
-	    SpyMaster spy = new SpyMaster(Team.RED, new RandomSpyMasterStrategy());
-	    Operative op = new Operative(Team.RED, new IterativeOperativeStrategy());
-	    
-	    Clue clue = spy.giveClue(state);
-	    System.out.println("First clue: " + clue);
-	    Coordinates guess = op.guessCard(state, clue);
-	    System.out.println("First guess: " + board.getCard(guess.getX(), guess.getY()).getCodename());
-
-        clue = spy.giveClue(state);
-        System.out.println("Second clue: " + clue);
-        guess = op.guessCard(state, clue);
-        System.out.println("Second guess: " + board.getCard(guess.getX(), guess.getY()).getCodename());
-	    
-	}
+//	public static void main(String[] args) throws IOException {
+//		List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/25wordswithcommonassociatedwords.txt"));
+//		Keycard keycard = Keycard.createRandomKeycard();
+//	    GameState state = new GameState(new Board(codenameWords, keycard));
+//	    Board board = state.boardProperty().get();
+//
+//	    //print out the card list, then return clue and guess for first 2 red cards
+//	    System.out.println("Printing out the game board: ");
+//	    System.out.println(state.boardProperty().get().toString());
+//
+//	    SpyMaster spy = new SpyMaster(Team.RED, new RandomSpyMasterStrategy());
+//	    Operative op = new Operative(Team.RED, new IterativeOperativeStrategy());
+//
+//	    Clue clue = spy.giveClue(state);
+//	    System.out.println("First clue: " + clue);
+//	    Coordinates guess = op.guessCard(state, clue);
+//	    System.out.println("First guess: " + board.getCard(guess.getX(), guess.getY()).getCodename());
+//
+//        clue = spy.giveClue(state);
+//        System.out.println("Second clue: " + clue);
+//        guess = op.guessCard(state, clue);
+//        System.out.println("Second guess: " + board.getCard(guess.getX(), guess.getY()).getCodename());
+//
+//	}
 
 
 

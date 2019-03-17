@@ -2,6 +2,7 @@ package ca.concordia.encs.comp354.controller;
 
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
+import ca.concordia.encs.comp354.model.CodenameWord;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 
@@ -10,10 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * With this strategy, a spymaster gives a clue
- * containing the most frequent associatedWord having a weight equals to 100 and its count.
- * @author Alexandre Kang
+ * With this strategy, a spymaster gives a clue containing the most frequent {@link AssociatedWord} having a weight
+ * closest (but less than) 100 and the number of times the {@link AssociatedWord} are associated with
+ * {@link CodenameWord} on the {@link Board}.
  *
+ * @author Alexandre Kang
  */
 public class SpyMasterWeightStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
 
