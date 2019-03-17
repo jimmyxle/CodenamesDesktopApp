@@ -72,7 +72,7 @@ public class IterativeSearchTest {
 	 *  codename "pollution" by giving the clue "pollutant". It should return true.
 	 */
 	@Test
-	public void iterativeSuccessTest() {
+	public void operativeReturnCorrectCodename() {
 		
 		clue = new Clue("pollutant", 1);
 		guess = iterative.guessCard(state, clue);
@@ -88,7 +88,7 @@ public class IterativeSearchTest {
 	 * sets are equal to each other.
 	 */
 	@Test
-	public void iterativeSetTest() {
+	public void operativeGetsExpectedSet() {
 		clue = new Clue("classroom", 1);
 		guess = iterative.guessCard(state, clue);	
 		result = board.getCard(guess.getX(), guess.getY()).getCodename() ;

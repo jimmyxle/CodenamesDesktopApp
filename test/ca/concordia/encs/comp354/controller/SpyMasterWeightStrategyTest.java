@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 public class SpyMasterWeightStrategyTest {
 
     @Test
-    public void giveGuessesSpyMasterWeightStrategy() {
+    public void spymasterGetsWordOfGreatestWeight() {
 
         //Need a Map to keep track of frequencies of associatedWord
         //Need a list of associatedWord to test the increment of count if associatedWord repeats in the list
@@ -71,7 +71,7 @@ public class SpyMasterWeightStrategyTest {
     }
 
     @Test(expected = AssertionError.class)
-    public void giveClueFailSpyMasterWeightStrategy() {
+    public void spymasterFailsToGetWordOfGreatestWeight() {
 
             //Need a Map to keep track of frequencies of associatedWord
             //Need a list of associatedWord to test the increment of count if associatedWord repeats in the list

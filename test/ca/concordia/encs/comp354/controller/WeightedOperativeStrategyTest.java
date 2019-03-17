@@ -88,7 +88,7 @@ public class WeightedOperativeStrategyTest {
 	
 	// Checks to see if the guesses detect the clue as an associated word.
 	@Test
-	public void WeightedSuccessfulWordTest()
+	public void operativeGuessesCorrectCodename()
 	{
 		clue = new Clue("pollutant", 1);
 
@@ -101,7 +101,7 @@ public class WeightedOperativeStrategyTest {
 	
 	// Checks to see if the guesses detect the clue and return the associated word with the highest weight.
 	@Test
-	public void WeightedSuccessfulWeightTest()
+	public void operativeGuessHasCorrectWeight()
 	{
 		clue = new Clue("pollutant", 1);
 
@@ -120,7 +120,7 @@ public class WeightedOperativeStrategyTest {
 	
 	// Same as the WeightedSuccessfulWordTest, but with a set of words instead of a single one.
 	@Test
-	public void WeightedSetWordTest()
+	public void operativeGuessesCorrectSet()
 	{
 		clue = new Clue("classroom", 1);
 		guess = o_weighted.guessCard(g_state, clue);
@@ -142,7 +142,7 @@ public class WeightedOperativeStrategyTest {
 
 	// Same as the WeightedSuccessfulWeightTest, but with a set of words instead of a single one.
 	@Test
-	public void WeightedSetWeightTest()
+	public void operativeGuessesExpectedSet()
 	{
 		clue = new Clue("classroom", 1);
 
