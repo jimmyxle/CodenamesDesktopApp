@@ -25,10 +25,7 @@ import ca.concordia.encs.comp354.model.Team;
  * @author Jimmy Le
  */
 
-
-
-
-public class IterativeSearchTest {
+public class IterativeStrategyTest extends AbstractPlayerTest {
 
 	final SpyMaster masterSpy;
 	final Operative iterative;
@@ -49,7 +46,7 @@ public class IterativeSearchTest {
 	/*
 	 * Initialize all relevant variables 
 	 */
-	public IterativeSearchTest() throws IOException {
+	public IterativeStrategyTest() throws IOException {
 
 		codenameWords = Card.createNonRandomCodenameList(Paths.get("res/operative_test_word_bank"));
 		keycard = Keycard.createRandomKeycard();
@@ -75,7 +72,7 @@ public class IterativeSearchTest {
 	public void operativeReturnCorrectCodename() {
 		
 		clue = new Clue("pollutant", 1);
-		guess = iterative.guessCard(state, clue).get();
+		guess = guessCard(iterative, state, clue);
 		
 		String result = board.getCard(guess.getX(), guess.getY()).getCodename() ;
 
@@ -90,18 +87,17 @@ public class IterativeSearchTest {
 	@Test
 	public void operativeGetsExpectedSet() {
 		clue = new Clue("classroom", 1);
-		guess = iterative.guessCard(state, clue).get();	
+		guess = guessCard(iterative, state, clue);	
 		result = board.getCard(guess.getX(), guess.getY()).getCodename() ;
 		actual.add(result);
 		
 		clue = new Clue("Enrollment", 1);
-		guess = iterative.guessCard(state, clue).get();
+		guess = guessCard(iterative, state, clue);
 		result = board.getCard(guess.getX(), guess.getY()).getCodename() ;
 		actual.add(result);
-
-
+	    
 		clue = new Clue("Dsm", 1);
-		guess = iterative.guessCard(state, clue).get();
+		guess = guessCard(iterative, state, clue);
 		result = board.getCard(guess.getX(), guess.getY()).getCodename() ;
 		actual.add(result);
 
@@ -117,7 +113,7 @@ public class IterativeSearchTest {
 	public void iterativeStrategyPicksAllCards() {
 		clue = new Clue("test", 1);
 		for (int i = 0; i < 25; i++) {
-			Coordinates guess = iterative.guessCard(state, clue).get();
+			Coordinates guess = guessCard(iterative, state, clue);
 			state.chooseCard(guess);
 		}
 		

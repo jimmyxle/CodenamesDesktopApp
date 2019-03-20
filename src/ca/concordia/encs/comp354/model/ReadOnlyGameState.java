@@ -1,6 +1,6 @@
 package ca.concordia.encs.comp354.model;
 
-import ca.concordia.encs.comp354.Promise;
+import ca.concordia.encs.comp354.CompletablePromise;
 import ca.concordia.encs.comp354.controller.Clue;
 import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.controller.SpyMaster;
@@ -121,5 +121,5 @@ public interface ReadOnlyGameState {
      * finished, this property's value is automatically set to <code>null</code>.
      * @return a property containing a requested guess, which may be fulfilled by the observing class
      */
-    ReadOnlyObjectProperty<Promise<Coordinates>> requestedGuessProperty();
+    ReadOnlyObjectProperty<CompletablePromise<Coordinates>> requestedGuessProperty();
 }

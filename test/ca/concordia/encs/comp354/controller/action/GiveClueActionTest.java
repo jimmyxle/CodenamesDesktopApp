@@ -3,6 +3,7 @@ package ca.concordia.encs.comp354.controller.action;
 import org.junit.Test;
 
 import ca.concordia.encs.comp354.controller.Clue;
+import ca.concordia.encs.comp354.controller.SpyMaster;
 import ca.concordia.encs.comp354.model.Team;
 
 import static org.junit.Assert.*;
@@ -13,17 +14,19 @@ import static org.junit.Assert.*;
  *
  */
 public class GiveClueActionTest extends AbstractActionTest {
+    
+    private final SpyMaster opRed = new SpyMaster(Team.RED, new NullSpyMasterStrategy());
 
     @Test
     public void appliesClue() {
-        model.pushAction(new GiveClueAction(Team.RED, new Clue("foo", 1)));
+        model.pushAction(new GiveClueAction(opRed, new Clue("foo", 1)));
         assertEquals(new Clue("foo", 1), model.lastClueProperty().get());
     }
 
     @Test
     public void undoesClue() {
-        model.pushAction(new GiveClueAction(Team.RED, new Clue("foo", 1)));
-        model.pushAction(new GiveClueAction(Team.RED, new Clue("bar", 2)));
+        model.pushAction(new GiveClueAction(opRed, new Clue("foo", 1)));
+        model.pushAction(new GiveClueAction(opRed, new Clue("bar", 2)));
         model.undoAction();
         
         assertEquals(new Clue("foo", 1), model.lastClueProperty().get());
@@ -31,8 +34,8 @@ public class GiveClueActionTest extends AbstractActionTest {
 
     @Test
     public void redoesClue() {
-        model.pushAction(new GiveClueAction(Team.RED, new Clue("foo", 1)));
-        model.pushAction(new GiveClueAction(Team.RED, new Clue("bar", 2)));
+        model.pushAction(new GiveClueAction(opRed, new Clue("foo", 1)));
+        model.pushAction(new GiveClueAction(opRed, new Clue("bar", 2)));
         model.undoAction();
         model.redoAction();
         
@@ -41,14 +44,14 @@ public class GiveClueActionTest extends AbstractActionTest {
 
     @Test
     public void appliesGuesses() {
-        model.pushAction(new GiveClueAction(Team.RED, new Clue("foo", 1)));
+        model.pushAction(new GiveClueAction(opRed, new Clue("foo", 1)));
         assertEquals(1, model.guessesRemainingProperty().get());
     }
 
     @Test
     public void undoesGuesses() {
-        model.pushAction(new GiveClueAction(Team.RED, new Clue("foo", 1)));
-        model.pushAction(new GiveClueAction(Team.RED, new Clue("bar", 2)));
+        model.pushAction(new GiveClueAction(opRed, new Clue("foo", 1)));
+        model.pushAction(new GiveClueAction(opRed, new Clue("bar", 2)));
         model.undoAction();
 
         assertEquals(1, model.guessesRemainingProperty().get());
@@ -56,8 +59,8 @@ public class GiveClueActionTest extends AbstractActionTest {
 
     @Test
     public void redoesGuesses() {
-        model.pushAction(new GiveClueAction(Team.RED, new Clue("foo", 1)));
-        model.pushAction(new GiveClueAction(Team.RED, new Clue("bar", 2)));
+        model.pushAction(new GiveClueAction(opRed, new Clue("foo", 1)));
+        model.pushAction(new GiveClueAction(opRed, new Clue("bar", 2)));
         model.undoAction();
         model.redoAction();
 

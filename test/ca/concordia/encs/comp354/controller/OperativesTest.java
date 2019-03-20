@@ -31,7 +31,7 @@ public class OperativesTest extends AbstractPlayerTest {
 		Operative seq = new Operative(Team.RED, new SequentialOperativeStrategy());
 		Clue clue = new Clue("test", 1);
 		for (int i = 0; i < 25; i++) {
-			Coordinates guess = seq.guessCard(model, clue).get();
+			Coordinates guess = guessCard(seq, model, clue);
 			model.chooseCard(guess);
 		}
 		
@@ -43,7 +43,7 @@ public class OperativesTest extends AbstractPlayerTest {
 		Operative seq = new Operative(Team.RED, new RandomOperativeStrategy());
 		Clue clue = new Clue("test", 1);
 		for (int i = 0; i < 25; i++) {
-			Coordinates guess = seq.guessCard(model, clue).get();
+			Coordinates guess = guessCard(seq, model, clue);
 			model.chooseCard(guess);
 		}
 		
@@ -55,7 +55,7 @@ public class OperativesTest extends AbstractPlayerTest {
 		Operative seq = new Operative(Team.RED, new SequentialOperativeStrategy());
 		Clue clue = new Clue("test", 1);
 		for (int i = 0; i < 26; i++) {
-			Coordinates guess = seq.guessCard(model, clue).get();
+			Coordinates guess = guessCard(seq, model, clue);
 			model.chooseCard(guess);
 		}
 	}
@@ -65,7 +65,7 @@ public class OperativesTest extends AbstractPlayerTest {
 		Operative seq = new Operative(Team.RED, new RandomOperativeStrategy());
 		Clue clue = new Clue("test", 1);
 		for (int i = 0; i < 26; i++) {
-			Coordinates guess = seq.guessCard(model, clue).get();
+			Coordinates guess = guessCard(seq, model, clue);
 			model.chooseCard(guess);
 		}
 	}

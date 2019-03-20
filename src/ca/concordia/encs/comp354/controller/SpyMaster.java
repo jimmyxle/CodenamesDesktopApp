@@ -2,7 +2,7 @@ package ca.concordia.encs.comp354.controller;
 
 import java.util.Objects;
 
-import ca.concordia.encs.comp354.model.GameState;
+import ca.concordia.encs.comp354.controller.action.GiveClueAction;
 
 /**
  * SpyMasters are Players that produce clues for consumption by {@link Operative}s.
@@ -38,12 +38,12 @@ public final class SpyMaster extends Player {
         this.strategy = Objects.requireNonNull(strategy, "strategy");
 	}
 	
-	Clue giveClue(GameState state) {
+	GiveClueAction giveClue(ReadOnlyGameState state) {
 	    Clue ret = strategy.giveClue(this, state);
 	    if (ret==null) {
 	        throw new IllegalStateException("cannot produce another clue");
 	    }
-	    return ret;
+	    return new GiveClueAction(this, ret);
 	}
 }
 

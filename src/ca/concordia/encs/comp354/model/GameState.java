@@ -4,7 +4,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import ca.concordia.encs.comp354.Promise;
+import ca.concordia.encs.comp354.CompletablePromise;
 import ca.concordia.encs.comp354.controller.Clue;
 import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.controller.GameEvent;
@@ -68,7 +68,7 @@ public final class GameState implements ReadOnlyGameState {
     
     // user input
     //------------------------------------------------------------------------------------------------------------------
-    private final ObjectProperty<Promise<Coordinates>> requestedGuess = 
+    private final ObjectProperty<CompletablePromise<Coordinates>> requestedGuess = 
             new SimpleObjectProperty<>(this, "requestedGuess", null);
     
     // history ("command queue")
@@ -344,7 +344,7 @@ public final class GameState implements ReadOnlyGameState {
      * Requests a guess from the view. The guess will be placed in the given promise.
      * @param guess the destination promise for the guess
      */
-    public void requestGuess(Promise<Coordinates> guess) {
+    public void requestGuess(CompletablePromise<Coordinates> guess) {
         if (requestedGuess.get()!=null) {
             throw new IllegalStateException("guess already in progress");
         }
@@ -353,7 +353,7 @@ public final class GameState implements ReadOnlyGameState {
     }
     
     @Override
-    public ReadOnlyObjectProperty<Promise<Coordinates>> requestedGuessProperty() {
+    public ReadOnlyObjectProperty<CompletablePromise<Coordinates>> requestedGuessProperty() {
         return requestedGuess;
     }
 }

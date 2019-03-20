@@ -94,7 +94,7 @@ public class SpyMasterTest extends AbstractPlayerTest {
 		}
 		List<String> boardWordsList = Arrays.asList(boardWords);
 		
-		Clue testClue = seqSpy.giveClue(model);
+		Clue testClue = giveClue(seqSpy, model);
 		String testClueWord = testClue.getWord();
 		
 		assertTrue(testClue instanceof Clue);
@@ -104,7 +104,7 @@ public class SpyMasterTest extends AbstractPlayerTest {
 	//Makes sure SpyMaster random strategy returns a clue. Can't test randomness specifically
 	@Test
 	public void randomStrategyReturnsClue() {
-		Clue testClue = randSpy.giveClue(model);
+		Clue testClue = giveClue(randSpy, model);
 		assertTrue(testClue instanceof Clue);
 	}
 	

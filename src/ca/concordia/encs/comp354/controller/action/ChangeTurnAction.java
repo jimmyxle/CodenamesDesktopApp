@@ -11,7 +11,7 @@ import ca.concordia.encs.comp354.model.Team;
  * @author Mykyta Leonidov
  *
  */
-public class ChangeTurnAction extends GameAction {
+public final class ChangeTurnAction extends GameAction {
 
 	private Team lastTeam;
 	private Clue lastClue;

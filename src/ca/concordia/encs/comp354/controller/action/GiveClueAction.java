@@ -4,7 +4,6 @@ import ca.concordia.encs.comp354.controller.Clue;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.model.GameState;
-import ca.concordia.encs.comp354.model.Team;
 import ca.concordia.encs.comp354.controller.SpyMaster;
 
 /**
@@ -12,15 +11,15 @@ import ca.concordia.encs.comp354.controller.SpyMaster;
  * @author Mykyta Leonidov
  *
  */
-public class GiveClueAction extends GameAction {
+public final class GiveClueAction extends GameAction {
 
     private Clue clue;
     
     private Clue lastClue;
     private int  lastGuesses;
 
-    public GiveClueAction(Team team, Clue clue) {
-        super(team);
+    public GiveClueAction(SpyMaster owner, Clue clue) {
+        super(owner.getTeam());
         this.clue = clue;
     }
 
@@ -46,6 +45,10 @@ public class GiveClueAction extends GameAction {
         // reset modified properties to pre-apply() state
         state.lastClueProperty().set(lastClue);
         state.guessesRemainingProperty().set(lastGuesses);
+    }
+
+    public Clue getClue() {
+        return clue;
     }
 
     // boilerplate

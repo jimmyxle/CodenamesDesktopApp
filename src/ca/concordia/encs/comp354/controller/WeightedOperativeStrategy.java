@@ -2,7 +2,8 @@ package ca.concordia.encs.comp354.controller;
 
 import java.util.List;
 
-import ca.concordia.encs.comp354.Promise;
+import ca.concordia.encs.comp354.controller.action.GuessCardAction;
+import ca.concordia.encs.comp354.controller.action.OperativeAction;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
@@ -18,7 +19,7 @@ public class WeightedOperativeStrategy extends AbstractPlayerStrategy implements
 
     //Iterate through the list of associated words for each codename. Return coordinates of the found word.
     @Override
-    public Promise<Coordinates> guessCard(Operative owner, ReadOnlyGameState state, Clue clue) {
+    public OperativeAction guessCard(Operative owner, ReadOnlyGameState state, Clue clue) {
         List<Coordinates> guesses = beginTurn(owner, state);
         Board board = state.boardProperty().get();
 
@@ -52,11 +53,11 @@ public class WeightedOperativeStrategy extends AbstractPlayerStrategy implements
             }
         }
         
-        // Returns the Coordinate object.
+        // Returns the action containing the target coordinates.
         if (maxCoordinates != null) {
-        	return Promise.finished(maxCoordinates);
+        	return new GuessCardAction(owner, maxCoordinates);
         } else {
-            return Promise.finished(guesses.isEmpty()? null : guesses.remove(0));
+            return guesses.isEmpty()? null : new GuessCardAction(owner, guesses.remove(0));
         }
 
     }

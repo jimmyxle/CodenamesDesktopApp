@@ -27,7 +27,7 @@ import ca.concordia.encs.comp354.model.Team;
  * 
  * */
 
-public class WeightedOperativeStrategyTest {
+public class WeightedOperativeStrategyTest extends AbstractPlayerTest {
 	
 	//================================
 	//-----------VARIABLES------------
@@ -89,7 +89,7 @@ public class WeightedOperativeStrategyTest {
 	public void operativeGuessesCorrectCodename() {
 		clue = new Clue("pollutant", 1);
 
-		guess = o_weighted.guessCard(g_state, clue).get();
+		guess = guessCard(o_weighted, g_state, clue);
 		
 		String result = board.getCard(guess.getX(), guess.getY()).getCodename();
 		
@@ -101,7 +101,7 @@ public class WeightedOperativeStrategyTest {
 	public void operativeGuessHasCorrectWeight() {
 		clue = new Clue("pollutant", 1);
 
-		guess = o_weighted.guessCard(g_state, clue).get();
+		guess = guessCard(o_weighted, g_state, clue);
 		
 		for (int i = 0; i < board.getCard(guess.getX(), guess.getY()).getAssociatedWords().size(); i++) {
 			int result = board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWeight();
@@ -116,17 +116,17 @@ public class WeightedOperativeStrategyTest {
 	@Test
 	public void operativeGuessesCorrectSet() {
 		clue = new Clue("classroom", 1);
-		guess = o_weighted.guessCard(g_state, clue).get();
+		guess = guessCard(o_weighted, g_state, clue);
 		result = board.getCard(guess.getX(), guess.getY()).getCodename();
 		actual.add(result);
 		
 		clue = new Clue("Sentence", 1);
-		guess = o_weighted.guessCard(g_state, clue).get();
+		guess = guessCard(o_weighted, g_state, clue);
 		result = board.getCard(guess.getX(), guess.getY()).getCodename();
 		actual.add(result);
 		
 		clue = new Clue("Expected", 1);
-		guess = o_weighted.guessCard(g_state, clue).get();
+		guess = guessCard(o_weighted, g_state, clue);
 		result = board.getCard(guess.getX(), guess.getY()).getCodename();
 		actual.add(result);
 		
@@ -138,7 +138,7 @@ public class WeightedOperativeStrategyTest {
 	public void operativeGuessesExpectedSet() {
 		clue = new Clue("classroom", 1);
 
-		guess = o_weighted.guessCard(g_state, clue).get();
+		guess = guessCard(o_weighted, g_state, clue);
 		String clue_word = clue.getWord();
 		for (int i = 0; i < board.getCard(guess.getX(), guess.getY()).getAssociatedWords().size(); i++) {
 			if (clue_word.equalsIgnoreCase(board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWord())) {
@@ -148,7 +148,7 @@ public class WeightedOperativeStrategyTest {
 		w_actual.add(w_result);
 		
 		clue = new Clue("classroom", 1);
-		guess = o_weighted.guessCard(g_state, clue).get();
+		guess = guessCard(o_weighted, g_state, clue);
 		clue_word = clue.getWord();
 		for (int i = 0; i < board.getCard(guess.getX(), guess.getY()).getAssociatedWords().size(); i++) {
 			if (clue_word.equalsIgnoreCase(board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWord())) {
@@ -158,7 +158,7 @@ public class WeightedOperativeStrategyTest {
 		w_actual.add(w_result);
 		
 		clue = new Clue("Trait", 1);
-		guess = o_weighted.guessCard(g_state, clue).get();
+		guess = guessCard(o_weighted, g_state, clue);
 		clue_word = clue.getWord();
 		for (int i = 0; i < board.getCard(guess.getX(), guess.getY()).getAssociatedWords().size(); i++) {
 			if (clue_word.equalsIgnoreCase(board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWord())) {
@@ -178,7 +178,7 @@ public class WeightedOperativeStrategyTest {
 		clue = new Clue("test", 1);
 
 		for (int i = 0; i < 25; i++) {
-			guess = o_weighted.guessCard(g_state, clue).get();
+			guess = guessCard(o_weighted, g_state, clue);
 			g_state.chooseCard(guess);
 		}
 		

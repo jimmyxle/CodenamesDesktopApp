@@ -4,9 +4,7 @@ import ca.concordia.encs.comp354.controller.GameEvent;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.Coordinates;
-import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.model.GameState;
-import ca.concordia.encs.comp354.model.Team;
 import ca.concordia.encs.comp354.controller.Operative;
 
 import static java.util.Objects.requireNonNull;
@@ -16,7 +14,7 @@ import static java.util.Objects.requireNonNull;
  * @author Mykyta Leonidov
  *
  */
-public class GuessCardAction extends GameAction {
+public final class GuessCardAction extends OperativeAction {
 
     private Coordinates coords;
 
@@ -26,9 +24,13 @@ public class GuessCardAction extends GameAction {
     
     private String codename = null;
     
-    public GuessCardAction(Team team, Coordinates coords) {
-        super(team);
+    public GuessCardAction(Operative owner, Coordinates coords) {
+        super(owner);
         this.coords = requireNonNull(coords);
+    }
+
+    public Coordinates getCoordinates() {
+        return coords;
     }
 
     @Override
