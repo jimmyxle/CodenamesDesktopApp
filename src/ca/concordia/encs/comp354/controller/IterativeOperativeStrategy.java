@@ -2,9 +2,9 @@ package ca.concordia.encs.comp354.controller;
 
 import java.util.List;
 
+import ca.concordia.encs.comp354.controller.action.GuessCardAction;
+import ca.concordia.encs.comp354.controller.action.OperativeAction;
 import ca.concordia.encs.comp354.model.Board;
-import ca.concordia.encs.comp354.model.Card;
-import ca.concordia.encs.comp354.model.CodenameWord;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
@@ -18,7 +18,7 @@ public class IterativeOperativeStrategy extends AbstractPlayerStrategy implement
 
    //Iterate through the list of associated words for each codename. Return coordinates of the found word.
 	@Override
-    public Coordinates guessCard(Operative owner, ReadOnlyGameState state, Clue clue) {    	
+    public OperativeAction guessCard(Operative owner, ReadOnlyGameState state, Clue clue) {
         List<Coordinates> guesses = beginTurn(owner, state);
         Board board = state.boardProperty().get();
         /*
@@ -28,17 +28,17 @@ public class IterativeOperativeStrategy extends AbstractPlayerStrategy implement
          * 			check if equals the clue
          * 				if true: return coords
          */
-        for(Coordinates coords: guesses)
-        {            
-            List<AssociatedWord> test = board.getCard(coords).getAssociatedWords() ;
-            for(AssociatedWord assoc : test)
-            {
+        for(Coordinates coords: guesses) {
+            List<AssociatedWord> test = board.getCard(coords).getAssociatedWords();
+            for(AssociatedWord assoc : test) {
                 String word = assoc.getWord();
-                if(word.equalsIgnoreCase(clue.getWord()))
-                	return coords;
+                if (word.equalsIgnoreCase(clue.getWord())) {
+                	return new GuessCardAction(owner, coords);
+                }
             }
         }
-        return guesses.isEmpty()? null : guesses.remove(0);
+        
+        return guesses.isEmpty()? null : new GuessCardAction(owner, guesses.remove(0));
     }
 
     @Override

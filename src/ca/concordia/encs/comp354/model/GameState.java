@@ -4,13 +4,18 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import ca.concordia.encs.comp354.CompletablePromise;
+import ca.concordia.encs.comp354.Promise;
 import ca.concordia.encs.comp354.controller.Clue;
 import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.controller.GameEvent;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -64,6 +69,13 @@ public final class GameState implements ReadOnlyGameState {
     // the set of revealed cards
     private final ObservableSet<Coordinates> chosen         = FXCollections.observableSet();
     private final ObservableSet<Coordinates> readOnlyChosen = FXCollections.unmodifiableObservableSet(chosen);
+    
+    // user input
+    //------------------------------------------------------------------------------------------------------------------
+    private final BooleanProperty actionInProgress = new SimpleBooleanProperty(this, "actionInProgress", false);
+    
+    private final ObjectProperty<CompletablePromise<Coordinates>> requestedGuess = 
+            new SimpleObjectProperty<>(this, "requestedGuess", null);
     
     // history ("command queue")
     //------------------------------------------------------------------------------------------------------------------
@@ -200,6 +212,11 @@ public final class GameState implements ReadOnlyGameState {
     }
 
     @Override
+    public ReadOnlyBooleanProperty actionInProgressProperty() {
+        return actionInProgress;
+    }
+
+    @Override
     public ObservableList<GameStep> getUndone() {
     	return readOnlyUndone;
     }
@@ -307,10 +324,19 @@ public final class GameState implements ReadOnlyGameState {
      */
     private void applyAction(GameAction value) {
     	Objects.requireNonNull(value);
+    	
+    	if (actionInProgress.get()) {
+    	    throw new IllegalStateException("an action may not be applied with another action already in progress");
+    	}
         
         // add action to model, execute action, record step
-    	GameStep step = new GameStep(value, value.apply(this), redScore.get(), blueScore.get(), history.size());
-        history.add(step);
+    	actionInProgress.set(true);
+    	// value.apply() returns a Promise!
+    	value.apply(this).then(event->{
+        	GameStep step = new GameStep(value, event, redScore.get(), blueScore.get(), history.size());
+            history.add(step);
+            actionInProgress.set(false);
+    	});
     }
     
     /**
@@ -332,5 +358,23 @@ public final class GameState implements ReadOnlyGameState {
             }
         }
         return k;
+    }
+    
+    /**
+     * Requests a guess from the view. The guess will be placed in the given promise.
+     * @return the destination promise for the guess
+     */
+    public Promise<Coordinates> requestGuess() {
+        if (requestedGuess.get()!=null) {
+            throw new IllegalStateException("guess already in progress");
+        }
+        CompletablePromise<Coordinates> ret = new CompletablePromise<>();
+        requestedGuess.set(ret);
+        return ret.then(v->requestedGuess.set(null));
+    }
+    
+    @Override
+    public ReadOnlyObjectProperty<CompletablePromise<Coordinates>> requestedGuessProperty() {
+        return requestedGuess;
     }
 }

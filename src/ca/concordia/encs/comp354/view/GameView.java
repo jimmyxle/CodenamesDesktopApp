@@ -29,7 +29,7 @@ public class GameView extends StackPane {
         /**
          * Advances the game to the next action.
          */
-        void    advanceTurn();
+        void advanceTurn();
         /**
          * Reverses the most recently executed action.
          * @return <tt>true</tt> iff a previously executed action was available for this operation
@@ -91,13 +91,15 @@ public class GameView extends StackPane {
         
         // bottom: status, advance turn
         final HBox bottom = new HBox();
+        final HBox history = new HBox();
         stateView = new StateView();
         
         advance = new Button("Advance");
         final Button undo = new Button("Undo");
         final Button redo = new Button("Redo");
         
-        bottom.getChildren().addAll(undo, redo, stateView, advance);
+        history.getChildren().addAll(undo, redo, advance);
+        bottom.getChildren().addAll(stateView, history);
         
         HBox.setHgrow(stateView, Priority.ALWAYS);
         
@@ -131,6 +133,7 @@ public class GameView extends StackPane {
         redo.setDisable(game.getUndone().isEmpty());
         undo.setDisable(game.getHistory().isEmpty());
         
+        history.disableProperty().bind(game.actionInProgressProperty());
         game.getUndone() .addListener((Observable o)->redo.setDisable(game.getUndone().isEmpty()));
         game.getHistory().addListener((Observable o)->undo.setDisable(game.getHistory().isEmpty()));
     }

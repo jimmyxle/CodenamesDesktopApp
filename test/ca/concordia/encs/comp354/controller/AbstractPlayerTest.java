@@ -16,6 +16,8 @@ import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Keycard;
+import ca.concordia.encs.comp354.model.ReadOnlyGameState;
+import ca.concordia.encs.comp354.controller.action.GuessCardAction;
 
 import static org.junit.Assert.*;
 
@@ -33,12 +35,34 @@ public abstract class AbstractPlayerTest {
         // TODO make player give clues
         // when the player generates a clue, test it with assertTrue(actual.add(clue))! don't want duplicates
         for (int i=0; i < TEAM_CARD_COUNT; i++) {
-        	Clue clue = player.giveClue(state);
+        	Clue clue = giveClue(player, state);
         	chooseCards(state, clue);
         	assertTrue(actual.add(clue));
         }
         
         assertEquals(expected, actual);
+    }
+    
+    /**
+     * Asks the given player for a GiveClueAction, returning the clue stored in the action.
+     * @param player  the player from which to request a clue
+     * @param state   the game state
+     * @return the clue given by the player
+     */
+    Clue giveClue(SpyMaster player, ReadOnlyGameState state) {
+        return player.giveClue(state).getClue();
+    }
+
+    
+    /**
+     * Asks the given player for a GuessCardAction, returning the guess coordinates stored in the action.
+     * @param player  the player from which to request a guess
+     * @param state   the game state
+     * @param clue    the clue for which to produce a guess
+     * @return the coordinates of the guess given by the player
+     */
+    Coordinates guessCard(Operative player, ReadOnlyGameState state, Clue clue) {
+        return ((GuessCardAction)player.guessCard(state, clue)).getCoordinates();
     }
        
     Board generateBoard(Player player, boolean shuffle) {

@@ -3,6 +3,7 @@ package ca.concordia.encs.comp354.controller.action;
 import org.junit.Test;
 
 import ca.concordia.encs.comp354.controller.GameEvent;
+import ca.concordia.encs.comp354.controller.Operative;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.Team;
 
@@ -238,6 +239,6 @@ public class GuessCardActionTest extends AbstractActionTest {
     
     private void pushGuess(Team team, Coordinates coords) {
         model.turnProperty().set(team);
-        model.pushAction(new GuessCardAction(team, coords));
+        model.pushAction(new GuessCardAction(new Operative(team, new NullOperativeStrategy()), coords));
     }
 }

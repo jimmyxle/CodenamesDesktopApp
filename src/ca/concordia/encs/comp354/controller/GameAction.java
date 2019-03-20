@@ -1,5 +1,6 @@
 package ca.concordia.encs.comp354.controller;
 
+import ca.concordia.encs.comp354.Promise;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Team;
 import javafx.beans.property.IntegerProperty;
@@ -11,8 +12,14 @@ import javafx.beans.property.IntegerProperty;
  */
 public abstract class GameAction {
 
-    private Team    team;
-    private boolean applied;
+    private enum HistoryState {
+        NEW,
+        DONE,
+        UNDONE
+    }
+    
+    private Team         team;
+    private HistoryState historyState = HistoryState.NEW;
 
     public GameAction(Team team) {
         this.team = team;
@@ -24,23 +31,55 @@ public abstract class GameAction {
     
     public abstract String getActionText();
     
-    public GameEvent apply(GameState state) {
-        if (applied) {
-            throw new IllegalStateException("cannot re-apply action");
+    /**
+     * Applies the action to the game state. The action may delay completion using a Promise.
+     * @param state  the operand state
+     * @return a Promise containing the result of the action
+     */
+    public Promise<GameEvent> apply(GameState state) {
+        Promise<GameEvent> ret;
+        switch (historyState) {
+            case NEW:
+                ret = doApply(state);
+                break;
+            case UNDONE:
+                ret = doRedo(state);
+                break;
+            default:
+                throw new IllegalStateException("cannot re-apply action");
         }
-        applied = true;
-        return doApply(state);
+        
+        // set this iff the action didn't throw an exception
+        historyState = HistoryState.DONE;
+        
+        return ret;
     }
-    
+
+    /**
+     * Reverses the action's changes to the game state.
+     * @param state  the operand state
+     */
     public void undo(GameState state) {
-        if (!applied) {
+        if (historyState != HistoryState.DONE) {
             throw new IllegalStateException("cannot undo action that has not been applied");
         }
-        applied = false;
+        
         doUndo(state);
+        
+        // set this iff the action didn't throw an exception
+        historyState = HistoryState.UNDONE;
     }
     
-    protected abstract GameEvent doApply(GameState state);
+    protected abstract Promise<GameEvent> doApply(GameState state);
+    
+    /**
+     * Override this if redo behaviour differs from apply behaviour.
+     * @param state the game state on which to operate
+     * @return the result of the action
+     */
+    protected Promise<GameEvent> doRedo(GameState state) {
+        return doApply(state);
+    }
 
     protected abstract void doUndo(GameState state);
     

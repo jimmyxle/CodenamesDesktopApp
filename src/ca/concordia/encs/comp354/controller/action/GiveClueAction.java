@@ -1,10 +1,10 @@
 package ca.concordia.encs.comp354.controller.action;
 
+import ca.concordia.encs.comp354.Promise;
 import ca.concordia.encs.comp354.controller.Clue;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.model.GameState;
-import ca.concordia.encs.comp354.model.Team;
 import ca.concordia.encs.comp354.controller.SpyMaster;
 
 /**
@@ -12,15 +12,15 @@ import ca.concordia.encs.comp354.controller.SpyMaster;
  * @author Mykyta Leonidov
  *
  */
-public class GiveClueAction extends GameAction {
+public final class GiveClueAction extends GameAction {
 
     private Clue clue;
     
     private Clue lastClue;
     private int  lastGuesses;
 
-    public GiveClueAction(Team team, Clue clue) {
-        super(team);
+    public GiveClueAction(SpyMaster owner, Clue clue) {
+        super(owner.getTeam());
         this.clue = clue;
     }
 
@@ -30,7 +30,7 @@ public class GiveClueAction extends GameAction {
     }
 
     @Override
-    protected GameEvent doApply(GameState state) {
+    protected Promise<GameEvent> doApply(GameState state) {
         // undo logic is simpler if we just record the values of the properties we intend to modify first
     	lastClue    = state.lastClueProperty().get();
     	lastGuesses = state.guessesRemainingProperty().get();
@@ -38,7 +38,7 @@ public class GiveClueAction extends GameAction {
     	// update the model with our new clue
         state.lastClueProperty().set(clue);
         state.guessesRemainingProperty().set(clue.getGuesses());
-        return GameEvent.NONE;
+        return Promise.finished(GameEvent.NONE);
     }
 
     @Override
@@ -46,6 +46,10 @@ public class GiveClueAction extends GameAction {
         // reset modified properties to pre-apply() state
         state.lastClueProperty().set(lastClue);
         state.guessesRemainingProperty().set(lastGuesses);
+    }
+
+    public Clue getClue() {
+        return clue;
     }
 
     // boilerplate
