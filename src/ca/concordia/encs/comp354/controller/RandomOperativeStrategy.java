@@ -13,7 +13,7 @@ import ca.concordia.encs.comp354.model.ReadOnlyGameState;
  * @author Mykyta Leonidov
  *
  */
-public class RandomOperativeStrategy extends AbstractPlayerStrategy implements Operative.AIStrategy {
+public class RandomOperativeStrategy extends AbstractPlayerStrategy implements Operative.Strategy {
     
     private final Random random = new Random();
     

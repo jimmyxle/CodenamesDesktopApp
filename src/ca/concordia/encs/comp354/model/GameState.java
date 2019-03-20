@@ -44,7 +44,7 @@ import javafx.collections.ObservableSet;
  * and/or its value is also present in ReadOnlyGameState. Lastly, be sure to add the appropriate 
  * @Override annotations to the corresponding definitions in this class.
  */
-public final class GameState implements HumanGameState, ReadOnlyGameState {
+public final class GameState implements ReadOnlyGameState {
 
     private final PrintStream log;
     
@@ -339,8 +339,11 @@ public final class GameState implements HumanGameState, ReadOnlyGameState {
         }
         return k;
     }
-
-    @Override
+    
+    /**
+     * Requests a guess from the view. The guess will be placed in the given promise.
+     * @param guess the destination promise for the guess
+     */
     public void requestGuess(Promise<Coordinates> guess) {
         if (requestedGuess.get()!=null) {
             throw new IllegalStateException("guess already in progress");

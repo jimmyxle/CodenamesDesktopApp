@@ -13,7 +13,7 @@ import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
  * @author Jimmy Le
 
  */
-public class IterativeOperativeStrategy extends AbstractPlayerStrategy implements Operative.AIStrategy {
+public class IterativeOperativeStrategy extends AbstractPlayerStrategy implements Operative.Strategy {
 
    //Iterate through the list of associated words for each codename. Return coordinates of the found word.
 	@Override
