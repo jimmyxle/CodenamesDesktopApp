@@ -75,7 +75,7 @@ public class IterativeSearchTest {
 	public void operativeReturnCorrectCodename() {
 		
 		clue = new Clue("pollutant", 1);
-		guess = iterative.guessCard(state, clue);
+		guess = iterative.guessCard(state, clue).get();
 		
 		String result = board.getCard(guess.getX(), guess.getY()).getCodename() ;
 
@@ -90,18 +90,18 @@ public class IterativeSearchTest {
 	@Test
 	public void operativeGetsExpectedSet() {
 		clue = new Clue("classroom", 1);
-		guess = iterative.guessCard(state, clue);	
+		guess = iterative.guessCard(state, clue).get();	
 		result = board.getCard(guess.getX(), guess.getY()).getCodename() ;
 		actual.add(result);
 		
 		clue = new Clue("Enrollment", 1);
-		guess = iterative.guessCard(state, clue);
+		guess = iterative.guessCard(state, clue).get();
 		result = board.getCard(guess.getX(), guess.getY()).getCodename() ;
 		actual.add(result);
 
 
 		clue = new Clue("Dsm", 1);
-		guess = iterative.guessCard(state, clue);
+		guess = iterative.guessCard(state, clue).get();
 		result = board.getCard(guess.getX(), guess.getY()).getCodename() ;
 		actual.add(result);
 
@@ -117,7 +117,7 @@ public class IterativeSearchTest {
 	public void iterativeStrategyPicksAllCards() {
 		clue = new Clue("test", 1);
 		for (int i = 0; i < 25; i++) {
-			Coordinates guess = iterative.guessCard(state, clue);
+			Coordinates guess = iterative.guessCard(state, clue).get();
 			state.chooseCard(guess);
 		}
 		

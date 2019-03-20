@@ -3,6 +3,7 @@ package ca.concordia.encs.comp354.controller;
 import java.util.List;
 import java.util.Random;
 
+import ca.concordia.encs.comp354.Promise;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
@@ -15,10 +16,15 @@ import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 public class RandomOperativeStrategy extends AbstractPlayerStrategy implements Operative.Strategy {
     
     private final Random random = new Random();
+    
     @Override
-    public Coordinates guessCard(Operative owner, ReadOnlyGameState state, Clue clue) {
+    public Promise<Coordinates> guessCard(Operative owner, ReadOnlyGameState state, Clue clue) {
         List<Coordinates> guesses = beginTurn(owner, state);
-        return guesses.isEmpty()? null : guesses.remove(random.nextInt(guesses.size()));
+        return Promise.finished(
+            guesses.isEmpty()
+                ? null 
+                : guesses.remove(random.nextInt(guesses.size()))
+        );
     }
 
     @Override

@@ -4,7 +4,6 @@ import ca.concordia.encs.comp354.controller.action.ChangeTurnAction;
 import ca.concordia.encs.comp354.controller.action.GiveClueAction;
 import ca.concordia.encs.comp354.controller.action.GuessCardAction;
 import ca.concordia.encs.comp354.controller.GameAction;
-import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Team;
 import ca.concordia.encs.comp354.view.GameView;
@@ -161,8 +160,10 @@ public class GameController implements GameView.Controller {
     		} else {
     		    // otherwise, let the current operative make another guess
         		Operative currentOp = turn.equals(Team.RED)? redOperative: blueOperative;
-        		Coordinates guess = currentOp.guessCard(model, model.lastClueProperty().get());
-        		model.pushAction(new GuessCardAction(turn, guess));
+        		
+        		currentOp
+        		    .guessCard(model, model.lastClueProperty().get())
+        		    .then(guess->model.pushAction(new GuessCardAction(turn, guess)));
     		}
     	}	
     }
