@@ -1,5 +1,6 @@
 package ca.concordia.encs.comp354.controller.action;
 
+import ca.concordia.encs.comp354.Promise;
 import ca.concordia.encs.comp354.controller.Clue;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import ca.concordia.encs.comp354.controller.GameAction;
@@ -26,7 +27,7 @@ public final class ChangeTurnAction extends GameAction {
     }
     
     @Override
-    protected GameEvent doApply(GameState state) {
+    protected Promise<GameEvent> doApply(GameState state) {
         // undo logic is simpler if we just record the values of the properties we intend to modify first
     	lastTeam = state.getTurn();
     	lastClue = state.lastClueProperty().get();
@@ -35,7 +36,7 @@ public final class ChangeTurnAction extends GameAction {
         state.turnProperty().set(getTeam());
         state.lastClueProperty().set(null);
         
-        return GameEvent.NONE;
+        return Promise.finished(GameEvent.NONE);
     }
 
     @Override

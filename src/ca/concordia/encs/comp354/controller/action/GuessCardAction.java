@@ -1,5 +1,6 @@
 package ca.concordia.encs.comp354.controller.action;
 
+import ca.concordia.encs.comp354.Promise;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.GameState;
@@ -26,8 +27,8 @@ public final class GuessCardAction extends AbstractGuessAction {
     }
 
     @Override
-    protected GameEvent doApply(GameState state) {
-        return super.doGuess(state, coords);
+    protected Promise<GameEvent> doApply(GameState state) {
+        return Promise.finished(super.doGuess(state, coords));
     }
 
     // boilerplate
