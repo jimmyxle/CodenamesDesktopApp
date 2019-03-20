@@ -7,7 +7,8 @@ public class HumanOperativeStrategy implements Operative.Strategy {
     
     @Override
     public OperativeAction guessCard(Operative owner, ReadOnlyGameState state, Clue clue) {
-        // TODO Auto-generated method stub
+        // TODO fill this out!
+        // this only has to produce a controller.actions.LetViewGuessCardAction
         return null;
     }
 
