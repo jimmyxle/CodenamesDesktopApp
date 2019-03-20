@@ -29,7 +29,7 @@ public class GameView extends StackPane {
         /**
          * Advances the game to the next action.
          */
-        void    advanceTurn();
+        void advanceTurn();
         /**
          * Reverses the most recently executed action.
          * @return <tt>true</tt> iff a previously executed action was available for this operation
