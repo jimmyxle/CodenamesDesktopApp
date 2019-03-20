@@ -13,7 +13,7 @@ import ca.concordia.encs.comp354.model.ReadOnlyGameState;
  * @author Mykyta Leonidov
  *
  */
-public class SequentialOperativeStrategy extends AbstractPlayerStrategy implements Operative.Strategy {
+public class SequentialOperativeStrategy extends AbstractPlayerStrategy implements Operative.AIStrategy {
 
     @Override
     public Promise<Coordinates> guessCard(Operative owner, ReadOnlyGameState state, Clue clue) {

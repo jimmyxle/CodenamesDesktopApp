@@ -1,5 +1,6 @@
 package ca.concordia.encs.comp354.model;
 
+import ca.concordia.encs.comp354.Promise;
 import ca.concordia.encs.comp354.controller.Clue;
 import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.controller.SpyMaster;
@@ -114,4 +115,9 @@ public interface ReadOnlyGameState {
      * @return a read-only view of the card coordinates that have been revealed so far
      */
     ObservableSet<Coordinates> getChosenCards();
+
+    /**
+     * @return a property containing a requested guess, which may be fulfilled by the observing class
+     */
+    ReadOnlyObjectProperty<Promise<Coordinates>> requestedGuessProperty();
 }

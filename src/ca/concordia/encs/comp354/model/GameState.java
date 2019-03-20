@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import ca.concordia.encs.comp354.Promise;
 import ca.concordia.encs.comp354.controller.Clue;
 import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.controller.GameEvent;
@@ -43,7 +44,7 @@ import javafx.collections.ObservableSet;
  * and/or its value is also present in ReadOnlyGameState. Lastly, be sure to add the appropriate 
  * @Override annotations to the corresponding definitions in this class.
  */
-public final class GameState implements ReadOnlyGameState {
+public final class GameState implements HumanGameState, ReadOnlyGameState {
 
     private final PrintStream log;
     
@@ -64,6 +65,11 @@ public final class GameState implements ReadOnlyGameState {
     // the set of revealed cards
     private final ObservableSet<Coordinates> chosen         = FXCollections.observableSet();
     private final ObservableSet<Coordinates> readOnlyChosen = FXCollections.unmodifiableObservableSet(chosen);
+    
+    // user input
+    //------------------------------------------------------------------------------------------------------------------
+    private final ObjectProperty<Promise<Coordinates>> requestedGuess = 
+            new SimpleObjectProperty<>(this, "requestedGuess", null);
     
     // history ("command queue")
     //------------------------------------------------------------------------------------------------------------------
@@ -332,5 +338,19 @@ public final class GameState implements ReadOnlyGameState {
             }
         }
         return k;
+    }
+
+    @Override
+    public void requestGuess(Promise<Coordinates> guess) {
+        if (requestedGuess.get()!=null) {
+            throw new IllegalStateException("guess already in progress");
+        }
+        requestedGuess.set(guess);
+        guess.then(v->requestedGuess.set(null));
+    }
+    
+    @Override
+    public ReadOnlyObjectProperty<Promise<Coordinates>> requestedGuessProperty() {
+        return requestedGuess;
     }
 }
