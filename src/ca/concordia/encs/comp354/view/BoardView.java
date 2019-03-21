@@ -124,15 +124,17 @@ public class BoardView extends StackPane {
     
     private final class CodenameRegion extends StackPane {
         
-        private final CardValue value;
-        private final Region    markedRegion;
+        private final Coordinates coords;
+        private final CardValue   value;
+        private final Region      markedRegion;
         
         private final Transition markAnimation;
         
         private boolean marked = false;
         
-        CodenameRegion(String text, CardValue value) {
-            this.value = value;
+        CodenameRegion(String text, CardValue value, Coordinates coords) {
+            this.coords = coords;
+            this.value  = value;
             setDepthTest(DepthTest.ENABLE);
             
             final Label label = new Label(text);
@@ -256,10 +258,11 @@ public class BoardView extends StackPane {
             // child nodes
             for (int x=0; x<val.getWidth(); x++) {
                 for (int y=0; y<val.getLength(); y++) {
-                    final Card k = val.getCard(x, y);
+                    final Coordinates c = new Coordinates(x, y);
+                    final Card k = val.getCard(c);
                     // create codename card
-                    CodenameRegion reg = new CodenameRegion(k.getCodename(), k.getValue());
-                    codenames.put(new Coordinates(x, y), reg);
+                    CodenameRegion reg = new CodenameRegion(k.getCodename(), k.getValue(), c);
+                    codenames.put(c, reg);
                     tiles.add(reg, x, y);
                     
                     // create keycard element
