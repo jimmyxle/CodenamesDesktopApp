@@ -172,4 +172,14 @@ public class GameController implements GameView.Controller {
 	public boolean redoTurn() {
 		return model.redoAction();
 	}
+	
+
+	public void restartGame() {
+		System.out.println("restart pressed!");
+		
+		//call GameState to reset
+		GameState.reset();
+		
+	
+	}
 }

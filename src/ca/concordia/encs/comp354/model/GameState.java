@@ -235,6 +235,7 @@ public final class GameState implements ReadOnlyGameState {
     public IntegerProperty redScoreProperty() {
         return redScore;
     }
+    
 
     @Override
     public int getBlueScore() {
@@ -377,4 +378,30 @@ public final class GameState implements ReadOnlyGameState {
     public ReadOnlyObjectProperty<CompletablePromise<Coordinates>> requestedGuessProperty() {
         return requestedGuess;
     }
+        
+    
+    /*
+     * Reset the game state. All properties are being reset to original values.
+     * 
+     */
+    public static void reset() {
+    		
+    	//reset all values
+    	System.out.println("testing");
+    	
+    	redScore.set("redScore",0);
+    	blueScore.set("blueScore",0);
+    	guesses.set(0);
+    	redObjective.set(0);
+    	blueObjective.set(0);
+    	
+    	
+    	    //clear history
+    	    
+    	    
+    	    //clear undone
+
+    	
+    }
+    
 }

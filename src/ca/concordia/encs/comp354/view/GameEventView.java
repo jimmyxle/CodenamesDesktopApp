@@ -11,12 +11,19 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.css.PseudoClass;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
+import javafx.scene.layout.VBox; 
+import javafx.scene.*;
+import javafx.stage.Stage;
+
 import static ca.concordia.encs.comp354.controller.GameEvent.*;
+
+import ca.concordia.encs.comp354.controller.GameController;
 
 /**
  * Displays "game over" event overlays.
@@ -36,6 +43,8 @@ public class GameEventView extends StackPane {
 
     private Animation lastAnim = null;
     
+//    private final Button restart;
+    
     private static final Duration FADE_DURATION  = Duration.millis(500);
     private static final Duration PAUSE_DURATION = Duration.millis(500);
     
@@ -43,6 +52,19 @@ public class GameEventView extends StackPane {
         redWins  = endLabel(GAME_OVER_RED_WON,  "Red wins!",  "red");
         blueWins = endLabel(GAME_OVER_BLUE_WON, "Blue wins!", "blue");
         assassin = endLabel(GAME_OVER_ASSASSIN, "Assassin!",  "assassin");
+                
+		Button restart = new Button("Restart");	
+		Button exit = new Button("Exit");
+		restart.setOnAction(e->GameController.restartGame());
+		Label label = new Label("Would you like to play again?"); 
+		
+		Stage stage = new Stage();
+		StackPane layout = new StackPane(label);
+        layout.getChildren().add(restart);
+        layout.getChildren().add(exit);
+        stage.setScene(new Scene(layout,300,250));
+        stage.setTitle("Game over");
+        stage.show();
         
         getChildren().addAll(redWins, blueWins, assassin);
     }
@@ -119,17 +141,19 @@ public class GameEventView extends StackPane {
         lastAnim.play();
     }
 
-    private Label endLabel(GameEvent show, String label, String pseudoClass) {
+	private Label endLabel(GameEvent show, String label, String pseudoClass) {
         Label ret = new Label(label);
         
         ret.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
         ret.setTextAlignment(TextAlignment.CENTER);
         ret.getStyleClass().add("game-over");
-        ret.pseudoClassStateChanged(PseudoClass.getPseudoClass(pseudoClass), true);
+        ret.pseudoClassStateChanged(PseudoClass.getPseudoClass(pseudoClass), true);               
         
         // show only for specific game event
         ret.setVisible(false);
         
         return ret;
     }
+	
+	
 }
