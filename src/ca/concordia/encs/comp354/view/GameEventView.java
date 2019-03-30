@@ -10,6 +10,8 @@ import javafx.animation.SequentialTransition;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.css.PseudoClass;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -39,6 +41,8 @@ public class GameEventView extends StackPane {
         }
     };
     
+    private GameController controller;
+    
     private final Label redWins, blueWins, assassin;
 
     private Animation lastAnim = null;
@@ -55,13 +59,14 @@ public class GameEventView extends StackPane {
                 
 		Button restart = new Button("Restart");	
 		Button exit = new Button("Exit");
-		restart.setOnAction(e->GameController.restartGame());
+//		restart.setOnAction(e->GameController.restartGame());
+		restart.setOnAction(event);
 		Label label = new Label("Would you like to play again?"); 
 		
 		Stage stage = new Stage();
 		StackPane layout = new StackPane(label);
         layout.getChildren().add(restart);
-        layout.getChildren().add(exit);
+//        layout.getChildren().add(exit);
         stage.setScene(new Scene(layout,300,250));
         stage.setTitle("Game over");
         stage.show();
@@ -155,5 +160,13 @@ public class GameEventView extends StackPane {
         return ret;
     }
 	
+	 // action event 
+    EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() { 
+        public void handle(ActionEvent e) 
+        { 
+        	System.out.println("inside restart");
+        	controller.restartGame();
+        } 
+    }; 
 	
 }

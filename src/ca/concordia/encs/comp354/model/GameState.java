@@ -18,6 +18,7 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.WritableBooleanValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
@@ -381,19 +382,19 @@ public final class GameState implements ReadOnlyGameState {
         
     
     /*
-     * Reset the game state. All properties are being reset to original values.
+     * Reset the game state. All properties are being reset to the original values.
      * 
      */
-    public static void reset() {
+    public void reset() {
     		
     	//reset all values
     	System.out.println("testing");
     	
-    	redScore.set("redScore",0);
-    	blueScore.set("blueScore",0);
+    	redScore.set(0);
+    	blueScore.set(0);
     	guesses.set(0);
-    	redObjective.set(0);
-    	blueObjective.set(0);
+//    	((WritableBooleanValue) redObjective).set(0);
+//    	((WritableBooleanValue) blueObjective).set(0);
     	
     	
     	    //clear history
