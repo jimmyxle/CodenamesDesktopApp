@@ -103,8 +103,9 @@ public class GameView extends StackPane {
         advance = new Button("Advance");
         final Button undo = new Button("Undo");
         final Button redo = new Button("Redo");
+        final Button restart = new Button("Restart");
         
-        history.getChildren().addAll(undo, redo, advance);
+        history.getChildren().addAll(undo, redo, restart ,advance);
         bottom.getChildren().addAll(stateView, history);
         
         HBox.setHgrow(stateView, Priority.ALWAYS);
@@ -135,6 +136,7 @@ public class GameView extends StackPane {
         advance.setOnAction(event->controller.advanceTurn());
         undo   .setOnAction(event->controller.undoTurn());
         redo   .setOnAction(event->controller.redoTurn());
+        restart .setOnAction(event->controller.restartGame());
         
         redo.setDisable(game.getUndone().isEmpty());
         undo.setDisable(game.getHistory().isEmpty());

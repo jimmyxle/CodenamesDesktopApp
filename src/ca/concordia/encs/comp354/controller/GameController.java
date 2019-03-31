@@ -176,7 +176,6 @@ public class GameController implements GameView.Controller {
 
 	public void restartGame() {
 		System.out.println("restart pressed!");
-		
 		//call GameState to reset
 		model.reset();
 		

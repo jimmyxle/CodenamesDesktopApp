@@ -55,21 +55,7 @@ public class GameEventView extends StackPane {
         redWins  = endLabel(GAME_OVER_RED_WON,  "Red wins!",  "red");
         blueWins = endLabel(GAME_OVER_BLUE_WON, "Blue wins!", "blue");
         assassin = endLabel(GAME_OVER_ASSASSIN, "Assassin!",  "assassin");
-                
-		Button restart = new Button("Restart");	
-		Button exit = new Button("Exit");
-//		restart.setOnAction(e->GameController.restartGame());
-//		restart.setOnAction(event);
-		Label label = new Label("Would you like to play again?"); 
-		
-		Stage stage = new Stage();
-		StackPane layout = new StackPane(label);
-        layout.getChildren().add(restart);
-//        layout.getChildren().add(exit);
-        stage.setScene(new Scene(layout,300,250));
-        stage.setTitle("Game over");
-        stage.show();
-        
+                    
         getChildren().addAll(redWins, blueWins, assassin);
     }
     
@@ -158,14 +144,4 @@ public class GameEventView extends StackPane {
         
         return ret;
     }
-	
-//	 // action event 
-//    EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() { 
-//        public void handle(ActionEvent e) 
-//        { 
-//        	System.out.println("inside restart");
-////        	GameController.restartGame();
-//        } 
-//    }; 
-	
 }

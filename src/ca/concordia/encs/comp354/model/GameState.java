@@ -395,8 +395,8 @@ public final class GameState implements ReadOnlyGameState {
     	guesses.set(0);    	
     	
 	    //clear history
-//		for(int i = 0; i<history.size(); i++)
-//			pop(history);
+		for(int i = 0; i<history.size(); i++)
+			pop(history);
 	    
 	    //clear undone
 		
