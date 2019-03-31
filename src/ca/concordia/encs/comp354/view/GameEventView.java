@@ -41,7 +41,6 @@ public class GameEventView extends StackPane {
         }
     };
     
-    private GameController controller;
     
     private final Label redWins, blueWins, assassin;
 
@@ -60,7 +59,7 @@ public class GameEventView extends StackPane {
 		Button restart = new Button("Restart");	
 		Button exit = new Button("Exit");
 //		restart.setOnAction(e->GameController.restartGame());
-		restart.setOnAction(event);
+//		restart.setOnAction(event);
 		Label label = new Label("Would you like to play again?"); 
 		
 		Stage stage = new Stage();
@@ -160,13 +159,13 @@ public class GameEventView extends StackPane {
         return ret;
     }
 	
-	 // action event 
-    EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() { 
-        public void handle(ActionEvent e) 
-        { 
-        	System.out.println("inside restart");
-        	controller.restartGame();
-        } 
-    }; 
+//	 // action event 
+//    EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() { 
+//        public void handle(ActionEvent e) 
+//        { 
+//        	System.out.println("inside restart");
+////        	GameController.restartGame();
+//        } 
+//    }; 
 	
 }

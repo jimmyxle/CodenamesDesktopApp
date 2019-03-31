@@ -386,21 +386,20 @@ public final class GameState implements ReadOnlyGameState {
      * 
      */
     public void reset() {
-    		
-    	//reset all values
+    		   	
     	System.out.println("testing");
     	
+    	//reset all values
     	redScore.set(0);
     	blueScore.set(0);
-    	guesses.set(0);
-//    	((WritableBooleanValue) redObjective).set(0);
-//    	((WritableBooleanValue) blueObjective).set(0);
+    	guesses.set(0);    	
     	
-    	
-    	    //clear history
-    	    
-    	    
-    	    //clear undone
+	    //clear history
+//		for(int i = 0; i<history.size(); i++)
+//			pop(history);
+	    
+	    //clear undone
+		
 
     	
     }
