@@ -19,13 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
-import javafx.scene.layout.VBox; 
-import javafx.scene.*;
-import javafx.stage.Stage;
-
 import static ca.concordia.encs.comp354.controller.GameEvent.*;
-
-import ca.concordia.encs.comp354.controller.GameController;
 
 /**
  * Displays "game over" event overlays.

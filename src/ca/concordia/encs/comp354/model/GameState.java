@@ -380,28 +380,32 @@ public final class GameState implements ReadOnlyGameState {
         return requestedGuess;
     }
         
-    
     /*
      * Reset the game state. All properties are being reset to the original values.
      * 
      */
     public void reset() {
     		   	
-    	System.out.println("testing");
+    	//reset all values to the original properties
+//    	board.set(null);
     	
-    	//reset all values
+    	turn.set(null);
+    	clue.set(null);
     	redScore.set(0);
     	blueScore.set(0);
-    	guesses.set(0);    	
+    	guesses.set(0);
     	
-	    //clear history
-		for(int i = 0; i<history.size(); i++)
-			pop(history);
-	    
-	    //clear undone
-		
-
+  
+    	chosen.clear();
     	
+    	System.out.println("history lenght: " + history.size());
+    	System.out.println("undone lenght: " + undone.size());
+    	
+//	    clear history and undo
+    	history.clear();
+    	undone.clear();
+	       	
     }
-    
+//    **issues encountered**
+//    -clear board & clues    
 }
