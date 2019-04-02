@@ -219,6 +219,11 @@ public class BoardView extends StackPane {
         if (rebuildBoard) {
             tiles.getChildren().clear();
             teams.getChildren().clear();
+            
+            tiles.getColumnConstraints().clear();
+            tiles.getRowConstraints().clear();
+            teams.getColumnConstraints().clear();
+            teams.getRowConstraints().clear();
         }
         
         final Board val = board.get();

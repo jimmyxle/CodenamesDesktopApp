@@ -3,6 +3,7 @@ package ca.concordia.encs.comp354.model;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 import ca.concordia.encs.comp354.CompletablePromise;
 import ca.concordia.encs.comp354.Promise;
@@ -52,6 +53,7 @@ import javafx.collections.ObservableSet;
 public final class GameState implements ReadOnlyGameState {
 
     private final PrintStream log;
+    private final Supplier<Board> boardFunc;
     
     // game state
     //------------------------------------------------------------------------------------------------------------------
@@ -92,20 +94,26 @@ public final class GameState implements ReadOnlyGameState {
     private final ObjectProperty<GameEvent>  event   = new SimpleObjectProperty<>(this, "event",   GameEvent.NONE);
     
     public GameState(Board board) {
-        this(board, null);
+    	this(()->board);
     }
     
-    public GameState(Board board, PrintStream logOut) {
-        this.board.set(Objects.requireNonNull(board, "board"));
+    public GameState(Supplier<Board> boardFunc) {
+        this(boardFunc, null);
+    }
+    
+    public GameState(Supplier<Board> boardFunc, PrintStream logOut) {
+    	this.boardFunc = Objects.requireNonNull(boardFunc, "board supplier");
+        generateBoard();
+        
         this.log = logOut;
         
         // count red, blue cards on board to determine objectives
         int redCount  = 0;
         int blueCount = 0;
         
-        for (int x=0; x<board.getWidth(); x++) {
-            for (int y=0; y<board.getLength(); y++) {
-                switch (board.getCard(x, y).getValue()) {
+        for (int x=0; x<getBoard().getWidth(); x++) {
+            for (int y=0; y<getBoard().getLength(); y++) {
+                switch (getBoard().getCard(x, y).getValue()) {
                 case BLUE:
                     blueCount++;
                     break;
@@ -124,6 +132,10 @@ public final class GameState implements ReadOnlyGameState {
         // look for changes in history to update "top of stack" properties
         //--------------------------------------------------------------------------------------------------------------
         getHistory().addListener((Change<?> c)->recordStep(peek(getHistory())));
+    }
+    
+    private void generateBoard() {
+    	board.set(Objects.requireNonNull(boardFunc.get()));
     }
     
     public Board getBoard() {
@@ -386,26 +398,22 @@ public final class GameState implements ReadOnlyGameState {
      */
     public void reset() {
     		   	
-    	//reset all values to the original properties
-//    	board.set(null);
+    	//reset the board	
+    	generateBoard();
     	
+    	//reset all values to the original properties    
     	turn.set(null);
     	clue.set(null);
     	redScore.set(0);
     	blueScore.set(0);
     	guesses.set(0);
     	
-  
     	chosen.clear();
-    	
-    	System.out.println("history lenght: " + history.size());
-    	System.out.println("undone lenght: " + undone.size());
-    	
-//	    clear history and undo
+
+    	//clear history and undo
     	history.clear();
     	undone.clear();
+    
 	       	
     }
-//    **issues encountered**
-//    -clear board & clues    
 }

@@ -2,7 +2,6 @@ package ca.concordia.encs.comp354.view;
 
 import java.util.Objects;
 
-import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 import javafx.beans.InvalidationListener;
 import javafx.scene.control.Button;
@@ -12,8 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.beans.Observable;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 
 /**
