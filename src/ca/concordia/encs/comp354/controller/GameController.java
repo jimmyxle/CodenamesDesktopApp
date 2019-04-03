@@ -39,6 +39,7 @@ public class GameController implements GameView.Controller {
         private SpyMaster blueSpyMaster;
         private Operative blueOperative;
         
+        
         private Team initialTurn = Team.RED;
        
         public Builder setInitialTurn(Team team) {
@@ -172,4 +173,13 @@ public class GameController implements GameView.Controller {
 	public boolean redoTurn() {
 		return model.redoAction();
 	}
+
+	@Override
+	public void skipTurn() {
+		model.pushAction(new SkipTurnAction(model.getTurn()));
+    }
+		
+	
+	
+	
 }

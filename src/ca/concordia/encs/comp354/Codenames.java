@@ -34,7 +34,7 @@ public class Codenames extends Application {
 		// create game state & controller
 		game = new GameState(new Board(codenameWords, keycards.get(new Random().nextInt(keycards.size()))), System.out);
 		controller = 
-		        new GameController.Builder()
+		         new GameController.Builder()
 		        .setModel(game)
 		        .setInitialTurn(Team.RED)
 		        .setRedSpyMaster (new SpyMaster(Team.RED,  new SpyMasterWeightStrategy()))
