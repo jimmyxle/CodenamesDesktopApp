@@ -3,13 +3,11 @@ package ca.concordia.encs.comp354.controller;
 import ca.concordia.encs.comp354.Promise;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Team;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 
 
 public class SkipTurnAction extends GameAction{
 		
-		 IntegerProperty guesses = new SimpleIntegerProperty();
+		
 		 private int value;
 
 	public SkipTurnAction(Team team) {
@@ -24,19 +22,19 @@ public class SkipTurnAction extends GameAction{
 
 	@Override
 	protected  Promise<GameEvent> doApply(GameState state) {
-		guesses = state.guessesRemainingProperty();
-		guesses.setValue(0);
-	
-		
+		value=(state.guessesRemainingProperty().getValue());
+		state.guessesRemainingProperty().setValue(0);
+		//System.out.println(value);
+		//System.out.println(state);
 		return Promise.finished(GameEvent.END_TURN);
 	}
 
 	@Override
 	protected void doUndo(GameState state) {
-		state.guessesRemainingProperty().set(value);
-		
+		state.guessesRemainingProperty().set(value); 
 	}
 
+	
 	
 	/*
 	SkipTurnAction.doApply(GameState) should store the value of 

@@ -44,7 +44,7 @@ public class GameView extends StackPane {
         /**
          * Skips the turn of whoever's turn it currently is, and proceeds with the next action. 
          */
-        boolean skipTurn(); 
+        void skipTurn(); 
     }
     
     private final ReadOnlyGameState game;
@@ -56,9 +56,11 @@ public class GameView extends StackPane {
     private final GameEventView gameEventView;
     private final TurnView      turnView;
     private final Button        advance;
+    private final Button 		skipTurn; 
     
     private final InvalidationListener advanceFreeze = this::onAdvanceChanged;
 
+    
     public GameView(ReadOnlyGameState game, Controller controller) {
         Objects.requireNonNull(controller, "controller");
         this.game = Objects.requireNonNull(game, "game state");
@@ -102,7 +104,7 @@ public class GameView extends StackPane {
         advance = new Button("Advance");
         final Button undo = new Button("Undo");
         final Button redo = new Button("Redo");
-        final Button skipTurn= new Button("Skip Turn"); 
+        skipTurn= new Button("Skip Turn");
         
         //this makes the undo, redo, advance, and skip turn buttons visible in the GUI
         history.getChildren().addAll(undo, redo, advance, skipTurn); 
@@ -131,8 +133,6 @@ public class GameView extends StackPane {
         scoreView.redScoreProperty().bind(game.redScoreProperty());
         scoreView.blueScoreProperty().bind(game.blueScoreProperty());
         
-        
-        
         stateView.actionProperty().bind(game.lastActionProperty());
         
         game.redScoreProperty()     .addListener(advanceFreeze);
@@ -141,20 +141,22 @@ public class GameView extends StackPane {
         game.blueObjectiveProperty().addListener(advanceFreeze);
         game.lastEventProperty()    .addListener(advanceFreeze);
         
-        
-        
         advance.setOnAction(event->controller.advanceTurn());
         undo   .setOnAction(event->controller.undoTurn());
         redo   .setOnAction(event->controller.redoTurn());
+        skipTurn.setOnAction(event ->controller.skipTurn());
       
-      if (game.requestedGuessProperty() != null){
-    	  skipTurn.setDisable(true);
-      }
-     
+        skipTurn.setDisable(game.requestedGuessProperty().get() == null);
+        
+        game.requestedGuessProperty().addListener(new InvalidationListener() {
+		    @Override
+		    public void invalidated(Observable observable) {
+			    skipTurn.setDisable(game.requestedGuessProperty().getValue() == null);
+		    } 
+        });
         
         redo.setDisable(game.getUndone().isEmpty());
         undo.setDisable(game.getHistory().isEmpty());
-        
         
         history.disableProperty().bind(game.actionInProgressProperty());
         game.getUndone() .addListener((Observable o)->redo.setDisable(game.getUndone().isEmpty()));
@@ -167,6 +169,7 @@ public class GameView extends StackPane {
 			game.getBlueScore() >= game.blueObjectiveProperty().get() ||
 			game.getLastEvent().isTerminal()
 		);
+    	
     }
     
 }
