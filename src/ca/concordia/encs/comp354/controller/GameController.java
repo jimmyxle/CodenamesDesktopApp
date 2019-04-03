@@ -172,4 +172,12 @@ public class GameController implements GameView.Controller {
 	public boolean redoTurn() {
 		return model.redoAction();
 	}
+
+	@Override
+	public boolean skipTurn() {
+		
+		return false;
+	}
+	
+	
 }

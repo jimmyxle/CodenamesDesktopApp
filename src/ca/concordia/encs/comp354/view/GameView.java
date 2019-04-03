@@ -40,6 +40,11 @@ public class GameView extends StackPane {
          * @return <tt>true</tt> iff a previously undone action was available for this operation
          */
         boolean redoTurn();
+        
+        /**
+         * Skips the turn of whoever's turn it currently is, and proceeds with the next action. 
+         */
+        boolean skipTurn(); 
     }
     
     private final ReadOnlyGameState game;
@@ -97,13 +102,21 @@ public class GameView extends StackPane {
         advance = new Button("Advance");
         final Button undo = new Button("Undo");
         final Button redo = new Button("Redo");
+        final Button skipTurn= new Button("Skip Turn"); 
         
-        history.getChildren().addAll(undo, redo, advance);
+        //this makes the undo, redo, advance, and skip turn buttons visible in the GUI
+        history.getChildren().addAll(undo, redo, advance, skipTurn); 
         bottom.getChildren().addAll(stateView, history);
         
         HBox.setHgrow(stateView, Priority.ALWAYS);
         
         root.setBottom(bottom);
+        
+        /** COBY
+         * Bind your button's disableProperty() to be true iff a human player is active 
+         * (check this using ReadOnlyGameState.requestedGuessProperty() -- 
+         * if its value is non-null, there's a human playing);
+         */
         
         // bind elements to model, controller
         //--------------------------------------------------------------------------------------------------------------
@@ -118,6 +131,8 @@ public class GameView extends StackPane {
         scoreView.redScoreProperty().bind(game.redScoreProperty());
         scoreView.blueScoreProperty().bind(game.blueScoreProperty());
         
+        
+        
         stateView.actionProperty().bind(game.lastActionProperty());
         
         game.redScoreProperty()     .addListener(advanceFreeze);
@@ -126,12 +141,20 @@ public class GameView extends StackPane {
         game.blueObjectiveProperty().addListener(advanceFreeze);
         game.lastEventProperty()    .addListener(advanceFreeze);
         
+        
+        
         advance.setOnAction(event->controller.advanceTurn());
         undo   .setOnAction(event->controller.undoTurn());
         redo   .setOnAction(event->controller.redoTurn());
+      
+      if (game.requestedGuessProperty() != null){
+    	  skipTurn.setDisable(true);
+      }
+     
         
         redo.setDisable(game.getUndone().isEmpty());
         undo.setDisable(game.getHistory().isEmpty());
+        
         
         history.disableProperty().bind(game.actionInProgressProperty());
         game.getUndone() .addListener((Observable o)->redo.setDisable(game.getUndone().isEmpty()));
