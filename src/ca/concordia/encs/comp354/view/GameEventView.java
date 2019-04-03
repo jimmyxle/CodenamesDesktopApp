@@ -44,6 +44,8 @@ public class GameEventView extends StackPane {
         blueWins = endLabel(GAME_OVER_BLUE_WON, "Blue wins!", "blue");
         assassin = endLabel(GAME_OVER_ASSASSIN, "Assassin!",  "assassin");
         
+        setMouseTransparent(true);
+        
         getChildren().addAll(redWins, blueWins, assassin);
     }
     

@@ -37,6 +37,8 @@ public class TurnView extends StackPane {
     TurnView() {
         redTurn  = endLabel(RED,  "Red's turn");
         blueTurn = endLabel(BLUE, "Blue's turn");
+
+        setMouseTransparent(true);
         
         getChildren().addAll(redTurn, blueTurn);
         turn.addListener(this::onTurn);
