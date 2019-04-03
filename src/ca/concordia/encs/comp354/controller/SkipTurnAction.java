@@ -36,14 +36,6 @@ public class SkipTurnAction extends GameAction{
 
 	
 	
-	/*
-	SkipTurnAction.doApply(GameState) should store the value of 
-	GameState.guessesRemainingProperty(), then set that property's value to 0 
-	and return GameEvent.END_TURN (wrap it in a Promise using Promise.finished() if you need to)
-	
-	SkipTurnAction.doUndo(GameState) should set guessesRemainingProperty()'s
-	 value back to the stored value
-	*/
 	
 	
 	
