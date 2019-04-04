@@ -132,11 +132,12 @@ public class GameView extends StackPane {
         //Displays the last action that took place in the game (e.g. spymaster giving a clue, players guessing)
         stateView.actionProperty().bind(game.lastActionProperty());
         
-        game.redScoreProperty()     .addListener(advanceFreeze);
-        game.redObjectiveProperty() .addListener(advanceFreeze);
-        game.blueScoreProperty()    .addListener(advanceFreeze);
-        game.blueObjectiveProperty().addListener(advanceFreeze);
-        game.lastEventProperty()    .addListener(advanceFreeze);
+        game.redScoreProperty()      .addListener(advanceFreeze);
+        game.redObjectiveProperty()  .addListener(advanceFreeze);
+        game.blueScoreProperty()     .addListener(advanceFreeze);
+        game.blueObjectiveProperty() .addListener(advanceFreeze);
+        game.lastEventProperty()     .addListener(advanceFreeze);
+        game.operativeInputProperty().addListener(advanceFreeze);
         
         advance .setOnAction(event->controller.advanceTurn());
         undo    .setOnAction(event->controller.undoTurn());
@@ -160,6 +161,7 @@ public class GameView extends StackPane {
     
     private void onAdvanceChanged(Observable ignore) {
     	advance.setDisable(
+	        game.operativeInputProperty().get()!=null ||
 			game.getRedScore()  >= game.redObjectiveProperty().get() ||
 			game.getBlueScore() >= game.blueObjectiveProperty().get() ||
 			game.getLastEvent().isTerminal()
