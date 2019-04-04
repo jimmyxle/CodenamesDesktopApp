@@ -19,6 +19,7 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
@@ -149,7 +150,7 @@ public class BoardView extends StackPane {
         
         private final Transition markAnimation;
         
-        private boolean marked = false;
+        private BooleanProperty marked = new SimpleBooleanProperty(this, "marked");
         
         CodenameRegion(String text, CardValue value, Coordinates coords) {
             this.value  = value;
@@ -165,6 +166,8 @@ public class BoardView extends StackPane {
             getStyleClass().clear();
             getStyleClass().add(CODENAME_REGION_STYLE_CLASS);
             getChildren().addAll(markedRegion, label);
+            
+            this.disableProperty().bind(marked);
             
             this.onMouseClickedProperty().set(event->{
 				requestedGuessProperty().get().finish(new GuessEvent(coords));
@@ -199,11 +202,11 @@ public class BoardView extends StackPane {
         }
         
         void setMarked(boolean v) {
-            marked = v;
+            marked.set(v);
             PseudoClass pseudoClass = PseudoClass.getPseudoClass(value.name().toLowerCase(Locale.ENGLISH));
-            pseudoClassStateChanged(pseudoClass, marked);
+            pseudoClassStateChanged(pseudoClass, marked.get());
             markAnimation.stop();
-            if (marked) {
+            if (marked.get()) {
                 markAnimation.play();
             }
         }

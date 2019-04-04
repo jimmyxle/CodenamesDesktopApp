@@ -92,16 +92,22 @@
 	-fx-border-style: dotted inside;
 }
 
-.board-view .codename-region:disable .label {
-	-fx-font-weight: regular;
+.board-view .codename-region:disable {
+	-fx-border-color: tan;
+	-fx-border-style: dotted inside;
 }
 
-.board-view .codename-region .label {
+.board-view .codename-region:disable .label {
+	-fx-font-weight: normal;
+}
+
+.board-view .codename-region:normal .label {
 	-fx-font-weight: bold;
 }
 
 .board-view .codename-region:hover {
 	-fx-border-color: white;
+	-fx-border-width: 0.2em;
 	-fx-border-style: solid inside;
 }
 
