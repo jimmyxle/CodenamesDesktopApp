@@ -9,6 +9,8 @@ import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.CardValue;
 import ca.concordia.encs.comp354.model.Coordinates;
+import ca.concordia.encs.comp354.model.GuessEvent;
+import ca.concordia.encs.comp354.model.HumanOperativeEvent;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
@@ -53,7 +55,7 @@ public class BoardView extends StackPane {
     
     private final Map<Coordinates, CodenameRegion> codenames = new HashMap<>();
     
-    private final ObjectProperty<CompletablePromise<Coordinates>> requestedGuess = new SimpleObjectProperty<>(this, "requestedGuess");
+    private final ObjectProperty<CompletablePromise<HumanOperativeEvent>> requestedGuess = new SimpleObjectProperty<>(this, "requestedGuess");
     
     private final ObjectProperty<Board> board = new SimpleObjectProperty<Board>(this, "board") {
         @Override protected void invalidated() {
@@ -108,7 +110,7 @@ public class BoardView extends StackPane {
         return board.get();
     }
     
-    public ObjectProperty<CompletablePromise<Coordinates>> requestedGuessProperty(){
+    public ObjectProperty<CompletablePromise<HumanOperativeEvent>> requestedGuessProperty(){
     	return requestedGuess;
     }
 
@@ -165,7 +167,7 @@ public class BoardView extends StackPane {
             getChildren().addAll(markedRegion, label);
             
             this.onMouseClickedProperty().set(event->{
-				requestedGuessProperty().get().finish(coords);
+				requestedGuessProperty().get().finish(new GuessEvent(coords));
 			});
             
             // create animation

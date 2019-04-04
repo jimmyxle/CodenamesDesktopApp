@@ -3,6 +3,7 @@ package ca.concordia.encs.comp354.view;
 import java.util.Objects;
 
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
+import ca.concordia.encs.comp354.model.SkipEvent;
 import javafx.beans.InvalidationListener;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -44,10 +45,6 @@ public class GameView extends StackPane {
          * Resets the game state.
          */
         void restartGame();
-        /**
-         * Ends the current turn.
-         */
-        void skipTurn();
     }
     
     private final ReadOnlyGameState game;
@@ -120,7 +117,7 @@ public class GameView extends StackPane {
         
         // bind elements to model, controller
         //--------------------------------------------------------------------------------------------------------------
-        boardView.requestedGuessProperty().bind(game.requestedGuessProperty());
+        boardView.requestedGuessProperty().bind(game.operativeInputProperty());
         boardView.boardProperty().bind(game.boardProperty());
         boardView.setRevealed(game.getChosenCards());
         boardView.keycardVisibleProperty().bind(showOverlay.selectedProperty());
@@ -145,12 +142,12 @@ public class GameView extends StackPane {
         undo    .setOnAction(event->controller.undoTurn());
         redo    .setOnAction(event->controller.redoTurn());
         restart .setOnAction(event->controller.restartGame());
-        skipTurn.setOnAction(event->controller.skipTurn());
+        skipTurn.setOnAction(event->game.operativeInputProperty().get().finish(new SkipEvent()));
       
-        skipTurn.setDisable(game.requestedGuessProperty().get() == null);
+        skipTurn.setDisable(game.operativeInputProperty().get() == null);
         
-        game.requestedGuessProperty().addListener(o->{
-            skipTurn.setDisable(game.requestedGuessProperty().getValue() == null);
+        game.operativeInputProperty().addListener(o->{
+            skipTurn.setDisable(game.operativeInputProperty().getValue() == null);
         });
         
         redo.setDisable(game.getUndone().isEmpty());
