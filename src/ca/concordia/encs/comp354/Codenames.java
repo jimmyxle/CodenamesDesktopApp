@@ -23,16 +23,23 @@ public class Codenames extends Application {
     private GameState      game;
     private GameController controller;
     
+    private static Board generateBoard() {
+    	try {
+			List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/words.txt"));
+			List<Keycard> keycards = Keycard.createRandomKeycards(Keycard.NUMBER_OF_KEYCARDS);
+	    	return new Board(codenameWords, keycards.get(new Random().nextInt(keycards.size())));
+    	} catch (IOException e) {
+    		throw new Error(e);
+    	}
+    }
+    
 	@Override
 	public void start(Stage stage) throws IOException {
 		// configure game
 	    //--------------------------------------------------------------------------------------------------------------
-		List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/words.txt"));
-		//List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/25wordswithcommonassociatedwords.txt"));
-		List<Keycard> keycards = Keycard.createRandomKeycards(Keycard.NUMBER_OF_KEYCARDS);
 
 		// create game state & controller
-		game = new GameState(new Board(codenameWords, keycards.get(new Random().nextInt(keycards.size()))), System.out);
+		game = new GameState(Codenames::generateBoard, System.out);
 		controller = 
 		         new GameController.Builder()
 		        .setModel(game)

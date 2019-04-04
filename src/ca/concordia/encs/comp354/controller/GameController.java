@@ -164,22 +164,23 @@ public class GameController implements GameView.Controller {
     	}	
     }
     
-    @Override
-    public boolean undoTurn() {
-    	return model.undoAction();
-    }
+  @Override
+  public boolean undoTurn() {
+    return model.undoAction();
+  }
 
 	@Override
 	public boolean redoTurn() {
-		return model.redoAction();
+    return model.redoAction();
 	}
-
+  
+	@Override
+	public void restartGame() {
+    model.reset();
+	}
+  
 	@Override
 	public void skipTurn() {
-		model.pushAction(new SkipTurnAction(model.getTurn()));
-    }
-		
-	
-	
-	
+    model.pushAction(new SkipTurnAction(model.getTurn()));
+  }
 }

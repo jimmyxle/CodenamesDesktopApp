@@ -40,11 +40,14 @@ public class GameView extends StackPane {
          * @return <tt>true</tt> iff a previously undone action was available for this operation
          */
         boolean redoTurn();
-        
         /**
-         * Skips the turn of whoever's turn it currently is, and proceeds with the next action. 
+         * Resets the game state.
          */
-        void skipTurn(); 
+		    void restartGame();
+        /**
+         * Ends the current turn.
+         */
+        void skipTurn();
     }
     
     private final ReadOnlyGameState game;
@@ -56,7 +59,7 @@ public class GameView extends StackPane {
     private final GameEventView gameEventView;
     private final TurnView      turnView;
     private final Button        advance;
-    private final Button 		skipTurn; 
+    private final Button        skipTurn; 
     
     private final InvalidationListener advanceFreeze = this::onAdvanceChanged;
 
@@ -101,13 +104,14 @@ public class GameView extends StackPane {
         final HBox history = new HBox();
         stateView = new StateView();
         
-        advance = new Button("Advance");
+        final Button restart = new Button("Restart");
         final Button undo = new Button("Undo");
         final Button redo = new Button("Redo");
-        skipTurn= new Button("Skip Turn");
+        advance = new Button("Advance");
+        skipTurn = new Button("Skip Turn");
         
         //this makes the undo, redo, advance, and skip turn buttons visible in the GUI
-        history.getChildren().addAll(undo, redo, advance, skipTurn); 
+        history.getChildren().addAll(restart, undo, redo, advance, skipTurn);
         bottom.getChildren().addAll(stateView, history);
         
         HBox.setHgrow(stateView, Priority.ALWAYS);
@@ -143,18 +147,19 @@ public class GameView extends StackPane {
         game.blueObjectiveProperty().addListener(advanceFreeze);
         game.lastEventProperty()    .addListener(advanceFreeze);
         
-        advance.setOnAction(event->controller.advanceTurn());
-        undo   .setOnAction(event->controller.undoTurn());
-        redo   .setOnAction(event->controller.redoTurn());
-        skipTurn.setOnAction(event ->controller.skipTurn());
+        advance .setOnAction(event->controller.advanceTurn());
+        undo    .setOnAction(event->controller.undoTurn());
+        redo    .setOnAction(event->controller.redoTurn());
+        restart .setOnAction(event->controller.restartGame());
+        skipTurn.setOnAction(event->controller.skipTurn());
       
         skipTurn.setDisable(game.requestedGuessProperty().get() == null);
         
         game.requestedGuessProperty().addListener(new InvalidationListener() {
-		    @Override
-		    public void invalidated(Observable observable) {
-			    skipTurn.setDisable(game.requestedGuessProperty().getValue() == null);
-		    } 
+          @Override
+          public void invalidated(Observable observable) {
+            skipTurn.setDisable(game.requestedGuessProperty().getValue() == null);
+          } 
         });
         
         redo.setDisable(game.getUndone().isEmpty());
