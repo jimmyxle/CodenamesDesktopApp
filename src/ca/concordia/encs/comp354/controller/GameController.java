@@ -1,10 +1,7 @@
 package ca.concordia.encs.comp354.controller;
 
 import ca.concordia.encs.comp354.controller.action.ChangeTurnAction;
-import ca.concordia.encs.comp354.controller.action.GiveClueAction;
-import ca.concordia.encs.comp354.controller.action.GuessCardAction;
 import ca.concordia.encs.comp354.controller.GameAction;
-import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Team;
 import ca.concordia.encs.comp354.view.GameView;
@@ -41,6 +38,7 @@ public class GameController implements GameView.Controller {
         private Operative redOperative;
         private SpyMaster blueSpyMaster;
         private Operative blueOperative;
+        
         
         private Team initialTurn = Team.RED;
        
@@ -153,7 +151,7 @@ public class GameController implements GameView.Controller {
     	// if there's no clue, it's the current spymaster's turn
     	if (model.lastClueProperty().get()==null) {
     		SpyMaster currentSpy = turn==Team.RED? redSpyMaster : blueSpyMaster; 
-    		model.pushAction(new GiveClueAction(turn, currentSpy.giveClue(model)));
+    		model.pushAction(currentSpy.giveClue(model));
     	} else {
 	        // advance to next turn iff guesses remain & last action did not end game
     		if (!model.hasGuesses() && !model.getLastEvent().isTerminal()) {
@@ -161,8 +159,7 @@ public class GameController implements GameView.Controller {
     		} else {
     		    // otherwise, let the current operative make another guess
         		Operative currentOp = turn.equals(Team.RED)? redOperative: blueOperative;
-        		Coordinates guess = currentOp.guessCard(model, model.lastClueProperty().get());
-        		model.pushAction(new GuessCardAction(turn, guess));
+        		model.pushAction(currentOp.guessCard(model, model.lastClueProperty().get()));
     		}
     	}	
     }
@@ -176,4 +173,13 @@ public class GameController implements GameView.Controller {
 	public boolean redoTurn() {
 		return model.redoAction();
 	}
+
+	@Override
+	public void skipTurn() {
+		model.pushAction(new SkipTurnAction(model.getTurn()));
+    }
+		
+	
+	
+	
 }

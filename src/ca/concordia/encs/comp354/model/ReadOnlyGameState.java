@@ -1,9 +1,11 @@
 package ca.concordia.encs.comp354.model;
 
+import ca.concordia.encs.comp354.CompletablePromise;
 import ca.concordia.encs.comp354.controller.Clue;
 import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.controller.SpyMaster;
 import ca.concordia.encs.comp354.controller.GameEvent;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.ObservableList;
@@ -48,6 +50,12 @@ public interface ReadOnlyGameState {
      */
     ReadOnlyObjectProperty<GameEvent> lastEventProperty();
 
+    /**
+     * @return a property with value <code>true</code> iff an action has been initiated but not yet 
+     * completed, and <code>false</code> otherwise
+     */
+    ReadOnlyBooleanProperty actionInProgressProperty();
+    
     /**
      * @return a read-only view of the actions taken in the game so far and their outcomes
      */
@@ -114,4 +122,11 @@ public interface ReadOnlyGameState {
      * @return a read-only view of the card coordinates that have been revealed so far
      */
     ObservableSet<Coordinates> getChosenCards();
+
+    /**
+     * This property stores a promise for a guess, if a guess has been requested. Once the promise is
+     * finished, this property's value is automatically set to <code>null</code>.
+     * @return a property containing a requested guess, which may be fulfilled by the observing class
+     */
+    ReadOnlyObjectProperty<CompletablePromise<Coordinates>> requestedGuessProperty();
 }

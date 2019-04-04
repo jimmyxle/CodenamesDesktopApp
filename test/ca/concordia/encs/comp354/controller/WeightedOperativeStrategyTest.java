@@ -14,7 +14,6 @@ import java.util.Set;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.CodenameWord;
-import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Keycard;
@@ -28,7 +27,7 @@ import ca.concordia.encs.comp354.model.Team;
  * 
  * */
 
-public class WeightedOperativeStrategyTest {
+public class WeightedOperativeStrategyTest extends AbstractPlayerTest {
 	
 	//================================
 	//-----------VARIABLES------------
@@ -56,8 +55,7 @@ public class WeightedOperativeStrategyTest {
 	
 	// Sets the scene for the testing methods.
 
-	public WeightedOperativeStrategyTest() throws IOException
-	{
+	public WeightedOperativeStrategyTest() throws IOException {
 		codenameWords = Card.createNonRandomCodenameList(Paths.get("res/weighted_operative_test_word_bank"));
 		k_card = Keycard.createRandomKeycard();
 		
@@ -88,11 +86,10 @@ public class WeightedOperativeStrategyTest {
 	
 	// Checks to see if the guesses detect the clue as an associated word.
 	@Test
-	public void WeightedSuccessfulWordTest()
-	{
+	public void operativeGuessesCorrectCodename() {
 		clue = new Clue("pollutant", 1);
 
-		guess = o_weighted.guessCard(g_state, clue);
+		guess = guessCard(o_weighted, g_state, clue);
 		
 		String result = board.getCard(guess.getX(), guess.getY()).getCodename();
 		
@@ -101,18 +98,15 @@ public class WeightedOperativeStrategyTest {
 	
 	// Checks to see if the guesses detect the clue and return the associated word with the highest weight.
 	@Test
-	public void WeightedSuccessfulWeightTest()
-	{
+	public void operativeGuessHasCorrectWeight() {
 		clue = new Clue("pollutant", 1);
 
-		guess = o_weighted.guessCard(g_state, clue);
+		guess = guessCard(o_weighted, g_state, clue);
 		
-		for (int i = 0; i < board.getCard(guess.getX(), guess.getY()).getAssociatedWords().size(); i++)
-		{
+		for (int i = 0; i < board.getCard(guess.getX(), guess.getY()).getAssociatedWords().size(); i++) {
 			int result = board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWeight();
 			
-			if (result == 100)
-			{
+			if (result == 100) {
 				assertEquals(100, result);
 			}
 		}
@@ -120,20 +114,19 @@ public class WeightedOperativeStrategyTest {
 	
 	// Same as the WeightedSuccessfulWordTest, but with a set of words instead of a single one.
 	@Test
-	public void WeightedSetWordTest()
-	{
+	public void operativeGuessesCorrectSet() {
 		clue = new Clue("classroom", 1);
-		guess = o_weighted.guessCard(g_state, clue);
+		guess = guessCard(o_weighted, g_state, clue);
 		result = board.getCard(guess.getX(), guess.getY()).getCodename();
 		actual.add(result);
 		
 		clue = new Clue("Sentence", 1);
-		guess = o_weighted.guessCard(g_state, clue);
+		guess = guessCard(o_weighted, g_state, clue);
 		result = board.getCard(guess.getX(), guess.getY()).getCodename();
 		actual.add(result);
 		
 		clue = new Clue("Expected", 1);
-		guess = o_weighted.guessCard(g_state, clue);
+		guess = guessCard(o_weighted, g_state, clue);
 		result = board.getCard(guess.getX(), guess.getY()).getCodename();
 		actual.add(result);
 		
@@ -142,40 +135,33 @@ public class WeightedOperativeStrategyTest {
 
 	// Same as the WeightedSuccessfulWeightTest, but with a set of words instead of a single one.
 	@Test
-	public void WeightedSetWeightTest()
-	{
+	public void operativeGuessesExpectedSet() {
 		clue = new Clue("classroom", 1);
 
-		guess = o_weighted.guessCard(g_state, clue);
+		guess = guessCard(o_weighted, g_state, clue);
 		String clue_word = clue.getWord();
-		for (int i = 0; i < board.getCard(guess.getX(), guess.getY()).getAssociatedWords().size(); i++)
-		{
-			if (clue_word.equalsIgnoreCase(board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWord()))
-			{
+		for (int i = 0; i < board.getCard(guess.getX(), guess.getY()).getAssociatedWords().size(); i++) {
+			if (clue_word.equalsIgnoreCase(board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWord())) {
 				w_result = board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWeight();
 			}
 		}
 		w_actual.add(w_result);
 		
 		clue = new Clue("classroom", 1);
-		guess = o_weighted.guessCard(g_state, clue);
+		guess = guessCard(o_weighted, g_state, clue);
 		clue_word = clue.getWord();
-		for (int i = 0; i < board.getCard(guess.getX(), guess.getY()).getAssociatedWords().size(); i++)
-		{
-			if (clue_word.equalsIgnoreCase(board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWord()))
-			{
+		for (int i = 0; i < board.getCard(guess.getX(), guess.getY()).getAssociatedWords().size(); i++) {
+			if (clue_word.equalsIgnoreCase(board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWord())) {
 				w_result = board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWeight();
 			}
 		}
 		w_actual.add(w_result);
 		
 		clue = new Clue("Trait", 1);
-		guess = o_weighted.guessCard(g_state, clue);
+		guess = guessCard(o_weighted, g_state, clue);
 		clue_word = clue.getWord();
-		for (int i = 0; i < board.getCard(guess.getX(), guess.getY()).getAssociatedWords().size(); i++)
-		{
-			if (clue_word.equalsIgnoreCase(board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWord()))
-			{
+		for (int i = 0; i < board.getCard(guess.getX(), guess.getY()).getAssociatedWords().size(); i++) {
+			if (clue_word.equalsIgnoreCase(board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWord())) {
 				w_result = board.getCard(guess.getX(), guess.getY()).getAssociatedWords().get(i).getWeight();
 			}
 		}
@@ -188,13 +174,11 @@ public class WeightedOperativeStrategyTest {
 	// all the cards on the board. The chooseCard() method will add cards to the state's list and we check 
 	// that the size of that list is equal to size of the game board.
 	@Test
-	public void weightedStrategyPicksAllCards()
-	{
+	public void weightedStrategyPicksAllCards() {
 		clue = new Clue("test", 1);
 
-		for (int i = 0; i < 25; i++)
-		{
-			guess = o_weighted.guessCard(g_state, clue);
+		for (int i = 0; i < 25; i++) {
+			guess = guessCard(o_weighted, g_state, clue);
 			g_state.chooseCard(guess);
 		}
 		

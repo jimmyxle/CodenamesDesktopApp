@@ -33,8 +33,8 @@ public class SpyMasterWeightStrategy extends AbstractPlayerStrategy implements S
         for (Coordinates coord : guesses) {
             for (AssociatedWord word : board.getCard(coord).getAssociatedWords()) {
                 if (word.getWeight() == 100) {
-                    if (wordWeight.containsKey(word)) {
-                        Integer freq = wordWeight.get(word);
+                    if (wordWeight.containsKey(word.getWord())) {
+                        Integer freq = wordWeight.get(word.getWord());
                         ++freq;
                         wordWeight.put(word.getWord(), freq);
                     } else {
