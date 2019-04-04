@@ -43,7 +43,7 @@ public class GameView extends StackPane {
         /**
          * Resets the game state.
          */
-		    void restartGame();
+        void restartGame();
         /**
          * Ends the current turn.
          */
@@ -59,7 +59,6 @@ public class GameView extends StackPane {
     private final GameEventView gameEventView;
     private final TurnView      turnView;
     private final Button        advance;
-    private final Button        skipTurn; 
     
     private final InvalidationListener advanceFreeze = this::onAdvanceChanged;
 
@@ -104,11 +103,12 @@ public class GameView extends StackPane {
         final HBox history = new HBox();
         stateView = new StateView();
         
-        final Button restart = new Button("Restart");
-        final Button undo = new Button("Undo");
-        final Button redo = new Button("Redo");
-        advance = new Button("Advance");
-        skipTurn = new Button("Skip Turn");
+        final Button restart  = new Button("Restart");
+        final Button undo     = new Button("Undo");
+        final Button redo     = new Button("Redo");
+        final Button skipTurn = new Button("Skip Turn");
+        
+        advance  = new Button("Advance");
         
         //this makes the undo, redo, advance, and skip turn buttons visible in the GUI
         history.getChildren().addAll(restart, undo, redo, advance, skipTurn);
@@ -117,8 +117,6 @@ public class GameView extends StackPane {
         HBox.setHgrow(stateView, Priority.ALWAYS);
         
         root.setBottom(bottom);
-        
-        
         
         // bind elements to model, controller
         //--------------------------------------------------------------------------------------------------------------
@@ -151,11 +149,8 @@ public class GameView extends StackPane {
       
         skipTurn.setDisable(game.requestedGuessProperty().get() == null);
         
-        game.requestedGuessProperty().addListener(new InvalidationListener() {
-          @Override
-          public void invalidated(Observable observable) {
+        game.requestedGuessProperty().addListener(o->{
             skipTurn.setDisable(game.requestedGuessProperty().getValue() == null);
-          } 
         });
         
         redo.setDisable(game.getUndone().isEmpty());

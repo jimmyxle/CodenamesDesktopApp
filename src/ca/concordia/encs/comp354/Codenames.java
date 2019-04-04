@@ -6,7 +6,6 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Random;
 
 import ca.concordia.encs.comp354.controller.*;
 import ca.concordia.encs.comp354.model.*;
@@ -24,6 +23,16 @@ public class Codenames extends Application {
 
 	private GameState game;
 
+	private static Board generateBoard() {
+	    try {
+            List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/words.txt"));
+            List<Keycard> keycards = Keycard.createRandomKeycards(Keycard.NUMBER_OF_KEYCARDS);
+            return new Board(codenameWords, keycards.get(0));
+	    } catch (IOException e) {
+	        throw new Error(e);
+	    }
+	}
+	
 	@Override
 	public void start(Stage stage) throws IOException {
 		// configure game
@@ -38,10 +47,7 @@ public class Codenames extends Application {
 				.setBlueOperative(new Operative(Team.BLUE, new IterativeOperativeStrategy()));
 
 		// create game state
-		List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/words.txt"));
-		List<Keycard> keycards = Keycard.createRandomKeycards(Keycard.NUMBER_OF_KEYCARDS);
-
-		game = new GameState(new Board(codenameWords, keycards.get(new Random().nextInt(keycards.size()))), System.out);
+		game = new GameState(Codenames::generateBoard, System.out);
 
 		// create interface
 		//--------------------------------------------------------------------------------------------------------------
@@ -59,12 +65,11 @@ public class Codenames extends Application {
 		final GridPane menu      = new GridPane();
 		final Scene		 menuScene = new Scene(menu, 300, 230);
 
-    menu.getChildren().add(new MenuView(builder, ()-> {
-        root.getChildren().add(new GameView(game, builder.setModel(game).create()));
-        stage.show();
-        menuStage.close();
-      }
-    ));
+        menu.getChildren().add(new MenuView(builder, ()-> {
+            root.getChildren().add(new GameView(game, builder.setModel(game).create()));
+            stage.show();
+            menuStage.close();
+        }));
 
     menuStage.setTitle("Codenames");
     menuStage.setScene(menuScene);

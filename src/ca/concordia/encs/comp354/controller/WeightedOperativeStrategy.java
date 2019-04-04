@@ -55,7 +55,7 @@ public class WeightedOperativeStrategy extends AbstractPlayerStrategy implements
         
         // Returns the action containing the target coordinates.
         if (maxCoordinates != null) {
-        	return new GuessCardAction(owner, maxCoordinates);
+            return new GuessCardAction(owner, maxCoordinates);
         } else {
             return guesses.isEmpty()? null : new GuessCardAction(owner, guesses.remove(0));
         }

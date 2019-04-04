@@ -21,7 +21,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.css.PseudoClass;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.DepthTest;
@@ -32,7 +31,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import javafx.scene.input.MouseEvent;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 
@@ -56,8 +54,6 @@ public class BoardView extends StackPane {
     private final Map<Coordinates, CodenameRegion> codenames = new HashMap<>();
     
     private final ObjectProperty<CompletablePromise<Coordinates>> requestedGuess = new SimpleObjectProperty<>(this, "requestedGuess");
-    	
- 
     
     private final ObjectProperty<Board> board = new SimpleObjectProperty<Board>(this, "board") {
         @Override protected void invalidated() {
@@ -168,13 +164,9 @@ public class BoardView extends StackPane {
             getStyleClass().add(CODENAME_REGION_STYLE_CLASS);
             getChildren().addAll(markedRegion, label);
             
-            this.onMouseClickedProperty().set(new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent arg0) {
-					requestedGuessProperty().get().finish(coords);
-				}
-            	
-            });
+            this.onMouseClickedProperty().set(event->{
+				requestedGuessProperty().get().finish(coords);
+			});
             
             // create animation
             //----------------------------------------------------------------------------------------------------------
