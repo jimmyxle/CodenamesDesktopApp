@@ -118,11 +118,7 @@ public class GameView extends StackPane {
         
         root.setBottom(bottom);
         
-        /** COBY
-         * Bind your button's disableProperty() to be true iff a human player is active 
-         * (check this using ReadOnlyGameState.requestedGuessProperty() -- 
-         * if its value is non-null, there's a human playing);
-         */
+        
         
         // bind elements to model, controller
         //--------------------------------------------------------------------------------------------------------------
