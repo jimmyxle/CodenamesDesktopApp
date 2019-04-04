@@ -158,7 +158,7 @@ public class GameController implements GameView.Controller {
 			} else {
 				// otherwise, let the current operative make another guess
 				Operative currentOp = turn.equals(Team.RED)? redOperative: blueOperative;
-				model.pushAction(currentOp.guessCard(model, model.lastClueProperty().get()));
+				currentOp.guessCard(model, model.lastClueProperty().get()).then(model::pushAction);
 			}
 		}	
 	}

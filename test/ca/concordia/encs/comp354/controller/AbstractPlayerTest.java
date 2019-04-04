@@ -61,8 +61,8 @@ public abstract class AbstractPlayerTest {
      * @param clue    the clue for which to produce a guess
      * @return the coordinates of the guess given by the player
      */
-    Coordinates guessCard(Operative player, ReadOnlyGameState state, Clue clue) {
-        return ((GuessCardAction)player.guessCard(state, clue)).getCoordinates();
+    Coordinates guessCard(Operative player, GameState state, Clue clue) {
+        return ((GuessCardAction)player.guessCard(state, clue).get()).getCoordinates();
     }
        
     Board generateBoard(Player player, boolean shuffle) {

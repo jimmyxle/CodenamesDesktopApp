@@ -22,7 +22,7 @@ public class SkipTurnAction extends OperativeAction {
 	protected  Promise<GameEvent> doApply(GameState state) {
 		value = state.guessesRemainingProperty().getValue();
 		state.guessesRemainingProperty().setValue(0);
-		return Promise.finished(GameEvent.END_TURN);
+		return Promise.of(GameEvent.END_TURN);
 	}
 
 	@Override
