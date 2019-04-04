@@ -122,6 +122,7 @@ public class GameView extends StackPane {
         
         // bind elements to model, controller
         //--------------------------------------------------------------------------------------------------------------
+        boardView.requestedGuessProperty().bind(game.requestedGuessProperty());
         boardView.boardProperty().bind(game.boardProperty());
         boardView.setRevealed(game.getChosenCards());
         boardView.keycardVisibleProperty().bind(showOverlay.selectedProperty());

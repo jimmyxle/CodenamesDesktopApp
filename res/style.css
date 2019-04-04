@@ -92,6 +92,14 @@
 	-fx-border-style: dotted inside;
 }
 
+.board-view .codename-region .label {
+	/*-fx-text-fill: red;*/
+}
+
+.board-view .codename-region:hover {
+	-fx-background-color: limegreen;
+}
+
 .board-view .codename-region .overlay {
 	-fx-background-color: transparent;
 }
