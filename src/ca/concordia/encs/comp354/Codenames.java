@@ -55,21 +55,22 @@ public class Codenames extends Application {
 
 		// create menu
 		//--------------------------------------------------------------------------------------------------------------
-		final Stage menuStage = new Stage();
-		final GridPane	menu = new GridPane();
-		final Scene		menuScene = new Scene(menu, 300, 230);
+		final Stage    menuStage = new Stage();
+		final GridPane menu      = new GridPane();
+		final Scene		 menuScene = new Scene(menu, 300, 230);
 
-		menu.getChildren().add(new MenuView(builder, ()-> {
-			root.getChildren().add(new GameView(game, builder.setModel(game).create()));
-			stage.show();
-			menuStage.close();
-		}));
+    menu.getChildren().add(new MenuView(builder, ()-> {
+        root.getChildren().add(new GameView(game, builder.setModel(game).create()));
+        stage.show();
+        menuStage.close();
+      }
+    ));
 
-		menuStage.setTitle("Codenames");
-		menuStage.setScene(menuScene);
+    menuStage.setTitle("Codenames");
+    menuStage.setScene(menuScene);
 
-		menuStage.show();
-	}
+    menuStage.show();
+  }
 
 	@Override
 	public void stop() throws IOException {

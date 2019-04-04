@@ -40,6 +40,14 @@ public class GameView extends StackPane {
          * @return <tt>true</tt> iff a previously undone action was available for this operation
          */
         boolean redoTurn();
+        /**
+         * Resets the game state.
+         */
+		    void restartGame();
+        /**
+         * Ends the current turn.
+         */
+        void skipTurn();
     }
     
     private final ReadOnlyGameState game;
@@ -51,9 +59,11 @@ public class GameView extends StackPane {
     private final GameEventView gameEventView;
     private final TurnView      turnView;
     private final Button        advance;
+    private final Button        skipTurn; 
     
     private final InvalidationListener advanceFreeze = this::onAdvanceChanged;
 
+    
     public GameView(ReadOnlyGameState game, Controller controller) {
         Objects.requireNonNull(controller, "controller");
         this.game = Objects.requireNonNull(game, "game state");
@@ -94,19 +104,29 @@ public class GameView extends StackPane {
         final HBox history = new HBox();
         stateView = new StateView();
         
-        advance = new Button("Advance");
+        final Button restart = new Button("Restart");
         final Button undo = new Button("Undo");
         final Button redo = new Button("Redo");
+        advance = new Button("Advance");
+        skipTurn = new Button("Skip Turn");
         
-        history.getChildren().addAll(undo, redo, advance);
+        //this makes the undo, redo, advance, and skip turn buttons visible in the GUI
+        history.getChildren().addAll(restart, undo, redo, advance, skipTurn);
         bottom.getChildren().addAll(stateView, history);
         
         HBox.setHgrow(stateView, Priority.ALWAYS);
         
         root.setBottom(bottom);
         
+        /** COBY
+         * Bind your button's disableProperty() to be true iff a human player is active 
+         * (check this using ReadOnlyGameState.requestedGuessProperty() -- 
+         * if its value is non-null, there's a human playing);
+         */
+        
         // bind elements to model, controller
         //--------------------------------------------------------------------------------------------------------------
+        boardView.requestedGuessProperty().bind(game.requestedGuessProperty());
         boardView.boardProperty().bind(game.boardProperty());
         boardView.setRevealed(game.getChosenCards());
         boardView.keycardVisibleProperty().bind(showOverlay.selectedProperty());
@@ -117,7 +137,8 @@ public class GameView extends StackPane {
         scoreView.clueProperty().bind(game.lastClueProperty());
         scoreView.redScoreProperty().bind(game.redScoreProperty());
         scoreView.blueScoreProperty().bind(game.blueScoreProperty());
-        
+
+        //Displays the last action that took place in the game (e.g. spymaster giving a clue, players guessing)
         stateView.actionProperty().bind(game.lastActionProperty());
         
         game.redScoreProperty()     .addListener(advanceFreeze);
@@ -126,9 +147,20 @@ public class GameView extends StackPane {
         game.blueObjectiveProperty().addListener(advanceFreeze);
         game.lastEventProperty()    .addListener(advanceFreeze);
         
-        advance.setOnAction(event->controller.advanceTurn());
-        undo   .setOnAction(event->controller.undoTurn());
-        redo   .setOnAction(event->controller.redoTurn());
+        advance .setOnAction(event->controller.advanceTurn());
+        undo    .setOnAction(event->controller.undoTurn());
+        redo    .setOnAction(event->controller.redoTurn());
+        restart .setOnAction(event->controller.restartGame());
+        skipTurn.setOnAction(event->controller.skipTurn());
+      
+        skipTurn.setDisable(game.requestedGuessProperty().get() == null);
+        
+        game.requestedGuessProperty().addListener(new InvalidationListener() {
+          @Override
+          public void invalidated(Observable observable) {
+            skipTurn.setDisable(game.requestedGuessProperty().getValue() == null);
+          } 
+        });
         
         redo.setDisable(game.getUndone().isEmpty());
         undo.setDisable(game.getHistory().isEmpty());
@@ -144,6 +176,7 @@ public class GameView extends StackPane {
 			game.getBlueScore() >= game.blueObjectiveProperty().get() ||
 			game.getLastEvent().isTerminal()
 		);
+    	
     }
     
 }

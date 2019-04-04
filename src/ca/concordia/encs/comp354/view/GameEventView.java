@@ -10,7 +10,10 @@ import javafx.animation.SequentialTransition;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.css.PseudoClass;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.TextAlignment;
@@ -32,6 +35,7 @@ public class GameEventView extends StackPane {
         }
     };
     
+    
     private final Label redWins, blueWins, assassin;
 
     private Animation lastAnim = null;
@@ -43,8 +47,9 @@ public class GameEventView extends StackPane {
         redWins  = endLabel(GAME_OVER_RED_WON,  "Red wins!",  "red");
         blueWins = endLabel(GAME_OVER_BLUE_WON, "Blue wins!", "blue");
         assassin = endLabel(GAME_OVER_ASSASSIN, "Assassin!",  "assassin");
-        
         getChildren().addAll(redWins, blueWins, assassin);
+        
+        setMouseTransparent(true);
     }
     
     ObjectProperty<GameStep> stepProperty() {
@@ -119,13 +124,13 @@ public class GameEventView extends StackPane {
         lastAnim.play();
     }
 
-    private Label endLabel(GameEvent show, String label, String pseudoClass) {
+	private Label endLabel(GameEvent show, String label, String pseudoClass) {
         Label ret = new Label(label);
         
         ret.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
         ret.setTextAlignment(TextAlignment.CENTER);
         ret.getStyleClass().add("game-over");
-        ret.pseudoClassStateChanged(PseudoClass.getPseudoClass(pseudoClass), true);
+        ret.pseudoClassStateChanged(PseudoClass.getPseudoClass(pseudoClass), true);               
         
         // show only for specific game event
         ret.setVisible(false);
