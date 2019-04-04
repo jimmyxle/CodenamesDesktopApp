@@ -41,7 +41,7 @@ public class Codenames extends Application {
 		// create game state & controller
 		game = new GameState(Codenames::generateBoard, System.out);
 		controller = 
-		        new GameController.Builder()
+		         new GameController.Builder()
 		        .setModel(game)
 		        .setInitialTurn(Team.RED)
 		        .setRedSpyMaster (new SpyMaster(Team.RED,  new SpyMasterWeightStrategy()))

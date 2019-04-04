@@ -1,9 +1,10 @@
-package ca.concordia.encs.comp354.view;
+package ca.concordia.encs.comp354.view; 
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import ca.concordia.encs.comp354.CompletablePromise;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.CardValue;
@@ -20,6 +21,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.css.PseudoClass;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.DepthTest;
@@ -30,6 +32,10 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import javafx.scene.input.MouseEvent;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+
 
 /**
  * JavaFX node for the display of a board's state.
@@ -42,12 +48,16 @@ public class BoardView extends StackPane {
     private static final String BOARD_VIEW_STYLE_CLASS      = "board-view";
     private static final String KEYCARD_REGION_STYLE_CLASS  = "keycard-region";
     private static final String CODENAME_REGION_STYLE_CLASS = "codename-region";
-    private static final String OVERLAY_REGION_STYLE_CLASS   = "overlay";
+    private static final String OVERLAY_REGION_STYLE_CLASS  = "overlay";
     
     private final GridPane tiles = new GridPane();
     private final GridPane teams = new GridPane();
     
     private final Map<Coordinates, CodenameRegion> codenames = new HashMap<>();
+    
+    private final ObjectProperty<CompletablePromise<Coordinates>> requestedGuess = new SimpleObjectProperty<>(this, "requestedGuess");
+    	
+ 
     
     private final ObjectProperty<Board> board = new SimpleObjectProperty<Board>(this, "board") {
         @Override protected void invalidated() {
@@ -84,6 +94,14 @@ public class BoardView extends StackPane {
         setDepthTest(DepthTest.ENABLE);
         
         this.getChildren().addAll(tiles, teams);
+        
+        this.requestedGuessProperty().addListener(new InvalidationListener() {
+			@Override
+			public void invalidated(Observable o) {
+				disableProperty().set(requestedGuessProperty().get()==null);
+			}
+        	
+        });
     }
     
     public void setBoard(Board value) {
@@ -94,6 +112,10 @@ public class BoardView extends StackPane {
         return board.get();
     }
     
+    public ObjectProperty<CompletablePromise<Coordinates>> requestedGuessProperty(){
+    	return requestedGuess;
+    }
+
     public Property<Board> boardProperty() {
         return board;
     }
@@ -124,15 +146,15 @@ public class BoardView extends StackPane {
     
     private final class CodenameRegion extends StackPane {
         
-        private final CardValue value;
-        private final Region    markedRegion;
+        private final CardValue   value;
+        private final Region      markedRegion;
         
         private final Transition markAnimation;
         
         private boolean marked = false;
         
-        CodenameRegion(String text, CardValue value) {
-            this.value = value;
+        CodenameRegion(String text, CardValue value, Coordinates coords) {
+            this.value  = value;
             setDepthTest(DepthTest.ENABLE);
             
             final Label label = new Label(text);
@@ -145,6 +167,14 @@ public class BoardView extends StackPane {
             getStyleClass().clear();
             getStyleClass().add(CODENAME_REGION_STYLE_CLASS);
             getChildren().addAll(markedRegion, label);
+            
+            this.onMouseClickedProperty().set(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent arg0) {
+					requestedGuessProperty().get().finish(coords);
+				}
+            	
+            });
             
             // create animation
             //----------------------------------------------------------------------------------------------------------
@@ -261,10 +291,11 @@ public class BoardView extends StackPane {
             // child nodes
             for (int x=0; x<val.getWidth(); x++) {
                 for (int y=0; y<val.getLength(); y++) {
-                    final Card k = val.getCard(x, y);
+                    final Coordinates c = new Coordinates(x, y);
+                    final Card k = val.getCard(c);
                     // create codename card
-                    CodenameRegion reg = new CodenameRegion(k.getCodename(), k.getValue());
-                    codenames.put(new Coordinates(x, y), reg);
+                    CodenameRegion reg = new CodenameRegion(k.getCodename(), k.getValue(), c);
+                    codenames.put(c, reg);
                     tiles.add(reg, x, y);
                     
                     // create keycard element

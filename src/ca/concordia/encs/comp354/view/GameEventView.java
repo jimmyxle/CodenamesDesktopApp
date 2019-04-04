@@ -40,8 +40,6 @@ public class GameEventView extends StackPane {
 
     private Animation lastAnim = null;
     
-//    private final Button restart;
-    
     private static final Duration FADE_DURATION  = Duration.millis(500);
     private static final Duration PAUSE_DURATION = Duration.millis(500);
     
@@ -49,8 +47,9 @@ public class GameEventView extends StackPane {
         redWins  = endLabel(GAME_OVER_RED_WON,  "Red wins!",  "red");
         blueWins = endLabel(GAME_OVER_BLUE_WON, "Blue wins!", "blue");
         assassin = endLabel(GAME_OVER_ASSASSIN, "Assassin!",  "assassin");
-                    
         getChildren().addAll(redWins, blueWins, assassin);
+        
+        setMouseTransparent(true);
     }
     
     ObjectProperty<GameStep> stepProperty() {
