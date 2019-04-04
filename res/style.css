@@ -92,12 +92,17 @@
 	-fx-border-style: dotted inside;
 }
 
+.board-view .codename-region:disable .label {
+	-fx-font-weight: regular;
+}
+
 .board-view .codename-region .label {
-	/*-fx-text-fill: red;*/
+	-fx-font-weight: bold;
 }
 
 .board-view .codename-region:hover {
-	-fx-background-color: limegreen;
+	-fx-border-color: white;
+	-fx-border-style: solid inside;
 }
 
 .board-view .codename-region .overlay {
