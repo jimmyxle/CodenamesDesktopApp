@@ -76,7 +76,7 @@ public final class GameState implements ReadOnlyGameState {
     //------------------------------------------------------------------------------------------------------------------
     private final BooleanProperty actionInProgress = new SimpleBooleanProperty(this, "actionInProgress", false);
     
-    private final ObjectProperty<CompletablePromise<HumanOperativeEvent>> requestedEvent = 
+    private final ObjectProperty<CompletablePromise<OperativeEvent>> requestedEvent = 
             new SimpleObjectProperty<>(this, "requestedEvent", null);
     
     // history ("command queue")
@@ -377,17 +377,17 @@ public final class GameState implements ReadOnlyGameState {
      * Requests operative input from the view. The event representing the user's input will be placed in the given promise.
      * @return the destination promise for the input event
      */
-    public Promise<HumanOperativeEvent> requestOperativeInput() {
+    public Promise<OperativeEvent> requestOperativeInput() {
         if (requestedEvent.get()!=null) {
             throw new IllegalStateException("guess already in progress");
         }
-        CompletablePromise<HumanOperativeEvent> ret = new CompletablePromise<>();
+        CompletablePromise<OperativeEvent> ret = new CompletablePromise<>();
         requestedEvent.set(ret);
         return ret.then(v->requestedEvent.set(null));
     }
     
     @Override
-    public ReadOnlyObjectProperty<CompletablePromise<HumanOperativeEvent>> operativeInputProperty() {
+    public ReadOnlyObjectProperty<CompletablePromise<OperativeEvent>> operativeInputProperty() {
         return requestedEvent;
     }
         

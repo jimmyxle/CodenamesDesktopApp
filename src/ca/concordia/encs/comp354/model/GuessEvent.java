@@ -2,7 +2,7 @@ package ca.concordia.encs.comp354.model;
 
 import java.util.Objects;
 
-public final class GuessEvent implements HumanOperativeEvent {
+public final class GuessEvent implements OperativeEvent {
 
     private final Coordinates coords;
 

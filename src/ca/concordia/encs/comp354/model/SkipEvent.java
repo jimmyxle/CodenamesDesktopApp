@@ -1,6 +1,6 @@
 package ca.concordia.encs.comp354.model;
 
-public final class SkipEvent implements HumanOperativeEvent {
+public final class SkipEvent implements OperativeEvent {
 
     public SkipEvent() {}
     

@@ -128,5 +128,5 @@ public interface ReadOnlyGameState {
      * Once the promise is finished, this property's value is automatically set to <code>null</code>.
      * @return a property containing a requested guess, which may be fulfilled by the observing class
      */
-    ReadOnlyObjectProperty<CompletablePromise<HumanOperativeEvent>> operativeInputProperty();
+    ReadOnlyObjectProperty<CompletablePromise<OperativeEvent>> operativeInputProperty();
 }

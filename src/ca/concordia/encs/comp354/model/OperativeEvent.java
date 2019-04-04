@@ -1,6 +1,6 @@
 package ca.concordia.encs.comp354.model;
 
-public interface HumanOperativeEvent {
+public interface OperativeEvent {
     
     default boolean isSkip() {
         return false;
