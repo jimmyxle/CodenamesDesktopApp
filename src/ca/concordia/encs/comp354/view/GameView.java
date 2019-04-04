@@ -132,7 +132,8 @@ public class GameView extends StackPane {
         scoreView.clueProperty().bind(game.lastClueProperty());
         scoreView.redScoreProperty().bind(game.redScoreProperty());
         scoreView.blueScoreProperty().bind(game.blueScoreProperty());
-        
+
+        //Displays the last action that took place in the game (e.g. spymaster giving a clue, players guessing)
         stateView.actionProperty().bind(game.lastActionProperty());
         
         game.redScoreProperty()     .addListener(advanceFreeze);
