@@ -383,9 +383,7 @@ public final class GameState implements ReadOnlyGameState {
         }
         CompletablePromise<OperativeEvent> ret = new CompletablePromise<>();
         requestedEvent.set(ret);
-        return ret.then(v->{
-            requestedEvent.set(null); 
-        });
+        return ret.then(v->requestedEvent.set(null));
     }
     
     @Override
