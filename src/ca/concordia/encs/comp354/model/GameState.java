@@ -415,6 +415,6 @@ public final class GameState implements ReadOnlyGameState {
     	history.clear();
     	undone.clear();
     
-	       	
+        requestedEvent.set(null);
     }
 }

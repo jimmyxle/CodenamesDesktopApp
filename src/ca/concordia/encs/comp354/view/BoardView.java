@@ -69,7 +69,14 @@ public class BoardView extends StackPane {
         
         ObservableSet<Coordinates>     last     = null;
         SetChangeListener<Coordinates> listener = BoardView.this::updateCodenameMarked;
-        
+
+//        SetChangeListener<Coordinates> foo = new SetChangeListener<Coordinates>() {
+//            @Override
+//            public void onChanged(Change change) {
+//                BoardView.this.updateCodenameMarked(change);
+//            }
+//        };
+
         @Override protected void invalidated() {
             refreshContent(false);
             

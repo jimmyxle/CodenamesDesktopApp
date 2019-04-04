@@ -3,117 +3,85 @@
   <ID>JAVA</ID>
   <OriginalElement>ca.concordia.encs.comp354.controller</OriginalElement>
   <nodes>
-    <node x="631.0" y="252.0">ca.concordia.encs.comp354.controller.action</node>
-    <node x="0.0" y="99.0">ca.concordia.encs.comp354.controller.SpyMasterCountStrategy</node>
-    <node x="451.0" y="99.0">ca.concordia.encs.comp354.controller.SpyMasterWeightStrategy</node>
-    <node x="1372.0" y="173.0">ca.concordia.encs.comp354.controller.SpyMasterCountStrategyTest</node>
-    <node x="563.0" y="326.0">ca.concordia.encs.comp354.controller.Clue</node>
-    <node x="1647.0" y="173.0">ca.concordia.encs.comp354.controller.GameControllerTest</node>
-    <node x="425.0" y="173.0">ca.concordia.encs.comp354.controller.Player</node>
-    <node x="923.0" y="99.0">ca.concordia.encs.comp354.controller.RandomSpyMasterStrategy</node>
-    <node x="1645.0" y="99.0">ca.concordia.encs.comp354.controller.RandomOperativeStrategy</node>
-    <node x="0.0" y="252.0">ca.concordia.encs.comp354.controller.OperativesTest</node>
-    <node x="680.0" y="99.0">ca.concordia.encs.comp354.controller.SequentialOperativeStrategy</node>
-    <node x="161.0" y="252.0">ca.concordia.encs.comp354.controller.SpyMasterTest</node>
-    <node x="816.0" y="0.0">ca.concordia.encs.comp354.controller.AbstractPlayerStrategy</node>
-    <node x="346.0" y="252.0">ca.concordia.encs.comp354.controller.SpyMaster</node>
-    <node x="1158.0" y="99.0">ca.concordia.encs.comp354.controller.WeightedOperativeStrategy</node>
-    <node x="1396.0" y="99.0">ca.concordia.encs.comp354.controller.SequentialSpyMasterStrategy</node>
-    <node x="68.25" y="173.0">ca.concordia.encs.comp354.controller.AbstractPlayerTest</node>
-    <node x="801.0" y="173.0">ca.concordia.encs.comp354.controller.WeightedOperativeStrategyTest</node>
-    <node x="211.0" y="326.0">ca.concordia.encs.comp354.controller.GameController</node>
-    <node x="223.0" y="99.0">ca.concordia.encs.comp354.controller.IterativeOperativeStrategy</node>
-    <node x="0.0" y="326.0">ca.concordia.encs.comp354.controller.IterativeSearchTest</node>
-    <node x="400.0" y="326.0">ca.concordia.encs.comp354.controller.GameEvent</node>
-    <node x="1091.0" y="173.0">ca.concordia.encs.comp354.controller.SpyMasterWeightStrategyTest</node>
-    <node x="479.0" y="252.0">ca.concordia.encs.comp354.controller.Operative</node>
-    <node x="632.0" y="173.0">ca.concordia.encs.comp354.controller.GameAction</node>
+    <node x="97.5" y="585.5">ca.concordia.encs.comp354.controller.action</node>
+    <node x="483.0" y="403.5">ca.concordia.encs.comp354.controller.SequentialOperativeStrategy</node>
+    <node x="506.0" y="210.0">ca.concordia.encs.comp354.controller.AbstractPlayerStrategy</node>
+    <node x="783.5" y="791.5">ca.concordia.encs.comp354.controller.SpyMaster</node>
+    <node x="1460.5" y="43.5">ca.concordia.encs.comp354.controller.SpyMasterCountStrategy</node>
+    <node x="-37.0" y="243.5">ca.concordia.encs.comp354.controller.WeightedOperativeStrategy</node>
+    <node x="1020.5" y="-19.0">ca.concordia.encs.comp354.controller.SequentialSpyMasterStrategy</node>
+    <node x="1246.0" y="601.5">ca.concordia.encs.comp354.controller.GameController</node>
+    <node x="2420.5" y="83.5">ca.concordia.encs.comp354.controller.SpyMasterWeightStrategy</node>
+    <node x="1883.0" y="83.5">ca.concordia.encs.comp354.controller.IterativeOperativeStrategy</node>
+    <node x="1934.5" y="598.5">ca.concordia.encs.comp354.controller.Clue</node>
+    <node x="1557.0" y="576.5">ca.concordia.encs.comp354.controller.GameEvent</node>
+    <node x="564.0" y="803.0">ca.concordia.encs.comp354.controller.Player</node>
+    <node x="2660.5" y="221.0">ca.concordia.encs.comp354.controller.RandomSpyMasterStrategy</node>
+    <node x="436.5" y="591.5">ca.concordia.encs.comp354.controller.Operative</node>
+    <node x="483.0" y="32.0">ca.concordia.encs.comp354.controller.RandomOperativeStrategy</node>
+    <node x="-7.5" y="681.0">ca.concordia.encs.comp354.controller.GameAction</node>
   </nodes>
   <notes />
   <edges>
     <edge source="ca.concordia.encs.comp354.controller.IterativeOperativeStrategy" target="ca.concordia.encs.comp354.controller.AbstractPlayerStrategy">
-      <point x="0.0" y="-14.5" />
-      <point x="327.0" y="59.0" />
-      <point x="851.625" y="59.0" />
-      <point x="-59.375" y="14.5" />
-    </edge>
-    <edge source="ca.concordia.encs.comp354.controller.RandomSpyMasterStrategy" target="ca.concordia.encs.comp354.controller.AbstractPlayerStrategy">
-      <point x="0.0" y="-14.5" />
-      <point x="1030.5" y="79.0" />
-      <point x="922.875" y="79.0" />
-      <point x="11.875" y="14.5" />
+      <point x="0.0" y="36.5" />
+      <point x="2120.0" y="260.0" />
+      <point x="214.0" y="-20.0" />
     </edge>
     <edge source="ca.concordia.encs.comp354.controller.RandomOperativeStrategy" target="ca.concordia.encs.comp354.controller.AbstractPlayerStrategy">
-      <point x="0.0" y="-14.5" />
-      <point x="1749.5" y="49.0" />
-      <point x="994.125" y="49.0" />
-      <point x="83.125" y="14.5" />
+      <point x="0.0" y="48.0" />
+      <point x="0.0" y="-70.0" />
+    </edge>
+    <edge source="ca.concordia.encs.comp354.controller.RandomSpyMasterStrategy" target="ca.concordia.encs.comp354.controller.AbstractPlayerStrategy">
+      <point x="-179.5" y="-0.0" />
+      <point x="214.0" y="-0.0" />
     </edge>
     <edge source="ca.concordia.encs.comp354.controller.action" target="ca.concordia.encs.comp354.controller.GameAction">
-      <point x="0.0" y="-14.5" />
       <point x="0.0" y="14.5" />
+      <point x="0.0" y="-159.0" />
     </edge>
     <edge source="ca.concordia.encs.comp354.controller.Operative" target="ca.concordia.encs.comp354.controller.Player">
-      <point x="0.0" y="-14.5" />
-      <point x="532.5" y="227.0" />
-      <point x="488.75" y="227.0" />
-      <point x="21.25" y="14.5" />
+      <point x="0.0" y="48.5" />
+      <point x="0.0" y="-37.0" />
     </edge>
     <edge source="ca.concordia.encs.comp354.controller.SpyMasterWeightStrategy" target="ca.concordia.encs.comp354.controller.AbstractPlayerStrategy">
-      <point x="0.0" y="-14.5" />
-      <point x="555.5" y="69.0" />
-      <point x="875.375" y="69.0" />
-      <point x="-35.625" y="14.5" />
+      <point x="0.0" y="36.5" />
+      <point x="2600.0" y="270.0" />
+      <point x="214.0" y="-10.0" />
     </edge>
     <edge source="ca.concordia.encs.comp354.controller.SequentialSpyMasterStrategy" target="ca.concordia.encs.comp354.controller.AbstractPlayerStrategy">
-      <point x="0.0" y="-14.5" />
-      <point x="1510.5" y="59.0" />
-      <point x="970.375" y="59.0" />
-      <point x="59.375" y="14.5" />
+      <point x="0.0" y="59.0" />
+      <point x="1200.0" y="240.0" />
+      <point x="214.0" y="-40.0" />
     </edge>
     <edge source="ca.concordia.encs.comp354.controller.SpyMasterCountStrategy" target="ca.concordia.encs.comp354.controller.AbstractPlayerStrategy">
-      <point x="0.0" y="-14.5" />
-      <point x="101.5" y="49.0" />
-      <point x="827.875" y="49.0" />
-      <point x="-83.125" y="14.5" />
-    </edge>
-    <edge source="ca.concordia.encs.comp354.controller.SpyMaster" target="ca.concordia.encs.comp354.controller.Player">
-      <point x="0.0" y="-14.5" />
-      <point x="402.5" y="227.0" />
-      <point x="446.25" y="227.0" />
-      <point x="-21.25" y="14.5" />
+      <point x="0.0" y="36.5" />
+      <point x="1640.0" y="250.0" />
+      <point x="214.0" y="-30.0" />
     </edge>
     <edge source="ca.concordia.encs.comp354.controller.WeightedOperativeStrategy" target="ca.concordia.encs.comp354.controller.AbstractPlayerStrategy">
-      <point x="0.0" y="-14.5" />
-      <point x="1267.0" y="69.0" />
-      <point x="946.625" y="69.0" />
-      <point x="35.625" y="14.5" />
+      <point x="237.0" y="-0.0" />
+      <point x="-214.0" y="-0.0" />
     </edge>
-    <edge source="ca.concordia.encs.comp354.controller.OperativesTest" target="ca.concordia.encs.comp354.controller.AbstractPlayerTest">
-      <point x="0.0" y="-14.5" />
-      <point x="70.5" y="227.0" />
-      <point x="109.5" y="227.0" />
-      <point x="-41.25" y="14.5" />
+    <edge source="ca.concordia.encs.comp354.controller.SpyMaster" target="ca.concordia.encs.comp354.controller.Player">
+      <point x="-176.5" y="-0.0" />
+      <point x="76.0" y="-0.0" />
     </edge>
     <edge source="ca.concordia.encs.comp354.controller.SequentialOperativeStrategy" target="ca.concordia.encs.comp354.controller.AbstractPlayerStrategy">
-      <point x="0.0" y="-14.5" />
-      <point x="791.5" y="79.0" />
-      <point x="899.125" y="79.0" />
-      <point x="-11.875" y="14.5" />
-    </edge>
-    <edge source="ca.concordia.encs.comp354.controller.SpyMasterTest" target="ca.concordia.encs.comp354.controller.AbstractPlayerTest">
-      <point x="0.0" y="-14.5" />
-      <point x="231.0" y="227.0" />
-      <point x="192.0" y="227.0" />
-      <point x="41.25" y="14.5" />
+      <point x="0.0" y="-36.5" />
+      <point x="0.0" y="70.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.5352187833511206" x="927.0" y="177.5" />
-  <SelectedNodes>
-    <node>ca.concordia.encs.comp354.controller.GameAction</node>
-  </SelectedNodes>
-  <Categories />
-  <SCOPE>All</SCOPE>
+  <settings layout="Hierarchic Group" zoom="0.4605496143753215" x="1502.7187849521026" y="602.8381499987307" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>Production</SCOPE>
   <VISIBILITY>private</VISIBILITY>
 </Diagram>
 
