@@ -9,6 +9,8 @@ import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.CardValue;
 import ca.concordia.encs.comp354.model.Coordinates;
+import ca.concordia.encs.comp354.model.GuessEvent;
+import ca.concordia.encs.comp354.model.OperativeEvent;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
@@ -17,11 +19,11 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.css.PseudoClass;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.DepthTest;
@@ -32,7 +34,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import javafx.scene.input.MouseEvent;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 
@@ -55,9 +56,7 @@ public class BoardView extends StackPane {
     
     private final Map<Coordinates, CodenameRegion> codenames = new HashMap<>();
     
-    private final ObjectProperty<CompletablePromise<Coordinates>> requestedGuess = new SimpleObjectProperty<>(this, "requestedGuess");
-    	
- 
+    private final ObjectProperty<CompletablePromise<OperativeEvent>> requestedGuess = new SimpleObjectProperty<>(this, "requestedGuess");
     
     private final ObjectProperty<Board> board = new SimpleObjectProperty<Board>(this, "board") {
         @Override protected void invalidated() {
@@ -70,7 +69,14 @@ public class BoardView extends StackPane {
         
         ObservableSet<Coordinates>     last     = null;
         SetChangeListener<Coordinates> listener = BoardView.this::updateCodenameMarked;
-        
+
+//        SetChangeListener<Coordinates> foo = new SetChangeListener<Coordinates>() {
+//            @Override
+//            public void onChanged(Change change) {
+//                BoardView.this.updateCodenameMarked(change);
+//            }
+//        };
+
         @Override protected void invalidated() {
             refreshContent(false);
             
@@ -95,13 +101,7 @@ public class BoardView extends StackPane {
         
         this.getChildren().addAll(tiles, teams);
         
-        this.requestedGuessProperty().addListener(new InvalidationListener() {
-			@Override
-			public void invalidated(Observable o) {
-				disableProperty().set(requestedGuessProperty().get()==null);
-			}
-        	
-        });
+        this.requestedGuessProperty().addListener(o->disableProperty().set(requestedGuessProperty().get()==null));
     }
     
     public void setBoard(Board value) {
@@ -112,7 +112,7 @@ public class BoardView extends StackPane {
         return board.get();
     }
     
-    public ObjectProperty<CompletablePromise<Coordinates>> requestedGuessProperty(){
+    public ObjectProperty<CompletablePromise<OperativeEvent>> requestedGuessProperty() {
     	return requestedGuess;
     }
 
@@ -151,7 +151,7 @@ public class BoardView extends StackPane {
         
         private final Transition markAnimation;
         
-        private boolean marked = false;
+        private BooleanProperty marked = new SimpleBooleanProperty(this, "marked");
         
         CodenameRegion(String text, CardValue value, Coordinates coords) {
             this.value  = value;
@@ -168,13 +168,9 @@ public class BoardView extends StackPane {
             getStyleClass().add(CODENAME_REGION_STYLE_CLASS);
             getChildren().addAll(markedRegion, label);
             
-            this.onMouseClickedProperty().set(new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent arg0) {
-					requestedGuessProperty().get().finish(coords);
-				}
-            	
-            });
+            this.disableProperty().bind(marked);
+            
+            this.onMouseClickedProperty().set(event->requestedGuessProperty().get().finish(new GuessEvent(coords)));
             
             // create animation
             //----------------------------------------------------------------------------------------------------------
@@ -205,11 +201,11 @@ public class BoardView extends StackPane {
         }
         
         void setMarked(boolean v) {
-            marked = v;
+            marked.set(v);
             PseudoClass pseudoClass = PseudoClass.getPseudoClass(value.name().toLowerCase(Locale.ENGLISH));
-            pseudoClassStateChanged(pseudoClass, marked);
+            pseudoClassStateChanged(pseudoClass, marked.get());
             markAnimation.stop();
-            if (marked) {
+            if (marked.get()) {
                 markAnimation.play();
             }
         }

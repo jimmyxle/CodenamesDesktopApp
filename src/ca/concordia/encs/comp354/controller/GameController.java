@@ -158,7 +158,7 @@ public class GameController implements GameView.Controller {
 			} else {
 				// otherwise, let the current operative make another guess
 				Operative currentOp = turn.equals(Team.RED)? redOperative: blueOperative;
-				model.pushAction(currentOp.guessCard(model, model.lastClueProperty().get()));
+				currentOp.guessCard(model, model.lastClueProperty().get()).then(model::pushAction);
 			}
 		}	
 	}
@@ -170,16 +170,11 @@ public class GameController implements GameView.Controller {
 
 	@Override
 	public boolean redoTurn() {
-    return model.redoAction();
+	    return model.redoAction();
 	}
   
 	@Override
 	public void restartGame() {
-    model.reset();
+	    model.reset();
 	}
-  
-	@Override
-	public void skipTurn() {
-    model.pushAction(new SkipTurnAction(model.getTurn()));
-  }
 }

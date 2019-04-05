@@ -36,7 +36,7 @@ public final class ChangeTurnAction extends GameAction {
         state.turnProperty().set(getTeam());
         state.lastClueProperty().set(null);
         
-        return Promise.finished(GameEvent.NONE);
+        return Promise.of(GameEvent.NONE);
     }
 
     @Override

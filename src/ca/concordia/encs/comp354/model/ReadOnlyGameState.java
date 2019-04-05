@@ -124,9 +124,9 @@ public interface ReadOnlyGameState {
     ObservableSet<Coordinates> getChosenCards();
 
     /**
-     * This property stores a promise for a guess, if a guess has been requested. Once the promise is
-     * finished, this property's value is automatically set to <code>null</code>.
+     * This property stores a promise for an operative input event, if a guess has been requested. 
+     * Once the promise is finished, this property's value is automatically set to <code>null</code>.
      * @return a property containing a requested guess, which may be fulfilled by the observing class
      */
-    ReadOnlyObjectProperty<CompletablePromise<Coordinates>> requestedGuessProperty();
+    ReadOnlyObjectProperty<CompletablePromise<OperativeEvent>> operativeInputProperty();
 }

@@ -2,11 +2,12 @@ package ca.concordia.encs.comp354.controller;
 
 import java.util.List;
 
+import ca.concordia.encs.comp354.Promise;
 import ca.concordia.encs.comp354.controller.action.GuessCardAction;
 import ca.concordia.encs.comp354.controller.action.OperativeAction;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Coordinates;
-import ca.concordia.encs.comp354.model.ReadOnlyGameState;
+import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
 
 /**
@@ -18,7 +19,7 @@ public class IterativeOperativeStrategy extends AbstractPlayerStrategy implement
 
    //Iterate through the list of associated words for each codename. Return coordinates of the found word.
 	@Override
-    public OperativeAction guessCard(Operative owner, ReadOnlyGameState state, Clue clue) {
+    public Promise<OperativeAction> guessCard(Operative owner, GameState state, Clue clue) {
         List<Coordinates> guesses = beginTurn(owner, state);
         Board board = state.boardProperty().get();
         /*
@@ -33,12 +34,12 @@ public class IterativeOperativeStrategy extends AbstractPlayerStrategy implement
             for(AssociatedWord assoc : test) {
                 String word = assoc.getWord();
                 if (word.equalsIgnoreCase(clue.getWord())) {
-                	return new GuessCardAction(owner, coords);
+                	return Promise.of(new GuessCardAction(owner, coords));
                 }
             }
         }
         
-        return guesses.isEmpty()? null : new GuessCardAction(owner, guesses.remove(0));
+        return guesses.isEmpty()? null : Promise.of(new GuessCardAction(owner, guesses.remove(0)));
     }
 
     @Override

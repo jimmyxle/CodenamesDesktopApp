@@ -3,6 +3,7 @@ package ca.concordia.encs.comp354.view;
 import java.util.Objects;
 
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
+import ca.concordia.encs.comp354.model.SkipEvent;
 import javafx.beans.InvalidationListener;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -43,11 +44,7 @@ public class GameView extends StackPane {
         /**
          * Resets the game state.
          */
-		    void restartGame();
-        /**
-         * Ends the current turn.
-         */
-        void skipTurn();
+        void restartGame();
     }
     
     private final ReadOnlyGameState game;
@@ -59,7 +56,6 @@ public class GameView extends StackPane {
     private final GameEventView gameEventView;
     private final TurnView      turnView;
     private final Button        advance;
-    private final Button        skipTurn; 
     
     private final InvalidationListener advanceFreeze = this::onAdvanceChanged;
 
@@ -104,11 +100,12 @@ public class GameView extends StackPane {
         final HBox history = new HBox();
         stateView = new StateView();
         
-        final Button restart = new Button("Restart");
-        final Button undo = new Button("Undo");
-        final Button redo = new Button("Redo");
-        advance = new Button("Advance");
-        skipTurn = new Button("Skip Turn");
+        final Button restart  = new Button("Restart");
+        final Button undo     = new Button("Undo");
+        final Button redo     = new Button("Redo");
+        final Button skipTurn = new Button("Skip Turn");
+        
+        advance  = new Button("Advance");
         
         //this makes the undo, redo, advance, and skip turn buttons visible in the GUI
         history.getChildren().addAll(restart, undo, redo, advance, skipTurn);
@@ -118,11 +115,9 @@ public class GameView extends StackPane {
         
         root.setBottom(bottom);
         
-        
-        
         // bind elements to model, controller
         //--------------------------------------------------------------------------------------------------------------
-        boardView.requestedGuessProperty().bind(game.requestedGuessProperty());
+        boardView.requestedGuessProperty().bind(game.operativeInputProperty());
         boardView.boardProperty().bind(game.boardProperty());
         boardView.setRevealed(game.getChosenCards());
         boardView.keycardVisibleProperty().bind(showOverlay.selectedProperty());
@@ -137,25 +132,23 @@ public class GameView extends StackPane {
         //Displays the last action that took place in the game (e.g. spymaster giving a clue, players guessing)
         stateView.actionProperty().bind(game.lastActionProperty());
         
-        game.redScoreProperty()     .addListener(advanceFreeze);
-        game.redObjectiveProperty() .addListener(advanceFreeze);
-        game.blueScoreProperty()    .addListener(advanceFreeze);
-        game.blueObjectiveProperty().addListener(advanceFreeze);
-        game.lastEventProperty()    .addListener(advanceFreeze);
+        game.redScoreProperty()      .addListener(advanceFreeze);
+        game.redObjectiveProperty()  .addListener(advanceFreeze);
+        game.blueScoreProperty()     .addListener(advanceFreeze);
+        game.blueObjectiveProperty() .addListener(advanceFreeze);
+        game.lastEventProperty()     .addListener(advanceFreeze);
+        game.operativeInputProperty().addListener(advanceFreeze);
         
         advance .setOnAction(event->controller.advanceTurn());
         undo    .setOnAction(event->controller.undoTurn());
         redo    .setOnAction(event->controller.redoTurn());
         restart .setOnAction(event->controller.restartGame());
-        skipTurn.setOnAction(event->controller.skipTurn());
+        skipTurn.setOnAction(event->game.operativeInputProperty().get().finish(new SkipEvent()));
       
-        skipTurn.setDisable(game.requestedGuessProperty().get() == null);
+        skipTurn.setDisable(game.operativeInputProperty().get() == null);
         
-        game.requestedGuessProperty().addListener(new InvalidationListener() {
-          @Override
-          public void invalidated(Observable observable) {
-            skipTurn.setDisable(game.requestedGuessProperty().getValue() == null);
-          } 
+        game.operativeInputProperty().addListener(o->{
+            skipTurn.setDisable(game.operativeInputProperty().getValue() == null);
         });
         
         redo.setDisable(game.getUndone().isEmpty());
@@ -168,6 +161,7 @@ public class GameView extends StackPane {
     
     private void onAdvanceChanged(Observable ignore) {
     	advance.setDisable(
+	        game.operativeInputProperty().get()!=null ||
 			game.getRedScore()  >= game.redObjectiveProperty().get() ||
 			game.getBlueScore() >= game.blueObjectiveProperty().get() ||
 			game.getLastEvent().isTerminal()

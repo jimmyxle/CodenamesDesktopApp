@@ -37,7 +37,7 @@ public interface Promise<T> {
      * @param value the desired value for the promise
      * @return a finished promise with the given value
      */
-    static <T> Promise<T> finished(T value) {
+    static <T> Promise<T> of(T value) {
         return new CompletablePromise<T>().finish(value);
     }
 }

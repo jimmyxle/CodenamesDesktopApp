@@ -28,7 +28,7 @@ public final class GuessCardAction extends AbstractGuessAction {
 
     @Override
     protected Promise<GameEvent> doApply(GameState state) {
-        return Promise.finished(super.doGuess(state, coords));
+        return Promise.of(super.doGuess(state, coords));
     }
 
     // boilerplate

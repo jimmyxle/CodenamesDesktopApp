@@ -19,7 +19,6 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.WritableBooleanValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
@@ -77,8 +76,8 @@ public final class GameState implements ReadOnlyGameState {
     //------------------------------------------------------------------------------------------------------------------
     private final BooleanProperty actionInProgress = new SimpleBooleanProperty(this, "actionInProgress", false);
     
-    private final ObjectProperty<CompletablePromise<Coordinates>> requestedGuess = 
-            new SimpleObjectProperty<>(this, "requestedGuess", null);
+    private final ObjectProperty<CompletablePromise<OperativeEvent>> requestedEvent = 
+            new SimpleObjectProperty<>(this, "requestedEvent", null);
     
     // history ("command queue")
     //------------------------------------------------------------------------------------------------------------------
@@ -375,21 +374,21 @@ public final class GameState implements ReadOnlyGameState {
     }
     
     /**
-     * Requests a guess from the view. The guess will be placed in the given promise.
-     * @return the destination promise for the guess
+     * Requests operative input from the view. The event representing the user's input will be placed in the given promise.
+     * @return the destination promise for the input event
      */
-    public Promise<Coordinates> requestGuess() {
-        if (requestedGuess.get()!=null) {
+    public Promise<OperativeEvent> requestOperativeInput() {
+        if (requestedEvent.get()!=null) {
             throw new IllegalStateException("guess already in progress");
         }
-        CompletablePromise<Coordinates> ret = new CompletablePromise<>();
-        requestedGuess.set(ret);
-        return ret.then(v->requestedGuess.set(null));
+        CompletablePromise<OperativeEvent> ret = new CompletablePromise<>();
+        requestedEvent.set(ret);
+        return ret.then(v->requestedEvent.set(null));
     }
     
     @Override
-    public ReadOnlyObjectProperty<CompletablePromise<Coordinates>> requestedGuessProperty() {
-        return requestedGuess;
+    public ReadOnlyObjectProperty<CompletablePromise<OperativeEvent>> operativeInputProperty() {
+        return requestedEvent;
     }
         
     /*
@@ -414,6 +413,6 @@ public final class GameState implements ReadOnlyGameState {
     	history.clear();
     	undone.clear();
     
-	       	
+        requestedEvent.set(null);
     }
 }

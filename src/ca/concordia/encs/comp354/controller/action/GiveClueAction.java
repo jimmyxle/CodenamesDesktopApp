@@ -38,7 +38,7 @@ public final class GiveClueAction extends GameAction {
     	// update the model with our new clue
         state.lastClueProperty().set(clue);
         state.guessesRemainingProperty().set(clue.getGuesses());
-        return Promise.finished(GameEvent.NONE);
+        return Promise.of(GameEvent.NONE);
     }
 
     @Override
