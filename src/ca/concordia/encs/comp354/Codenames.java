@@ -41,9 +41,9 @@ public class Codenames extends Application {
 		GameController.Builder builder =
 				new GameController.Builder()
 				.setInitialTurn(Team.RED)
-				.setRedSpyMaster (new SpyMaster(Team.RED,  new SpyMasterWeightStrategy()))
+				.setRedSpyMaster (new SpyMaster(Team.RED,  new WeightedSpyMasterStrategy()))
 				.setRedOperative (new Operative(Team.RED,  new WeightedOperativeStrategy()))
-				.setBlueSpyMaster(new SpyMaster(Team.BLUE, new SpyMasterCountStrategy()))
+				.setBlueSpyMaster(new SpyMaster(Team.BLUE, new CountSpyMasterStrategy()))
 				.setBlueOperative(new Operative(Team.BLUE, new IterativeOperativeStrategy()));
 
 		// create game state

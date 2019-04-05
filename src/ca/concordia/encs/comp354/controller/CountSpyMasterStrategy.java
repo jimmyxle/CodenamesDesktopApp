@@ -12,7 +12,7 @@ import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
  * @author Alexandre Kang
  *
  */
-public class SpyMasterCountStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
+public class CountSpyMasterStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
 
     @Override
     //this method is the clue given by the spymaster

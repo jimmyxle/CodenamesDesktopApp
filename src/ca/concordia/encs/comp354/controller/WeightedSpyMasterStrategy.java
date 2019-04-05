@@ -17,7 +17,7 @@ import java.util.Map;
  *
  * @author Alexandre Kang
  */
-public class SpyMasterWeightStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
+public class WeightedSpyMasterStrategy extends AbstractPlayerStrategy implements SpyMaster.Strategy {
 
     @Override
     //this method is the clue given by the spymaster
