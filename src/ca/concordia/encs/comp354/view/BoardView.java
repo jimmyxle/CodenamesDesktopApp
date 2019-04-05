@@ -69,7 +69,14 @@ public class BoardView extends StackPane {
         
         ObservableSet<Coordinates>     last     = null;
         SetChangeListener<Coordinates> listener = BoardView.this::updateCodenameMarked;
-        
+
+//        SetChangeListener<Coordinates> foo = new SetChangeListener<Coordinates>() {
+//            @Override
+//            public void onChanged(Change change) {
+//                BoardView.this.updateCodenameMarked(change);
+//            }
+//        };
+
         @Override protected void invalidated() {
             refreshContent(false);
             
@@ -94,13 +101,7 @@ public class BoardView extends StackPane {
         
         this.getChildren().addAll(tiles, teams);
         
-        this.requestedGuessProperty().addListener(new InvalidationListener() {
-			@Override
-			public void invalidated(Observable o) {
-				disableProperty().set(requestedGuessProperty().get()==null);
-			}
-        	
-        });
+        this.requestedGuessProperty().addListener(o->disableProperty().set(requestedGuessProperty().get()==null));
     }
     
     public void setBoard(Board value) {
@@ -111,7 +112,7 @@ public class BoardView extends StackPane {
         return board.get();
     }
     
-    public ObjectProperty<CompletablePromise<OperativeEvent>> requestedGuessProperty(){
+    public ObjectProperty<CompletablePromise<OperativeEvent>> requestedGuessProperty() {
     	return requestedGuess;
     }
 
@@ -169,9 +170,7 @@ public class BoardView extends StackPane {
             
             this.disableProperty().bind(marked);
             
-            this.onMouseClickedProperty().set(event->{
-				requestedGuessProperty().get().finish(new GuessEvent(coords));
-			});
+            this.onMouseClickedProperty().set(event->requestedGuessProperty().get().finish(new GuessEvent(coords)));
             
             // create animation
             //----------------------------------------------------------------------------------------------------------
