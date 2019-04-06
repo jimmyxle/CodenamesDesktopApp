@@ -163,6 +163,40 @@ public class GameStateTest {
         );
     }
     
+    @Test
+    public void requestOperativeInputNonNullPromise() {
+    	assertNotNull(model.requestOperativeInput());    	
+    }
+    
+    @Test
+    public void operativeInputPropertyNonNullPromise() {
+    	model.requestOperativeInput();
+    	assertNotNull(model.operativeInputProperty());
+    }
+    
+    @Test (expected=IllegalStateException.class)
+    public void requestOperativeInputCalledTwiceInARow() {
+    	model.requestOperativeInput();
+    	model.requestOperativeInput();
+    }
+    
+    @Test
+    public void operativeInputPropertySetToNull() {
+    	model.requestOperativeInput().isFinished();
+    	assertNull(model.operativeInputProperty());
+    }
+    
+    @Test
+    public void resetRestoreProperty() {
+    	model.reset();
+    }
+    
+    @Test
+    public void boardPropertyAfterReset() {
+    	model.reset();
+    	model.boardProperty().get();
+    }
+    
     // helpers
     //==================================================================================================================
     private void chooseCoordinates(int x, int y) {
