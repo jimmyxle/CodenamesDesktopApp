@@ -20,39 +20,17 @@ public class ClueTest {
 	 * 
 	 */
 	
-	 final GameState      model;
-	 final GameController controller;
-	 Clue 			      clue;
-	 private int x; 
-		    
-	 public ClueTest() {
-		 	    Keycard keycard = Keycard.createRandomKeycard();
-		        List<CodenameWord> words = new ArrayList<>();
-		        for (int i=0; i<25; i++) {
-		            words.add(new CodenameWord("foo", Arrays.asList(new CodenameWord.AssociatedWord("bar", 1))));
-		        }
-		        
-		        model = new GameState(new Board(words, keycard));
-		        controller = new GameController.Builder()
-		                .setRedSpyMaster (new SpyMaster(Team.RED,  new SequentialSpyMasterStrategy()))
-		                .setBlueSpyMaster(new SpyMaster(Team.BLUE, new SequentialSpyMasterStrategy()))
-		                .setRedOperative (new Operative(Team.RED,  new SequentialOperativeStrategy()))
-		                .setBlueOperative(new Operative(Team.BLUE, new SequentialOperativeStrategy()))
-		                .setInitialTurn(Team.RED)
-		                .setModel(model)
-		                .create();
-		        }
-		    
+	
 
 	/* 
 	This test ensures that the guess provided by the spymaster is not the 
 	empty string, and therefore, must be a sequence of characters.
     */
-	@Test(expected=AssertionError.class)
-	public void clueConstructorFailsForNullClue() {
-		clue= new Clue ("", 1);
+	@Test(expected=NullPointerException.class)
+	public void constructorFailsForNullClue() {
+		Clue clue= new Clue ("", 1);
 		if (clue.getWord()=="") {
-			throw new AssertionError("The guess must be a word or character");
+			throw new NullPointerException("The guess must be a word or a character");
 		}
 		assertTrue(clue.getWord() != "");
 	}
@@ -61,14 +39,9 @@ public class ClueTest {
 	 is greater or equal to one. Any value less than zero should throw an error. 
 	*/
 	@Test(expected=IllegalArgumentException.class)
-	public void clueConstructorFailsForGuessCountLessThanOne() {
-		clue= new Clue ("coby", -1);
-		if (clue.getGuesses()<1) {
-			throw new IllegalArgumentException("guesses must be greater than 0");
-		}
-		assertTrue(clue.getGuesses()>=1);
+	public void constructorFailsForGuessCountLessThanOne() {
+		 Clue clue= new Clue ("coby", -1);
 	}
-	
 }
 	
 
