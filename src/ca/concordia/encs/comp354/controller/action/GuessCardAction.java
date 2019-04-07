@@ -25,8 +25,6 @@ public final class GuessCardAction extends OperativeAction {
     
     private String codename = null;
     
-    private Coordinates lastCoords;
-    
     public GuessCardAction(Operative owner, Coordinates coords) {
         super(owner);
         this.coords = requireNonNull(coords);
@@ -108,7 +106,7 @@ public final class GuessCardAction extends OperativeAction {
         // reset property values to what they were before the last doApply() call
         state.redScoreProperty().set(redScore);
         state.blueScoreProperty().set(blueScore);
-        state.hideCard(lastCoords);
+        state.hideCard(coords);
         state.guessesRemainingProperty().set(guesses);
     }
 
@@ -125,7 +123,6 @@ public final class GuessCardAction extends OperativeAction {
         result = prime * result + ((codename == null) ? 0 : codename.hashCode());
         result = prime * result + ((coords == null) ? 0 : coords.hashCode());
         result = prime * result + guesses;
-        result = prime * result + ((lastCoords == null) ? 0 : lastCoords.hashCode());
         result = prime * result + redScore;
         return result;
     }
@@ -152,11 +149,6 @@ public final class GuessCardAction extends OperativeAction {
         } else if (!coords.equals(other.coords))
             return false;
         if (guesses != other.guesses)
-            return false;
-        if (lastCoords == null) {
-            if (other.lastCoords != null)
-                return false;
-        } else if (!lastCoords.equals(other.lastCoords))
             return false;
         if (redScore != other.redScore)
             return false;

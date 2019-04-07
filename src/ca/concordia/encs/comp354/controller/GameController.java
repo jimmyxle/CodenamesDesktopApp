@@ -34,10 +34,10 @@ public class GameController implements GameView.Controller {
 
 	public static final class Builder {
 		private GameState model;
-		private SpyMaster redSpyMaster;
-		private Operative redOperative;
-		private SpyMaster blueSpyMaster;
-		private Operative blueOperative;
+		private SpyMaster redSpyMaster  = new SpyMaster(Team.RED,  new SequentialSpyMasterStrategy());
+		private Operative redOperative  = new Operative(Team.RED,  new SequentialOperativeStrategy());
+		private SpyMaster blueSpyMaster = new SpyMaster(Team.BLUE, new SequentialSpyMasterStrategy());
+		private Operative blueOperative = new Operative(Team.BLUE, new SequentialOperativeStrategy());
 
 		private Team initialTurn = Team.RED;
 
