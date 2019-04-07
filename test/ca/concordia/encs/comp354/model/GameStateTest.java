@@ -5,18 +5,17 @@ import org.junit.Test;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import ca.concordia.encs.comp354.controller.action.ChangeTurnAction;
 import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
+import javafx.beans.property.ReadOnlyObjectProperty;
 
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class GameStateTest {
     
     private GameState model;
-    private Supplier<Board> boardFunc;
 
     public GameStateTest() {
         List<CodenameWord> words = new ArrayList<>();
@@ -192,17 +191,18 @@ public class GameStateTest {
     
     @Test
     public void propertiesBackToDefault() {
+    	Board pre = model.getBoard();
     	model.reset();
-    	boardFunc.get();
-    	assertSame(boardFunc.get(), boardFunc.get());
+    	Board post = model.getBoard();
+    	assertNotSame(pre, post);
     }
     
     @Test
     public void boardPropertyAfterReset() {
-    	model.boardProperty();
+    	Board pre = model.boardProperty().getValue();
     	model.reset();
-    	boardFunc.get();
-    	assertNotSame(model.boardProperty().get(), boardFunc.get());
+    	Board post = model.boardProperty().getValue();
+    	assertNotSame(pre, post);
     }
     
     // helpers
