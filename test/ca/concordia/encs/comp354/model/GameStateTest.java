@@ -16,7 +16,6 @@ import java.util.function.Supplier;
 public class GameStateTest {
     
     private GameState model;
-    private GameState board;
     private Supplier<Board> boardFunc;
 
     public GameStateTest() {
@@ -28,7 +27,7 @@ public class GameStateTest {
         }
         
         model = new GameState(new Board(words, Keycard.createRandomKeycard()));
-        board = new GameState(boardFunc);
+        model = new GameState(()->new Board(words, Keycard.createRandomKeycard()));
     }
     
     // card choosing
@@ -175,7 +174,7 @@ public class GameStateTest {
     @Test
     public void operativeInputPropertyNonNullPromise() {
     	model.requestOperativeInput();
-    	assertNotNull(model.operativeInputProperty());
+    	assertNotNull(model.operativeInputProperty().get());
     }
     
     @Test (expected=IllegalStateException.class)
@@ -186,22 +185,24 @@ public class GameStateTest {
     
     @Test
     public void operativeInputPropertySetToNull() {
-    	model.requestOperativeInput().isFinished();
-    	assertNull(model.operativeInputProperty());
+    	model.requestOperativeInput();
+    	model.operativeInputProperty().get().finish(null);
+    	assertNull(model.operativeInputProperty().get());
     }
     
     @Test
     public void propertiesBackToDefault() {
-    	board.reset();
+    	model.reset();
     	boardFunc.get();
-    	assertSame(boardFunc.get(), board.boardProperty());
+    	assertSame(boardFunc.get(), boardFunc.get());
     }
     
     @Test
     public void boardPropertyAfterReset() {
-    	board.reset();
+    	model.boardProperty();
+    	model.reset();
     	boardFunc.get();
-    	board.boardProperty();
+    	assertNotSame(model.boardProperty().get(), boardFunc.get());
     }
     
     // helpers
