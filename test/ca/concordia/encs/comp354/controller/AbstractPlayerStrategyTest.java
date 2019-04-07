@@ -50,7 +50,6 @@ public class AbstractPlayerStrategyTest {
 	
 	@Test
 	public void beginTurnReturnsEmptyListWhenGuessInvalid() {
-		AbstractPlayerStrategyTest strategy = new AbstractPlayerStrategyTest();
 		assertTrue(beginTurn(operative, model).setValue(List).isEmpty());
 		}
 	}

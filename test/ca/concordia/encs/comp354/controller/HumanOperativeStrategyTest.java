@@ -1,8 +1,17 @@
 package ca.concordia.encs.comp354.controller;
 
 import org.junit.Test;
+
+import ca.concordia.encs.comp354.model.Board;
+import ca.concordia.encs.comp354.model.CodenameWord;
 import ca.concordia.encs.comp354.model.GameState;
+import ca.concordia.encs.comp354.model.Keycard;
+
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class HumanOperativeStrategyTest {
@@ -13,7 +22,15 @@ public class HumanOperativeStrategyTest {
 	 * 
 	 */
 	
-	private GameState model;
+	public HumanOperativeStrategyTest() {
+		Keycard keycard = Keycard.createRandomKeycard();
+	    List<CodenameWord> words = new ArrayList<>();
+	    for (int i=0; i<25; i++) {
+	        words.add(new CodenameWord("foo", Arrays.asList(new CodenameWord.AssociatedWord("bar", 1))));
+	    }
+	    GameState model = new GameState(new Board(words, keycard));
+		Operative operative = new Operative(null, null);
+	}
 
 	
 	/*
@@ -23,6 +40,7 @@ public class HumanOperativeStrategyTest {
 	
 	@Test(expected=NullPointerException.class)
 	public void rejectsOperativeInputPropertyNullValue() {
+		HumanOperativeStrategyTest strategy = new HumanOperativeStrategyTest();
 		model.GuessCardAction();
 		assertTrue(model.operativeInputProperty().getValue() != null);
 	}
@@ -35,6 +53,7 @@ public class HumanOperativeStrategyTest {
 	
 	@Test
 	public void guessCardPromiseFinishedWhenInputPropertyPromiseFinished() {
+		HumanOperativeStrategyTest strategy = new HumanOperativeStrategyTest();
 		assertTrue(model.GuessCardAction().getValue().isFinished);
 	}
 	
