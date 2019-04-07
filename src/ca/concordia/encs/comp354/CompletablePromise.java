@@ -68,9 +68,14 @@ public class CompletablePromise<T> implements Promise<T> {
 
     @Override
     public T get() {
-        if (finished==false) {
+        if (cancelled) {
+            throw new IllegalStateException("cancelled");
+        }
+        
+        if (!finished) {
             throw new IllegalStateException("not finished");
         }
+        
         return value;
     }
     
@@ -91,7 +96,7 @@ public class CompletablePromise<T> implements Promise<T> {
     }
     
     @Override
-    public Promise<T> ifCancelled(Runnable func) {
+    public CompletablePromise<T> ifCancelled(Runnable func) {
         requireNonNull(func);
         if (cancelled) {
             func.run();
