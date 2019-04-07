@@ -1,15 +1,7 @@
 package ca.concordia.encs.comp354.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import ca.concordia.encs.comp354.model.Board;
-import ca.concordia.encs.comp354.model.CodenameWord;
-import ca.concordia.encs.comp354.model.GameState;
-import ca.concordia.encs.comp354.model.Keycard;
-import ca.concordia.encs.comp354.model.Team;
 import ca.concordia.encs.comp354.controller.Clue;
 
 public class ClueTest {
@@ -20,7 +12,6 @@ public class ClueTest {
 	 * 
 	 */
 	
-	
 
 	/* 
 	This test ensures that the guess provided by the spymaster is not the 
@@ -28,8 +19,8 @@ public class ClueTest {
     */
 	@Test(expected=NullPointerException.class)
 	public void constructorFailsForNullClue() {
-		Clue clue= new Clue ("", 1);
-		if (clue.getWord()=="") {
+		Clue clue= new Clue (null, 1);
+		if (clue.getWord()==null) {
 			throw new NullPointerException("The guess must be a word or a character");
 		}
 		assertTrue(clue.getWord() != "");
