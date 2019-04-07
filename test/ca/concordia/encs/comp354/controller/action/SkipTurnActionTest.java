@@ -22,7 +22,7 @@ import ca.concordia.encs.comp354.controller.action.SkipTurnAction;
 
 
 
-public class SkipTurnActionTest {
+public class SkipTurnActionTest extends AbstractActionTest {
 
 	/**
 	 * 
@@ -34,12 +34,12 @@ public class SkipTurnActionTest {
     GameState			 state;
     
 	public SkipTurnActionTest() {
-		op = new Operative(null, new NullOperativeStrategy());
+		op = new Operative(Team.RED, new NullOperativeStrategy());
 	}
 	
 	@Test
 	public void setGuessesRemainingPropertyToZero(){
-		assertTrue(state.guessesRemainingProperty().getValue()==0);
+		
 	}
 	
 	@Test
