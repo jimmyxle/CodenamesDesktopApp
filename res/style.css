@@ -186,11 +186,7 @@
 	-fx-border-style: dotted inside;
 }
 
-.board-view .codename-region:disable .label {
-	-fx-font-weight: normal;
-}
-
-.board-view .codename-region:normal .label {
+.board-view .codename-region:hover .text {
 	-fx-font-weight: bold;
 }
 
