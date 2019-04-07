@@ -21,13 +21,12 @@ import java.util.Arrays;
 import java.util.List;
 
 
+/**
+ * 
+ * @author Alexandre Briere
+ * 
+ */
 public class HumanOperativeStrategyTest {
-	
-	/**
-	 * 
-	 * Author: Alexandre Briere
-	 * 
-	 */
 	
 	private GameState model;
 	Operative operative = new Operative(Team.RED, new HumanOperativeStrategy());
@@ -55,16 +54,21 @@ public class HumanOperativeStrategyTest {
 
 	
 	/*
-	This test ensures that the Promise returned by guessCard() is finished 
-	when the promise returned by GameState.operativeInputProperty() is finished
+	This test ensures that the strategy produces the promised OperativeEvent when its input
+	request is satisfied
     */
 	
 	@Test
-	public void guessCardPromiseFinishedWhenInputPropertyPromiseFinished() {
+	public void producesActionWhenUserInputGiven() {
+	    // promise1 depends on promise2
 		Promise<OperativeAction> promise1 = operative.guessCard(model, new Clue("hello", 1));
 		CompletablePromise<OperativeEvent> promise2 = model.operativeInputProperty().get();
+		
+		// neither promise should be finished right now
 		assertFalse(promise1.isFinished());
 		assertFalse(promise2.isFinished());
+		
+		// finishing promise2 should finish promise1
 		promise2.finish(new SkipEvent());
 		assertTrue(promise1.isFinished());
 	}

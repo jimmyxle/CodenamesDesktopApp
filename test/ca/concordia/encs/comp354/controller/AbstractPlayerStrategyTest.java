@@ -15,21 +15,21 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class AbstractPlayerStrategyTest {
-	
-	/**
-	 * 
-	 * Author: Alexandre Briere
-	 * 
-	 */
-	public class isValidGuessReturnsFalse extends AbstractPlayerStrategy{
 
+/**
+ * 
+ * @author Alexandre Briere
+ * 
+ */
+public class AbstractPlayerStrategyTest {
+    
+	class StrictlyInvalidStrategy extends AbstractPlayerStrategy {
 		protected boolean isValidGuess(Player owner, Board board, int x, int y) {
 			return false;
 		}
 	}
-	public class isValidGuessReturnsTrue extends AbstractPlayerStrategy{
-
+	
+	class StrictlyValidStrategy extends AbstractPlayerStrategy {
 		protected boolean isValidGuess(Player owner, Board board, int x, int y) {
 			return true;
 		}
@@ -45,15 +45,15 @@ public class AbstractPlayerStrategyTest {
 	    }
 	    model = new GameState(new Board(words, keycard));
 	}
+	
 	/*
 	This test ensures that beginTurn() returns an 
 	empty list when isValidGuess() returns strictly false
     */
-	
 	@Test
 	public void beginTurnReturnsEmptyListWhenGuessInvalid() {
-		assertTrue(new isValidGuessReturnsFalse().beginTurn(null, model).isEmpty());
-		}
+		assertTrue(new StrictlyInvalidStrategy().beginTurn(null, model).isEmpty());
+	}
 	
 	/*
 	This test ensures that beginTurn() does not return marked cards
@@ -62,8 +62,8 @@ public class AbstractPlayerStrategyTest {
 	public void beginTurnDoesNotReturnMarkedCards() {
 		Coordinates coords = new Coordinates(1, 1);
 		model.chooseCard(coords);
-		assertFalse(new isValidGuessReturnsTrue().beginTurn(null, model).contains(coords));
-		}
+		assertFalse(new StrictlyValidStrategy().beginTurn(null, model).contains(coords));
+	}
 	
 	/*
 	This test ensures that beginTurn() returns an empty list when 
@@ -78,7 +78,8 @@ public class AbstractPlayerStrategyTest {
 				model.chooseCard(coords);
 			}
 		}
-		assertTrue(new isValidGuessReturnsTrue().beginTurn(null, model).isEmpty());
-		}
+		
+		assertTrue(new StrictlyValidStrategy().beginTurn(null, model).isEmpty());
 	}
+}
 
