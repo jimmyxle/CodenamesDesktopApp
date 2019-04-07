@@ -10,7 +10,7 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-public class SpyMasterWeightStrategyTest {
+public class WeightedSpyMasterStrategyTest {
 
     @Test
     public void spymasterGetsWordOfGreatestWeight() {

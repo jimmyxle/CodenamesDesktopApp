@@ -10,7 +10,7 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-public class SpyMasterCountStrategyTest {
+public class CountSpyMasterStrategyTest {
     @Test
     public void spymasterGetsMostFrequentAssociatedWord() {
         //Need a Map to keep track of frequencies of associatedWord
