@@ -80,20 +80,23 @@ public class Card {
      */
     public static List<CodenameWord> createRandomCodenameList(Path databaseFile) throws IOException {
         //parse database for 25 words
-        List <String> words = parseDatabaseFile(databaseFile);
-
-        //turn the 25 words into 25 CodenameWord Objects
-        return generateCodenameWordList(words);
+        return selectRandom(parseDatabaseFile(databaseFile));
     }//END OF createRandomCodenameList()
 
-    private static List<String> parseDatabaseFile(Path databaseFile) throws IOException {
+    public static List<CodenameWord> selectRandom(List<CodenameWord> db) {
+        db = new ArrayList<>(db);
+        Collections.shuffle(db);
+        return db.subList(0, 25);
+    }
+    
+    public static List<CodenameWord> parseDatabaseFile(Path databaseFile) throws IOException {
         //====================
         //--PARSING DATABASE--
         //====================
-
-        List <String> lines = new ArrayList<>(Files.readAllLines(databaseFile));
-        Collections.shuffle(lines);
-        return lines.subList(0,25);
+        System.out.print("Reading word database: "+databaseFile+" ... ");
+        List<CodenameWord> ret = generateCodenameWordList(Files.readAllLines(databaseFile));
+        System.out.println("done!");
+        return ret;
     }//END OF parseDatabaseFile()
     
 

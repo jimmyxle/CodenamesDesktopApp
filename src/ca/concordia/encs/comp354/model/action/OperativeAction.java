@@ -1,7 +1,7 @@
-package ca.concordia.encs.comp354.controller.action;
+package ca.concordia.encs.comp354.model.action;
 
-import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.controller.Operative;
+import ca.concordia.encs.comp354.model.GameAction;
 
 /**
  * Base class for actions that may be produced by {@link Operative}s. May only be extended by classes in this 

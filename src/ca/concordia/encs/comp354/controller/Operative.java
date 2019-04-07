@@ -3,8 +3,8 @@ package ca.concordia.encs.comp354.controller;
 import java.util.Objects;
 
 import ca.concordia.encs.comp354.Promise;
-import ca.concordia.encs.comp354.controller.action.OperativeAction;
 import ca.concordia.encs.comp354.model.*;
+import ca.concordia.encs.comp354.model.action.OperativeAction;
 
 /**
  * Operatives are Players that produce guesses from {@link SpyMaster}s' clues.
@@ -23,6 +23,10 @@ public class Operative extends Player {
 	     * @return an action that will produce the selected coordinates
 	     */
 	    Promise<OperativeAction> guessCard(Operative owner, GameState state, Clue clue);
+	    
+	    default boolean isHuman() {
+	        return false;
+	    }
 	}
 	
 	private final Strategy strategy;
@@ -40,6 +44,10 @@ public class Operative extends Player {
         }
 		return ret;
 	}
+
+    public boolean isHuman() {
+        return strategy.isHuman();
+    }
 }
 
 

@@ -1,16 +1,14 @@
 package ca.concordia.encs.comp354.controller;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 import ca.concordia.encs.comp354.controller.Clue;
 
+/**
+ * 
+ * @author Yaacov Cohen 
+ * 
+ */
 public class ClueTest {
-
-	/**
-	 * 
-	 * Author: Yaacov Cohen 
-	 * 
-	 */
 
 	/* 
 	This test ensures that the guess provided by the spymaster is not the 
@@ -18,7 +16,7 @@ public class ClueTest {
     */
 	@Test(expected=NullPointerException.class)
 	public void constructorFailsForNullClue() {
-		Clue clue = new Clue (null, 1);
+		new Clue (null, 1);
 	}
 	
 	/*This test ensures that the number of guesses provided by the spymaster 
@@ -26,7 +24,7 @@ public class ClueTest {
 	*/
 	@Test(expected=IllegalArgumentException.class)
 	public void constructorFailsForGuessCountLessThanOne() {
-		 new Clue ("coby", -1);
+		 new Clue("coby", -1);
 	}
 }
 	

@@ -1,9 +1,8 @@
-package ca.concordia.encs.comp354.controller.action;
+package ca.concordia.encs.comp354.model.action;
 
-import ca.concordia.encs.comp354.Promise;
 import ca.concordia.encs.comp354.controller.Clue;
 import ca.concordia.encs.comp354.controller.GameEvent;
-import ca.concordia.encs.comp354.controller.GameAction;
+import ca.concordia.encs.comp354.model.GameAction;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.controller.SpyMaster;
 
@@ -30,7 +29,7 @@ public final class GiveClueAction extends GameAction {
     }
 
     @Override
-    protected Promise<GameEvent> doApply(GameState state) {
+    protected GameEvent doApply(GameState state) {
         // undo logic is simpler if we just record the values of the properties we intend to modify first
     	lastClue    = state.lastClueProperty().get();
     	lastGuesses = state.guessesRemainingProperty().get();
@@ -38,7 +37,7 @@ public final class GiveClueAction extends GameAction {
     	// update the model with our new clue
         state.lastClueProperty().set(clue);
         state.guessesRemainingProperty().set(clue.getGuesses());
-        return Promise.of(GameEvent.NONE);
+        return GameEvent.NONE;
     }
 
     @Override

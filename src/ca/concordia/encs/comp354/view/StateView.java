@@ -2,7 +2,7 @@ package ca.concordia.encs.comp354.view;
 
 import java.util.Locale;
 
-import ca.concordia.encs.comp354.controller.GameAction;
+import ca.concordia.encs.comp354.model.GameAction;
 import ca.concordia.encs.comp354.model.Team;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

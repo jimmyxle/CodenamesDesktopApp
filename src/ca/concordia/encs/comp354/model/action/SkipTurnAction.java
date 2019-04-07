@@ -1,6 +1,5 @@
-package ca.concordia.encs.comp354.controller.action;
+package ca.concordia.encs.comp354.model.action;
 
-import ca.concordia.encs.comp354.Promise;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import ca.concordia.encs.comp354.controller.Operative;
 import ca.concordia.encs.comp354.model.GameState;
@@ -19,10 +18,10 @@ public class SkipTurnAction extends OperativeAction {
 	}
 
 	@Override
-	protected  Promise<GameEvent> doApply(GameState state) {
+	protected GameEvent doApply(GameState state) {
 		value = state.guessesRemainingProperty().getValue();
 		state.guessesRemainingProperty().setValue(0);
-		return Promise.of(GameEvent.END_TURN);
+		return GameEvent.END_TURN;
 	}
 
 	@Override

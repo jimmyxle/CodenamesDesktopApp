@@ -2,10 +2,13 @@ package ca.concordia.encs.comp354.model;
 
 import org.junit.Test;
 
+import ca.concordia.encs.comp354.controller.Clue;
 import ca.concordia.encs.comp354.controller.GameEvent;
-import ca.concordia.encs.comp354.controller.action.ChangeTurnAction;
+import ca.concordia.encs.comp354.controller.SpyMaster;
 import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
-import javafx.beans.property.ReadOnlyObjectProperty;
+import ca.concordia.encs.comp354.model.action.ChangeTurnAction;
+import ca.concordia.encs.comp354.model.action.GiveClueAction;
+import ca.concordia.encs.comp354.model.action.NullSpyMasterStrategy;
 
 import static org.junit.Assert.*;
 
@@ -190,15 +193,35 @@ public class GameStateTest {
     }
     
     @Test
-    public void propertiesBackToDefault() {
-    	Board pre = model.getBoard();
+    public void resetSetsPropertiesToDefault() {
+        // set to non-default values
+    	model.turnProperty().set(Team.BLUE);
+    	model.redScoreProperty().set(5);
+    	model.blueScoreProperty().set(6);
+    	model.guessesRemainingProperty().set(2);
+    	model.chooseCard(new Coordinates(1, 2));
+    	model.pushAction(new GiveClueAction(new SpyMaster(Team.RED, new NullSpyMasterStrategy()), new Clue("foo", 2)));
+        model.pushAction(new GiveClueAction(new SpyMaster(Team.RED, new NullSpyMasterStrategy()), new Clue("bar", 4)));
+    	model.undoAction();
+    	model.requestOperativeInput();
+    	
+    	// reset model
     	model.reset();
-    	Board post = model.getBoard();
-    	assertNotSame(pre, post);
+    	
+    	// test that values are back to default
+    	assertNull  (model.turnProperty().get());
+    	assertEquals(0, model.redScoreProperty().get());
+    	assertEquals(0, model.blueScoreProperty().get());
+    	assertEquals(0, model.guessesRemainingProperty().get());
+    	assertTrue  (model.getChosenCards().isEmpty());
+    	assertTrue  (model.getHistory().isEmpty());
+    	assertTrue  (model.getUndone().isEmpty());
+    	assertNull  (model.lastClueProperty().get());
+    	assertNull  (model.operativeInputProperty().get());
     }
     
     @Test
-    public void boardPropertyAfterReset() {
+    public void resetRegeneratesBoard() {
     	Board pre = model.boardProperty().getValue();
     	model.reset();
     	Board post = model.boardProperty().getValue();

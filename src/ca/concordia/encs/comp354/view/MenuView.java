@@ -6,12 +6,14 @@ import ca.concordia.encs.comp354.controller.GameController;
 import ca.concordia.encs.comp354.controller.HumanOperativeStrategy;
 import ca.concordia.encs.comp354.controller.Operative;
 import ca.concordia.encs.comp354.model.Team;
-import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
-public class MenuView extends GridPane	{
+public class MenuView extends StackPane	{
 	
 	public MenuView(GameController.Builder builder, Runnable run)	{
 		
@@ -19,39 +21,43 @@ public class MenuView extends GridPane	{
         
 		// create menu view
 		//--------------------------------------------------------------------------------------------------------------
-		Button button1, button2, button3;
-		GridPane layout1 = new GridPane();
-		getChildren().add(layout1);
+		VBox menu = new VBox();
+		getChildren().add(menu);
+		
+		Button playRed, playBlue, watch;
+		menu.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		menu.getStyleClass().clear();
+		menu.getStyleClass().add("menu-view");
+		
+        Label label1 = new Label("Codenames");
+        label1.getStyleClass().add("title");
 
 		// create buttons
-		Label label1 = new Label("Choose what you want to do:");
-		GridPane.setConstraints(label1, 0, 1);
+        playRed = new Button("Play as Red");
+        playRed.getStyleClass().add("red");
+        playRed.setOnAction(event -> {
+            builder.setRedOperative(new Operative(Team.RED, new HumanOperativeStrategy()));
+            run.run();
+        });
 
-		button1 = new Button("Play as Blue");
-		button1.setOnAction(event -> {
+		playBlue = new Button("Play as Blue");
+		playBlue.getStyleClass().add("blue");
+		playBlue.setOnAction(event -> {
 			builder.setBlueOperative(new Operative(Team.BLUE, new HumanOperativeStrategy()));
 			run.run();
 		});
-		GridPane.setConstraints(button1, 0, 4);
-		
-		button2 = new Button("Play as Red");
-		button2.setOnAction(event ->	{
-			
-			builder.setRedOperative(new Operative(Team.RED, new HumanOperativeStrategy()));
-			run.run();
-		});
-		GridPane.setConstraints(button2, 0, 7);
 
-		button3 = new Button("Watch");
-		button3.setOnAction(event ->	{
+		watch = new Button("Watch");
+		watch.setOnAction(event -> {
 			run.run();
 		});
-		GridPane.setConstraints(button3, 0, 10);
 
 		// create layout of menu
-		layout1.setPadding(new Insets(10, 10, 10, 10));
-		layout1.setVgap(8);
-		layout1.setHgap(10);
-		layout1.getChildren().addAll(label1, button1, button2, button3);
+		menu.getChildren().addAll(label1, playRed, playBlue, watch);
+		
+		// set children to fill the menu's width
+		for (Node k : menu.getChildren()) {
+		    ((Region)k).setPrefWidth(Double.MAX_VALUE);
+		}
 	}
 }

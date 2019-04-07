@@ -13,11 +13,11 @@ import ca.concordia.encs.comp354.model.Card;
 import ca.concordia.encs.comp354.model.CardValue;
 import ca.concordia.encs.comp354.model.CodenameWord;
 import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
+import ca.concordia.encs.comp354.model.action.GuessCardAction;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Keycard;
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
-import ca.concordia.encs.comp354.controller.action.GuessCardAction;
 
 import static org.junit.Assert.*;
 

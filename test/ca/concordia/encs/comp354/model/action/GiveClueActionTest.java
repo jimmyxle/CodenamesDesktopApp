@@ -1,10 +1,11 @@
-package ca.concordia.encs.comp354.controller.action;
+package ca.concordia.encs.comp354.model.action;
 
 import org.junit.Test;
 
 import ca.concordia.encs.comp354.controller.Clue;
 import ca.concordia.encs.comp354.controller.SpyMaster;
 import ca.concordia.encs.comp354.model.Team;
+import ca.concordia.encs.comp354.model.action.GiveClueAction;
 
 import static org.junit.Assert.*;
 

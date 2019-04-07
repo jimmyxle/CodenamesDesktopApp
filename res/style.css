@@ -5,6 +5,97 @@
  *   https://docs.oracle.com/javase/8/javafx/api/javafx/scene/doc-files/cssref.html
  */
  
+
+.button .text {
+	-fx-font-weight: bold;
+	-fx-fill: white;
+	-fx-effect: dropshadow(one-pass-box, black, 0.2em, 1, 0, 0);
+}
+
+.button {
+	-fx-background-color: burlywood;
+	-fx-border-color: olive;
+	-fx-border-width: 0.1em;
+	-fx-border-style: solid inside;
+}
+
+.button:hover {
+	-fx-background-color: antiquewhite;
+}
+
+.button:pressed {
+	-fx-background-color: burlywood;
+	-fx-effect: innershadow(one-pass-box, olive, 0.5em, 0.25, 0.25em, 0.5em);
+}
+
+/*
+ * Game setup menu
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+.menu-view {
+	-fx-background-color: antiquewhite;
+	-fx-spacing: 0.6em;
+	-fx-padding: 1.2em;
+	-fx-alignment: center;
+	-fx-fill-width: true;
+}
+
+.menu-view .label {
+	-fx-alignment: center;
+}
+
+.menu-view .title {
+	-fx-font-size: 2em;
+}
+
+.menu-view .title .text {
+	-fx-font-weight: bold;
+	-fx-effect: dropshadow(one-pass-box, black, 0.5em, 1, 0, 0);
+	-fx-fill: linear-gradient(to bottom, white, grey);
+}
+
+.menu-view .button {
+	-fx-background-color: yellowgreen;
+	-fx-border-color: seagreen;
+}
+
+.menu-view .button:hover {
+	-fx-background-color: lightgreen;
+}
+
+.menu-view .button:pressed {
+	-fx-background-color: yellowgreen;
+	-fx-effect: innershadow(one-pass-box, seagreen, 0.5em, 0.25, 0.25em, 0.5em);
+}
+
+.menu-view .button.red {
+	-fx-background-color: indianred;
+	-fx-border-color: purple ;
+}
+
+.menu-view .button.red:hover {
+	-fx-background-color: salmon;
+}
+
+.menu-view .button.red:pressed {
+	-fx-background-color: indianred;
+	-fx-effect: innershadow(one-pass-box, purple, 0.5em, 0.25, 0.25em, 0.5em);
+}
+
+.menu-view .button.blue {
+	-fx-background-color: cornflowerblue;
+	-fx-border-color: darkslateblue;
+}
+
+.menu-view .button.blue:hover {
+	-fx-background-color: lightskyblue;
+}
+
+.menu-view .button.blue:pressed {
+	-fx-background-color: cornflowerblue;
+	-fx-effect: innershadow(one-pass-box, darkslateblue, 0.5em, 0.25, 0.25em, 0.5em);
+}
+ 
 /*
  * Game display
  * ---------------------------------------------------------------------------------------------------------------------
@@ -34,9 +125,7 @@
 }
 
 .score-view .score-readout .text {
- 	-fx-stroke: black;
- 	-fx-stroke-width: 0.1em;
- 	-fx-stroke-type: outside;
+	-fx-effect: dropshadow(one-pass-box, black, 0.3em, 1, 0, 0);
 }
 
 .score-view .score-readout:red {
@@ -54,7 +143,7 @@
 }
 
 .score-view .score-readout:lead .text {
- 	-fx-stroke-width: 0.2em;
+	-fx-effect: dropshadow(one-pass-box, black, 0.5em, 1, 0, 0);
 }
 
 /* 
@@ -97,11 +186,7 @@
 	-fx-border-style: dotted inside;
 }
 
-.board-view .codename-region:disable .label {
-	-fx-font-weight: normal;
-}
-
-.board-view .codename-region:normal .label {
+.board-view .codename-region:hover .text {
 	-fx-font-weight: bold;
 }
 
@@ -143,8 +228,7 @@
  	-fx-background-color: rgba(0, 0, 0, 0.75);
  }
  .game-over .text, .next-turn .text {
- 	-fx-stroke: black;
- 	-fx-stroke-width: 0.15em;
+	-fx-effect: dropshadow(one-pass-box, black, 0.6em, 1, 0, 0);
  }
  .game-over:red, .next-turn:red {
  	-fx-text-fill: linear-gradient(to bottom, red, black);

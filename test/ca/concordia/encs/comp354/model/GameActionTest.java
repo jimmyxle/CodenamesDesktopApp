@@ -1,52 +1,52 @@
-package ca.concordia.encs.comp354.controller;
+package ca.concordia.encs.comp354.model;
 
 import org.junit.Test;
 
-import ca.concordia.encs.comp354.controller.action.AbstractActionTest;
+import ca.concordia.encs.comp354.model.GameAction;
 import ca.concordia.encs.comp354.model.GameState;
-import ca.concordia.encs.comp354.Promise;
-import ca.concordia.encs.comp354.controller.GameAction;
+import ca.concordia.encs.comp354.model.action.AbstractActionTest;
+import ca.concordia.encs.comp354.controller.GameEvent;
 
-import static org.junit.Assert.*;
-
+/**
+  *
+ * @author Vickel Leung
+ *
+ */
 public class GameActionTest extends AbstractActionTest {
 		
 	GameAction gameAction = new GameAction(model.getTurn()) {
 
 		@Override
 		public String getActionText() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
-		protected Promise<GameEvent> doApply(GameState state) {
-			// TODO Auto-generated method stub
+		protected GameEvent doApply(GameState state) {
 			return null;
 		}
 
 		@Override
 		protected void doUndo(GameState state) {
-			// TODO Auto-generated method stub	
 		}    
     };
 	
-	//apply() fails when called twice
+	//apply() fails when called twice without an undo()
 	@Test(expected=IllegalStateException.class)
-	public void applyCalledTwice() {
+	public void failOnReapply() {
 		gameAction.apply(model);
 		gameAction.apply(model);
 	}
 
     //undo() fails if apply() has not been called previously
 	@Test(expected=IllegalStateException.class)
-	public void isApplyCalledBeforeUndo() {
+	public void failOnUndoUnappliedAction() {
 		gameAction.undo(model);
 	}
 	
-    //undo() fails if called twice in a row
+    //undo() fails if called twice without a redo()
 	@Test(expected=IllegalStateException.class)
-	public void undoCalledTwice() {
+	public void failOnUndoUndoneAction() {
 		gameAction.undo(model);
 		gameAction.undo(model);
 	}		

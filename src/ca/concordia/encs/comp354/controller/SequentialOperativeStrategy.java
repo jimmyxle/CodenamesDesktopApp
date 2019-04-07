@@ -3,11 +3,11 @@ package ca.concordia.encs.comp354.controller;
 import java.util.List;
 
 import ca.concordia.encs.comp354.Promise;
-import ca.concordia.encs.comp354.controller.action.GuessCardAction;
-import ca.concordia.encs.comp354.controller.action.OperativeAction;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.GameState;
+import ca.concordia.encs.comp354.model.action.GuessCardAction;
+import ca.concordia.encs.comp354.model.action.OperativeAction;
 
 /**
  * With this strategy, an operative picks his next card sequentially, starting from the top-left corner of the board.

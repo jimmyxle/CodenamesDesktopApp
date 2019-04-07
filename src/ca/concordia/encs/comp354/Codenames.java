@@ -13,7 +13,6 @@ import ca.concordia.encs.comp354.view.GameView;
 import ca.concordia.encs.comp354.view.MenuView;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -23,20 +22,14 @@ public class Codenames extends Application {
 
 	private GameState game;
 
-	private static Board generateBoard() {
-	    try {
-            List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/words.txt"));
-            List<Keycard> keycards = Keycard.createRandomKeycards(Keycard.NUMBER_OF_KEYCARDS);
-            return new Board(codenameWords, keycards.get(0));
-	    } catch (IOException e) {
-	        throw new Error(e);
-	    }
-	}
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
 	
 	@Override
 	public void start(Stage stage) throws IOException {
 		// configure game
-		//--------------------------------------------------------------------------------------------------------------
+		//==============================================================================================================
 		// create controller
 		GameController.Builder builder =
 				new GameController.Builder()
@@ -48,33 +41,41 @@ public class Codenames extends Application {
 
 		// create game state
 		game = new GameState(Codenames::generateBoard, System.out);
+		
 
 		// create interface
-		//--------------------------------------------------------------------------------------------------------------
+		//==============================================================================================================
+        final String css = stylesheet("res/style.css");
+        
+        // game view
+        //--------------------------------------------------------------------------------------------------------------
+        // just configure the primary stage here; the actual GameView is initialized by the MenuView when the user
+        // makes a selection
 		final StackPane root  = new StackPane();
-		final Scene     scene = new Scene(root, 512, 512, true);
+		final Scene     scene = new Scene(root, 768, 768, true);
 
-		scene.getStylesheets().add(stylesheet("res/style.css"));
+		scene.getStylesheets().add(css);
 
 		stage.setTitle("Codenames");
 		stage.setScene(scene); 
-
-		// create menu
+	    
+		// setup menu
 		//--------------------------------------------------------------------------------------------------------------
-		final Stage    menuStage = new Stage();
-		final GridPane menu      = new GridPane();
-		final Scene		 menuScene = new Scene(menu, 300, 230);
+		final Stage menuStage = new Stage();
 
-        menu.getChildren().add(new MenuView(builder, ()-> {
+        final MenuView menu = new MenuView(builder, ()-> {
             root.getChildren().add(new GameView(game, builder.setModel(game).create()));
             stage.show();
             menuStage.close();
-        }));
+        });
+        
+        final Scene menuScene = new Scene(menu, 320, 256);
+        menuScene.getStylesheets().add(css);
 
-    menuStage.setTitle("Codenames");
-    menuStage.setScene(menuScene);
-
-    menuStage.show();
+        menuStage.setTitle("Codenames");
+        menuStage.setScene(menuScene);
+    
+        menuStage.show();
   }
 
 	@Override
@@ -96,8 +97,20 @@ public class Codenames extends Application {
 		return Paths.get(path).toAbsolutePath().toUri().toURL().toExternalForm();
 	}
 
-	public static void main(String[] args) {
-		Application.launch(args);
-	}
+	static List<CodenameWord> wordDatabase = null;
+	
+    private static Board generateBoard() {
+        try {
+            // load word db if none loaded
+            if (wordDatabase==null) {
+                wordDatabase = Card.parseDatabaseFile(Paths.get("res/words.txt"));
+            }
+            
+            List<Keycard> keycards = Keycard.createRandomKeycards(Keycard.NUMBER_OF_KEYCARDS);
+            return new Board(Card.selectRandom(wordDatabase), keycards.get(0));
+        } catch (IOException e) {
+            throw new Error(e);
+        }
+    }
 
 }

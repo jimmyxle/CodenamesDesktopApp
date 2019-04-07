@@ -8,7 +8,6 @@ import java.util.function.Supplier;
 import ca.concordia.encs.comp354.CompletablePromise;
 import ca.concordia.encs.comp354.Promise;
 import ca.concordia.encs.comp354.controller.Clue;
-import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -187,6 +186,7 @@ public final class GameState implements ReadOnlyGameState {
     }
     
     public GameEvent pushAction(GameAction value) {
+        cancelInput();
         applyAction(value);
         // clear undo history
         undone.clear();
@@ -197,6 +197,7 @@ public final class GameState implements ReadOnlyGameState {
     	if (history.isEmpty()) {
     		return false;
     	}
+        cancelInput();
     	
         // undo most recent action
     	GameStep top = peek(history); // update history after successful undo -- just peek, modify collection later
@@ -212,7 +213,8 @@ public final class GameState implements ReadOnlyGameState {
     	if (undone.isEmpty()) {
     		return false;
     	}
-    	
+
+        cancelInput();
     	applyAction(pop(undone).getAction());
     	
     	return true;
@@ -345,11 +347,10 @@ public final class GameState implements ReadOnlyGameState {
         // add action to model, execute action, record step
     	actionInProgress.set(true);
     	// value.apply() returns a Promise!
-    	value.apply(this).then(event->{
-        	GameStep step = new GameStep(value, event, redScore.get(), blueScore.get(), history.size());
-            history.add(step);
-            actionInProgress.set(false);
-    	});
+    	GameEvent event = value.apply(this);
+    	GameStep step = new GameStep(value, event, redScore.get(), blueScore.get(), history.size());
+        history.add(step);
+        actionInProgress.set(false);
     }
     
     /**
@@ -384,6 +385,14 @@ public final class GameState implements ReadOnlyGameState {
         CompletablePromise<OperativeEvent> ret = new CompletablePromise<>();
         requestedEvent.set(ret);
         return ret.then(v->requestedEvent.set(null));
+    }
+    
+    private void cancelInput() {
+        CompletablePromise<OperativeEvent> p = requestedEvent.get();
+        if (p!=null) {
+            requestedEvent.set(null);
+            p.cancel();
+        }
     }
     
     @Override

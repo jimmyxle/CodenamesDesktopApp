@@ -15,10 +15,12 @@ import java.util.List;
  */
 public class CompletablePromise<T> implements Promise<T> {
     
-    private T       value = null;
-    private boolean set   = false;
+    private T       value     = null;
+    private boolean finished       = false;
+    private boolean cancelled = false;
     
-    private final List<Consumer<T>> onFinished = new ArrayList<>();
+    private final List<Consumer<T>> onFinished  = new ArrayList<>();
+    private final List<Runnable>    onCancelled = new ArrayList<>();
     
     public CompletablePromise() {}
     
@@ -28,13 +30,39 @@ public class CompletablePromise<T> implements Promise<T> {
      * @return this promise
      */
     public CompletablePromise<T> finish(T value) {
-        this.value = value;
-        set = true;
+        if (cancelled) {
+            throw new IllegalStateException("cancelled");
+        }
         
-        if (set && onFinished!=null) {
-            for (Consumer<T> k : onFinished) {
-                k.accept(value);
-            }
+        if (finished) {
+            throw new IllegalStateException("already finished");
+        }
+        
+        this.value = value;
+        finished = true;
+        for (Consumer<T> k : onFinished) {
+            k.accept(value);
+        }
+        
+        return this;
+    }
+    
+    /**
+     * Cancels this promise, triggering any attached cancellation handlers.
+     * @return this promise
+     */
+    public CompletablePromise<T> cancel() {
+        if (finished) {
+            throw new IllegalStateException("finished");
+        }
+        
+        if (cancelled) {
+            throw new IllegalStateException("already cancelled");
+        }
+        
+        cancelled = true;
+        for (Runnable k : onCancelled) {
+            k.run();
         }
         
         return this;
@@ -42,16 +70,21 @@ public class CompletablePromise<T> implements Promise<T> {
 
     @Override
     public T get() {
-        if (set==false) {
+        if (cancelled) {
+            throw new IllegalStateException("cancelled");
+        }
+        
+        if (!finished) {
             throw new IllegalStateException("not finished");
         }
+        
         return value;
     }
     
     @Override
     public CompletablePromise<T> then(Consumer<T> func) {
         requireNonNull(func);
-        if (set) {
+        if (finished) {
             func.accept(value);
         } else {
             onFinished.add(func);
@@ -61,6 +94,22 @@ public class CompletablePromise<T> implements Promise<T> {
 
     @Override
     public boolean isFinished() {
-        return set;
+        return finished;
+    }
+    
+    @Override
+    public CompletablePromise<T> ifCancelled(Runnable func) {
+        requireNonNull(func);
+        if (cancelled) {
+            func.run();
+        } else {
+            onCancelled.add(func);
+        }
+        return this;
+    }
+    
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
     }
 }

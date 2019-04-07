@@ -98,6 +98,7 @@ public class BoardView extends StackPane {
         setDepthTest(DepthTest.ENABLE);
         
         this.getChildren().addAll(tiles, teams);
+        teams.setMouseTransparent(true);
         
         this.requestedGuessProperty().addListener(o->disableProperty().set(requestedGuessProperty().get()==null));
     }

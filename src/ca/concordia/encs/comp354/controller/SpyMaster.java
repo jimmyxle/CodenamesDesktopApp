@@ -2,8 +2,6 @@ package ca.concordia.encs.comp354.controller;
 
 import java.util.Objects;
 
-import ca.concordia.encs.comp354.controller.action.GiveClueAction;
-
 /**
  * SpyMasters are Players that produce clues for consumption by {@link Operative}s.
  * @author Alex Abrams
@@ -11,6 +9,7 @@ import ca.concordia.encs.comp354.controller.action.GiveClueAction;
 
 import ca.concordia.encs.comp354.model.ReadOnlyGameState;
 import ca.concordia.encs.comp354.model.Team;
+import ca.concordia.encs.comp354.model.action.GiveClueAction;
 
 /**
  * Spymasters are players that produce clues for {@link Operative}s.
