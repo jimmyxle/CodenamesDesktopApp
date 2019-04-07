@@ -34,13 +34,14 @@ public class CompletablePromise<T> implements Promise<T> {
             throw new IllegalStateException("cancelled");
         }
         
+        if (finished) {
+            throw new IllegalStateException("already finished");
+        }
+        
         this.value = value;
         finished = true;
-        
-        if (finished && onFinished!=null) {
-            for (Consumer<T> k : onFinished) {
-                k.accept(value);
-            }
+        for (Consumer<T> k : onFinished) {
+            k.accept(value);
         }
         
         return this;
@@ -51,16 +52,17 @@ public class CompletablePromise<T> implements Promise<T> {
      * @return this promise
      */
     public CompletablePromise<T> cancel() {
-        if (cancelled) {
+        if (finished) {
             throw new IllegalStateException("finished");
         }
         
-        cancelled = true;
+        if (cancelled) {
+            throw new IllegalStateException("already cancelled");
+        }
         
-        if (finished && onCancelled!=null) {
-            for (Runnable k : onCancelled) {
-                k.run();
-            }
+        cancelled = true;
+        for (Runnable k : onCancelled) {
+            k.run();
         }
         
         return this;
