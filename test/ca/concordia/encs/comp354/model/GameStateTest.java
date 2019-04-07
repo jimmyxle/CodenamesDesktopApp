@@ -177,7 +177,7 @@ public class GameStateTest {
     	assertNotNull(model.operativeInputProperty().get());
     }
     
-    @Test (expected=IllegalStateException.class)
+    @Test(expected=IllegalStateException.class)
     public void failsOnRedundantInputRequest() {
     	model.requestOperativeInput();
     	model.requestOperativeInput();
