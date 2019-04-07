@@ -27,10 +27,8 @@ public class GameActionTest extends AbstractActionTest {
 
 		@Override
 		protected void doUndo(GameState state) {
-			// TODO Auto-generated method stub
-			
-		}
-        
+			// TODO Auto-generated method stub	
+		}    
     };
 	
 	//apply() fails when called twice
@@ -39,8 +37,6 @@ public class GameActionTest extends AbstractActionTest {
 		gameAction.apply(model);
 		gameAction.apply(model);
 	}
-
-	
 
     //undo() fails if apply() has not been called previously
 	@Test(expected=IllegalStateException.class)
