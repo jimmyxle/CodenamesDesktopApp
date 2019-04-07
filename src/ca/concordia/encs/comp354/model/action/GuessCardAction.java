@@ -1,6 +1,5 @@
-package ca.concordia.encs.comp354.controller.action;
+package ca.concordia.encs.comp354.model.action;
 
-import ca.concordia.encs.comp354.Promise;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Card;
@@ -40,7 +39,7 @@ public final class GuessCardAction extends OperativeAction {
     }
 
     @Override
-    protected Promise<GameEvent> doApply(GameState state) {
+    protected GameEvent doApply(GameState state) {
         if (!state.hasGuesses()) {
             throw new IllegalStateException("no more guesses available");
         }
@@ -70,7 +69,7 @@ public final class GuessCardAction extends OperativeAction {
             // increment red's score, then test victory condition
             final int redScore = adjust(state.redScoreProperty(), +1);
             if (state.redObjectiveProperty().get() == redScore) {
-                return Promise.of(GameEvent.GAME_OVER_RED_WON);
+                return GameEvent.GAME_OVER_RED_WON;
             }
             break;
             
@@ -78,26 +77,26 @@ public final class GuessCardAction extends OperativeAction {
             // increment blue's score, then test victory condition
             final int blueScore = adjust(state.blueScoreProperty(), +1);
             if (state.blueObjectiveProperty().get() == blueScore) {
-                return Promise.of(GameEvent.GAME_OVER_BLUE_WON);
+                return GameEvent.GAME_OVER_BLUE_WON;
             }
             break;
             
         case ASSASSIN:
             // end the game; the current team loses
             state.guessesRemainingProperty().set(0);
-            return Promise.of(GameEvent.GAME_OVER_ASSASSIN);
+            return GameEvent.GAME_OVER_ASSASSIN;
             
         case NEUTRAL:
             // end the turn; the current team cannot guess any more times
             state.guessesRemainingProperty().set(0);
-            return Promise.of(GameEvent.END_TURN);
+            return GameEvent.END_TURN;
         }
         
         if (card.getValue() != state.getTurn().getValue()) {
             state.guessesRemainingProperty().set(0);
-            return Promise.of(GameEvent.END_TURN);
+            return GameEvent.END_TURN;
         } else {
-            return Promise.of(GameEvent.NONE);
+            return GameEvent.NONE;
         }
     }
 

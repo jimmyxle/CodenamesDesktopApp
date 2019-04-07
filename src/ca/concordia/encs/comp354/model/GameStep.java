@@ -1,6 +1,5 @@
 package ca.concordia.encs.comp354.model;
 
-import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.controller.GameEvent;
 
 /**

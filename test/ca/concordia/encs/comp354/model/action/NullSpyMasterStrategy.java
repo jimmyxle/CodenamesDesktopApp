@@ -1,4 +1,4 @@
-package ca.concordia.encs.comp354.controller.action;
+package ca.concordia.encs.comp354.model.action;
 
 import ca.concordia.encs.comp354.controller.Clue;
 import ca.concordia.encs.comp354.controller.SpyMaster;

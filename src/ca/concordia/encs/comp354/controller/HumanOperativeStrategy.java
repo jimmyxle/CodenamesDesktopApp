@@ -2,10 +2,10 @@ package ca.concordia.encs.comp354.controller;
 
 import ca.concordia.encs.comp354.CompletablePromise;
 import ca.concordia.encs.comp354.Promise;
-import ca.concordia.encs.comp354.controller.action.GuessCardAction;
-import ca.concordia.encs.comp354.controller.action.OperativeAction;
-import ca.concordia.encs.comp354.controller.action.SkipTurnAction;
 import ca.concordia.encs.comp354.model.GameState;
+import ca.concordia.encs.comp354.model.action.GuessCardAction;
+import ca.concordia.encs.comp354.model.action.OperativeAction;
+import ca.concordia.encs.comp354.model.action.SkipTurnAction;
 
 public class HumanOperativeStrategy implements Operative.Strategy {
     

@@ -1,9 +1,9 @@
 package ca.concordia.encs.comp354.controller;
 
-import ca.concordia.encs.comp354.controller.action.ChangeTurnAction;
-import ca.concordia.encs.comp354.controller.GameAction;
+import ca.concordia.encs.comp354.model.GameAction;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Team;
+import ca.concordia.encs.comp354.model.action.ChangeTurnAction;
 import ca.concordia.encs.comp354.view.GameView;
 
 import static java.util.Objects.requireNonNull;

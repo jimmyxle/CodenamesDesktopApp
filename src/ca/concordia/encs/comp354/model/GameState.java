@@ -8,7 +8,6 @@ import java.util.function.Supplier;
 import ca.concordia.encs.comp354.CompletablePromise;
 import ca.concordia.encs.comp354.Promise;
 import ca.concordia.encs.comp354.controller.Clue;
-import ca.concordia.encs.comp354.controller.GameAction;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -348,11 +347,10 @@ public final class GameState implements ReadOnlyGameState {
         // add action to model, execute action, record step
     	actionInProgress.set(true);
     	// value.apply() returns a Promise!
-    	value.apply(this).then(event->{
-        	GameStep step = new GameStep(value, event, redScore.get(), blueScore.get(), history.size());
-            history.add(step);
-            actionInProgress.set(false);
-    	});
+    	GameEvent event = value.apply(this);
+    	GameStep step = new GameStep(value, event, redScore.get(), blueScore.get(), history.size());
+        history.add(step);
+        actionInProgress.set(false);
     }
     
     /**

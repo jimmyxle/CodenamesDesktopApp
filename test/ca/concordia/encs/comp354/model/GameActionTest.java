@@ -1,11 +1,11 @@
-package ca.concordia.encs.comp354.controller;
+package ca.concordia.encs.comp354.model;
 
 import org.junit.Test;
 
-import ca.concordia.encs.comp354.controller.action.AbstractActionTest;
+import ca.concordia.encs.comp354.model.GameAction;
 import ca.concordia.encs.comp354.model.GameState;
-import ca.concordia.encs.comp354.Promise;
-import ca.concordia.encs.comp354.controller.GameAction;
+import ca.concordia.encs.comp354.model.action.AbstractActionTest;
+import ca.concordia.encs.comp354.controller.GameEvent;
 
 /**
   *
@@ -22,7 +22,7 @@ public class GameActionTest extends AbstractActionTest {
 		}
 
 		@Override
-		protected Promise<GameEvent> doApply(GameState state) {
+		protected GameEvent doApply(GameState state) {
 			return null;
 		}
 

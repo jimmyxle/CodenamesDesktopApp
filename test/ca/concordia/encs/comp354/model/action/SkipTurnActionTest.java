@@ -1,4 +1,4 @@
-package ca.concordia.encs.comp354.controller.action;
+package ca.concordia.encs.comp354.model.action;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 import ca.concordia.encs.comp354.controller.Operative;
 import ca.concordia.encs.comp354.controller.GameEvent;
 import ca.concordia.encs.comp354.model.Team;
-import ca.concordia.encs.comp354.controller.action.SkipTurnAction;
+import ca.concordia.encs.comp354.model.action.SkipTurnAction;
 
 /**
  * 
@@ -28,14 +28,15 @@ public class SkipTurnActionTest extends AbstractActionTest {
 	
 	@Test
 	public void endsTurn() {
-		assertEquals(GameEvent.END_TURN, skip.apply(model).get());	
+		assertEquals(GameEvent.END_TURN, model.pushAction(skip));	
 	}
 	
 	@Test
 	public void undoRestoresRemainingGuesses() {
 		model.guessesRemainingProperty().setValue(2);
 		model.pushAction(skip);
-		skip.undo(model);
+        assertEquals(0, model.guessesRemainingProperty().get());
+		model.undoAction();
 		assertEquals(2, model.guessesRemainingProperty().get());
 	}
 

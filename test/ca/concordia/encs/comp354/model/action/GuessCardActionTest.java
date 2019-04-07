@@ -1,4 +1,4 @@
-package ca.concordia.encs.comp354.controller.action;
+package ca.concordia.encs.comp354.model.action;
 
 import org.junit.Test;
 
@@ -6,6 +6,7 @@ import ca.concordia.encs.comp354.controller.GameEvent;
 import ca.concordia.encs.comp354.controller.Operative;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.Team;
+import ca.concordia.encs.comp354.model.action.GuessCardAction;
 
 import static org.junit.Assert.*;
 import static ca.concordia.encs.comp354.controller.GameEvent.*;

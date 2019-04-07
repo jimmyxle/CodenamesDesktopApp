@@ -1,8 +1,6 @@
-package ca.concordia.encs.comp354.controller;
+package ca.concordia.encs.comp354.model;
 
-import ca.concordia.encs.comp354.Promise;
-import ca.concordia.encs.comp354.model.GameState;
-import ca.concordia.encs.comp354.model.Team;
+import ca.concordia.encs.comp354.controller.GameEvent;
 import javafx.beans.property.IntegerProperty;
 
 /**
@@ -36,8 +34,8 @@ public abstract class GameAction {
      * @param state  the operand state
      * @return a Promise containing the result of the action
      */
-    public Promise<GameEvent> apply(GameState state) {
-        Promise<GameEvent> ret;
+    GameEvent apply(GameState state) {
+        GameEvent ret;
         switch (historyState) {
             case NEW:
                 ret = doApply(state);
@@ -59,7 +57,7 @@ public abstract class GameAction {
      * Reverses the action's changes to the game state.
      * @param state  the operand state
      */
-    public void undo(GameState state) {
+    void undo(GameState state) {
         if (historyState != HistoryState.DONE) {
             throw new IllegalStateException("cannot undo action that has not been applied");
         }
@@ -70,14 +68,14 @@ public abstract class GameAction {
         historyState = HistoryState.UNDONE;
     }
     
-    protected abstract Promise<GameEvent> doApply(GameState state);
+    protected abstract GameEvent doApply(GameState state);
     
     /**
      * Override this if redo behaviour differs from apply behaviour.
      * @param state the game state on which to operate
      * @return the result of the action
      */
-    protected Promise<GameEvent> doRedo(GameState state) {
+    protected GameEvent doRedo(GameState state) {
         return doApply(state);
     }
 

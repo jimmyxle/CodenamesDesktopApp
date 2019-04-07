@@ -11,14 +11,15 @@ import ca.concordia.encs.comp354.controller.Operative;
 import ca.concordia.encs.comp354.controller.SequentialOperativeStrategy;
 import ca.concordia.encs.comp354.controller.SequentialSpyMasterStrategy;
 import ca.concordia.encs.comp354.controller.SpyMaster;
-import ca.concordia.encs.comp354.controller.action.ChangeTurnAction;
-import ca.concordia.encs.comp354.controller.action.GiveClueAction;
-import ca.concordia.encs.comp354.controller.action.GuessCardAction;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.CodenameWord;
+import ca.concordia.encs.comp354.model.GameAction;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Keycard;
 import ca.concordia.encs.comp354.model.Team;
+import ca.concordia.encs.comp354.model.action.ChangeTurnAction;
+import ca.concordia.encs.comp354.model.action.GiveClueAction;
+import ca.concordia.encs.comp354.model.action.GuessCardAction;
 
 import static org.junit.Assert.*;
 

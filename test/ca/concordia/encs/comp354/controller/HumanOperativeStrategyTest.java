@@ -8,10 +8,10 @@ import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Keycard;
 import ca.concordia.encs.comp354.model.OperativeEvent;
 import ca.concordia.encs.comp354.model.Team;
+import ca.concordia.encs.comp354.model.action.OperativeAction;
 import ca.concordia.encs.comp354.CompletablePromise;
 import ca.concordia.encs.comp354.Promise;
 import ca.concordia.encs.comp354.controller.Clue;
-import ca.concordia.encs.comp354.controller.action.OperativeAction;
 import ca.concordia.encs.comp354.model.SkipEvent;
 
 import static org.junit.Assert.*;

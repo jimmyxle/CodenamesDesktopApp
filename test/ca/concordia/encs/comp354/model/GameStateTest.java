@@ -3,8 +3,8 @@ package ca.concordia.encs.comp354.model;
 import org.junit.Test;
 
 import ca.concordia.encs.comp354.controller.GameEvent;
-import ca.concordia.encs.comp354.controller.action.ChangeTurnAction;
 import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
+import ca.concordia.encs.comp354.model.action.ChangeTurnAction;
 
 import static org.junit.Assert.*;
 

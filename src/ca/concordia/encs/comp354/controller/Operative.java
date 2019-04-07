@@ -3,8 +3,8 @@ package ca.concordia.encs.comp354.controller;
 import java.util.Objects;
 
 import ca.concordia.encs.comp354.Promise;
-import ca.concordia.encs.comp354.controller.action.OperativeAction;
 import ca.concordia.encs.comp354.model.*;
+import ca.concordia.encs.comp354.model.action.OperativeAction;
 
 /**
  * Operatives are Players that produce guesses from {@link SpyMaster}s' clues.

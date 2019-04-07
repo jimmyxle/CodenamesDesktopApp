@@ -3,12 +3,12 @@ package ca.concordia.encs.comp354.controller;
 import java.util.List;
 
 import ca.concordia.encs.comp354.Promise;
-import ca.concordia.encs.comp354.controller.action.GuessCardAction;
-import ca.concordia.encs.comp354.controller.action.OperativeAction;
 import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.Coordinates;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
+import ca.concordia.encs.comp354.model.action.GuessCardAction;
+import ca.concordia.encs.comp354.model.action.OperativeAction;
 
 /**
  * With this strategy, an operative picks a strategy by iterating through the list of his team's cards
