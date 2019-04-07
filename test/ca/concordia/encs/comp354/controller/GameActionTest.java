@@ -15,7 +15,7 @@ public class GameActionTest extends AbstractActionTest {
 	
 	
 	//apply() fails when called twice
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalStateException.class)
 	public void applyCalledTwice() {
 		ga.apply(gameState);
 		ga.apply(gameState);
@@ -23,13 +23,13 @@ public class GameActionTest extends AbstractActionTest {
 
 
     //undo() fails if apply() has not been called previously
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalStateException.class)
 	public void isApplyCalledBeforeUndo() {
 		ga.undo(gameState);
 	}
 	
     //undo() fails if called twice in a row
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalStateException.class)
 	public void undoCalledTwice() {
 		ga.undo(gameState);
 		ga.undo(gameState);
