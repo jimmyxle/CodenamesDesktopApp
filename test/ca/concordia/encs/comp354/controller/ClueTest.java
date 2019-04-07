@@ -20,10 +20,7 @@ public class ClueTest {
 	@Test(expected=NullPointerException.class)
 	public void constructorFailsForNullClue() {
 		Clue clue= new Clue (null, 1);
-		if (clue.getWord()==null) {
-			throw new NullPointerException("The guess must be a word or a character");
-		}
-		assertTrue(clue.getWord() != "");
+		
 	}
 	
 	/*This test ensures that the number of guesses provided by the spymaster 
