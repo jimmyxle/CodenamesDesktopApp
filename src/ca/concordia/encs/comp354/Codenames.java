@@ -97,11 +97,17 @@ public class Codenames extends Application {
 		return Paths.get(path).toAbsolutePath().toUri().toURL().toExternalForm();
 	}
 
+	static List<CodenameWord> wordDatabase = null;
+	
     private static Board generateBoard() {
         try {
-            List<CodenameWord> codenameWords = Card.createRandomCodenameList(Paths.get("res/words.txt"));
+            // load word db if none loaded
+            if (wordDatabase==null) {
+                wordDatabase = Card.parseDatabaseFile(Paths.get("res/words.txt"));
+            }
+            
             List<Keycard> keycards = Keycard.createRandomKeycards(Keycard.NUMBER_OF_KEYCARDS);
-            return new Board(codenameWords, keycards.get(0));
+            return new Board(Card.selectRandom(wordDatabase), keycards.get(0));
         } catch (IOException e) {
             throw new Error(e);
         }
