@@ -11,10 +11,13 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class GameStateTest {
     
     private GameState model;
+    private GameState board;
+    private Supplier<Board> boardFunc;
 
     public GameStateTest() {
         List<CodenameWord> words = new ArrayList<>();
@@ -25,6 +28,7 @@ public class GameStateTest {
         }
         
         model = new GameState(new Board(words, Keycard.createRandomKeycard()));
+        board = new GameState(boardFunc);
     }
     
     // card choosing
@@ -164,7 +168,7 @@ public class GameStateTest {
     }
     
     @Test
-    public void requestOperativeInputNonNullPromise() {
+    public void requestNonNullPromise() {
     	assertNotNull(model.requestOperativeInput());    	
     }
     
@@ -175,7 +179,7 @@ public class GameStateTest {
     }
     
     @Test (expected=IllegalStateException.class)
-    public void requestOperativeInputCalledTwiceInARow() {
+    public void failsOnRedundantInputRequest() {
     	model.requestOperativeInput();
     	model.requestOperativeInput();
     }
@@ -187,14 +191,17 @@ public class GameStateTest {
     }
     
     @Test
-    public void resetRestoreProperty() {
-    	model.reset();
+    public void propertiesBackToDefault() {
+    	board.reset();
+    	boardFunc.get();
+    	assertSame(boardFunc.get(), board.boardProperty());
     }
     
     @Test
     public void boardPropertyAfterReset() {
-    	model.reset();
-    	model.boardProperty().get();
+    	board.reset();
+    	boardFunc.get();
+    	board.boardProperty();
     }
     
     // helpers
