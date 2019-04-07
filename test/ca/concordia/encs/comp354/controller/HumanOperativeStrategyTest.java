@@ -6,6 +6,13 @@ import ca.concordia.encs.comp354.model.Board;
 import ca.concordia.encs.comp354.model.CodenameWord;
 import ca.concordia.encs.comp354.model.GameState;
 import ca.concordia.encs.comp354.model.Keycard;
+import ca.concordia.encs.comp354.model.OperativeEvent;
+import ca.concordia.encs.comp354.model.Team;
+import ca.concordia.encs.comp354.CompletablePromise;
+import ca.concordia.encs.comp354.Promise;
+import ca.concordia.encs.comp354.controller.Clue;
+import ca.concordia.encs.comp354.controller.action.OperativeAction;
+import ca.concordia.encs.comp354.model.SkipEvent;
 
 import static org.junit.Assert.*;
 
@@ -22,27 +29,28 @@ public class HumanOperativeStrategyTest {
 	 * 
 	 */
 	
+	private GameState model;
+	Operative operative = new Operative(Team.RED, new HumanOperativeStrategy());
+	
 	public HumanOperativeStrategyTest() {
 		Keycard keycard = Keycard.createRandomKeycard();
 	    List<CodenameWord> words = new ArrayList<>();
 	    for (int i=0; i<25; i++) {
 	        words.add(new CodenameWord("foo", Arrays.asList(new CodenameWord.AssociatedWord("bar", 1))));
 	    }
-	    GameState model = new GameState(new Board(words, keycard));
-		Operative operative = new Operative(null, null);
+	    model = new GameState(new Board(words, keycard));
 	}
 
 	
 	/*
 	This test ensures that GameState.operativeInputProperty() returns 
-	a non null value after GuessCardAction() is called.
+	a non null value after guessCard() is called.
     */
 	
-	@Test(expected=NullPointerException.class)
+	@Test
 	public void rejectsOperativeInputPropertyNullValue() {
-		HumanOperativeStrategyTest strategy = new HumanOperativeStrategyTest();
-		model.GuessCardAction();
-		assertTrue(model.operativeInputProperty().getValue() != null);
+		operative.guessCard(model, new Clue("hello", 1));
+		assertNotNull(model.operativeInputProperty().getValue());
 	}
 
 	
@@ -53,8 +61,12 @@ public class HumanOperativeStrategyTest {
 	
 	@Test
 	public void guessCardPromiseFinishedWhenInputPropertyPromiseFinished() {
-		HumanOperativeStrategyTest strategy = new HumanOperativeStrategyTest();
-		assertTrue(model.GuessCardAction().getValue().isFinished);
+		Promise<OperativeAction> promise1 = operative.guessCard(model, new Clue("hello", 1));
+		CompletablePromise<OperativeEvent> promise2 = model.operativeInputProperty().get();
+		assertFalse(promise1.isFinished());
+		assertFalse(promise2.isFinished());
+		promise2.finish(new SkipEvent());
+		assertTrue(promise1.isFinished());
 	}
 	
 }
