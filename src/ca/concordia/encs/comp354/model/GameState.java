@@ -187,6 +187,7 @@ public final class GameState implements ReadOnlyGameState {
     }
     
     public GameEvent pushAction(GameAction value) {
+        cancelInput();
         applyAction(value);
         // clear undo history
         undone.clear();
@@ -197,6 +198,7 @@ public final class GameState implements ReadOnlyGameState {
     	if (history.isEmpty()) {
     		return false;
     	}
+        cancelInput();
     	
         // undo most recent action
     	GameStep top = peek(history); // update history after successful undo -- just peek, modify collection later
@@ -212,7 +214,8 @@ public final class GameState implements ReadOnlyGameState {
     	if (undone.isEmpty()) {
     		return false;
     	}
-    	
+
+        cancelInput();
     	applyAction(pop(undone).getAction());
     	
     	return true;
@@ -384,6 +387,14 @@ public final class GameState implements ReadOnlyGameState {
         CompletablePromise<OperativeEvent> ret = new CompletablePromise<>();
         requestedEvent.set(ret);
         return ret.then(v->requestedEvent.set(null));
+    }
+    
+    private void cancelInput() {
+        CompletablePromise<OperativeEvent> p = requestedEvent.get();
+        if (p!=null) {
+            requestedEvent.set(null);
+            p.cancel();
+        }
     }
     
     @Override

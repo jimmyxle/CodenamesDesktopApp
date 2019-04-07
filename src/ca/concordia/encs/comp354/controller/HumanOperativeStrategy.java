@@ -25,5 +25,10 @@ public class HumanOperativeStrategy implements Operative.Strategy {
         
         return ret;
     }
+    
+    @Override
+    public boolean isHuman() {
+        return true;
+    }
 
 }

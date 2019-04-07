@@ -106,36 +106,6 @@ public class GameController implements GameView.Controller {
 
 	@Override
 	public void advanceTurn() {
-		/* NB: before proceeding, read:
-		 *   - ca.concordia.encs.comp354.model.GameState
-		 *   - ca.concordia.encs.comp354.controller.action.GiveClueAction
-		 *   - ca.concordia.encs.comp354.controller.action.GuessCardAction
-		 *   - ca.concordia.encs.comp354.controller.Operative
-		 *   - ca.concordia.encs.comp354.controller.SpyMaster
-		 * 
-		 * turn logic should be something like this:
-		 * 
-		 * if the most recent GameEvent stored in the model returns isTerminal() == false, do nothing;
-		 * otherwise, 
-		 * given the current team:
-		 *   - if it's the spymaster's turn, push a GiveClueAction to the model
-		 *   - if it's the operative's turn, the number of guesses is less than the number in the last
-		 *     Clue, push a GuessCardAction to the model
-		 * lastly:
-		 *   - if the last GameEvent is non-terminal and either the team is out of guesses, or the
-		 *   last GameEvent is END_TURN (indicating that the turn ended prematurely), advance to the 
-		 *   next team's turn
-		 */
-
-		/*
-		 * red turn
-		 * - spymaster: x, y
-		 * - operative guess 1
-		 * - operative guess 2
-		 * ...
-		 * - operative guess y
-		 * 
-		 */
 		if (model.lastActionProperty().get()==null) {
 			initialize();
 			return;
@@ -146,10 +116,12 @@ public class GameController implements GameView.Controller {
 		}
 
 		final Team turn = model.getTurn();
-
+		
+        SpyMaster currentSpy = turn==Team.RED? redSpyMaster : blueSpyMaster; 
+        Operative currentOp  = turn==Team.RED? redOperative : blueOperative;
+        
 		// if there's no clue, it's the current spymaster's turn
 		if (model.lastClueProperty().get()==null) {
-			SpyMaster currentSpy = turn==Team.RED? redSpyMaster : blueSpyMaster; 
 			model.pushAction(currentSpy.giveClue(model));
 		} else {
 			// advance to next turn iff guesses remain & last action did not end game
@@ -157,8 +129,12 @@ public class GameController implements GameView.Controller {
 				model.pushAction(new ChangeTurnAction(turn==Team.RED? Team.BLUE: Team.RED));
 			} else {
 				// otherwise, let the current operative make another guess
-				Operative currentOp = turn.equals(Team.RED)? redOperative: blueOperative;
-				currentOp.guessCard(model, model.lastClueProperty().get()).then(model::pushAction);
+				currentOp.guessCard(model, model.lastClueProperty().get()).then(act->{
+				    model.pushAction(act);
+				    if (currentOp.isHuman()) {
+				        advanceTurn(); // skip straight to the next action iff this player is human
+				    }
+				});
 			}
 		}	
 	}

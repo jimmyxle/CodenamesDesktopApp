@@ -23,6 +23,10 @@ public class Operative extends Player {
 	     * @return an action that will produce the selected coordinates
 	     */
 	    Promise<OperativeAction> guessCard(Operative owner, GameState state, Clue clue);
+	    
+	    default boolean isHuman() {
+	        return false;
+	    }
 	}
 	
 	private final Strategy strategy;
@@ -40,6 +44,10 @@ public class Operative extends Player {
         }
 		return ret;
 	}
+
+    public boolean isHuman() {
+        return strategy.isHuman();
+    }
 }
 
 

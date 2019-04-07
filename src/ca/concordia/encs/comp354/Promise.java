@@ -24,6 +24,11 @@ public interface Promise<T> {
     boolean isFinished();
     
     /**
+     * @return <code>true</code> if this promise has been cancelled
+     */
+    boolean isCancelled();
+    
+    /**
      * Attaches a consumer to this promise. The consumer will be called when the value has been set, or 
      * immediately if <code>{@link #isFinished()}==true</code>.
      * 
@@ -31,6 +36,13 @@ public interface Promise<T> {
      * @return this promise
      */
     Promise<T> then(Consumer<T> func);
+    
+    /**
+     * Attaches a runnable to this promise to be executed in the event that the promise is cancelled.
+     * @param func  the runnable to execute in case of cancellation
+     * @return this promise
+     */
+    Promise<T> ifCancelled(Runnable func);
 
     /**
      * Creates an already-finished promise with the given value.
