@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import ca.concordia.encs.comp354.Promise;
 import ca.concordia.encs.comp354.controller.GameController;
 import ca.concordia.encs.comp354.controller.Operative;
 import ca.concordia.encs.comp354.controller.GameEvent;
@@ -29,27 +31,29 @@ public class SkipTurnActionTest extends AbstractActionTest {
 	 * Author: Yaacov Cohen 
 	 * 
 	 */
-    SkipTurnAction 		 skip;
-    Operative 			 op;
-    GameState			 state;
-    
-	public SkipTurnActionTest() {
-		op = new Operative(Team.RED, new NullOperativeStrategy());
-	}
+   
+    Operative 		op = new Operative(Team.RED, new NullOperativeStrategy());
+    SkipTurnAction  skip = new SkipTurnAction(op);
+   
 	
 	@Test
 	public void setGuessesRemainingPropertyToZero(){
-		
+		model.guessesRemainingProperty().setValue(1);
+		model.pushAction(skip);
+		assertEquals(0, model.guessesRemainingProperty().get());
 	}
 	
 	@Test
 	public void applyMethodReturnsAPromise() {
-	
+		assertEquals(GameEvent.END_TURN, skip.apply(model).get());	
 	}
 	
 	@Test
-	public void undoMethodremembersPreviousTeamsNumberOfGuesses() {
-		
+	public void undoRestoresNumberOfGuesses() {
+		model.guessesRemainingProperty().setValue(2);
+		model.pushAction(skip);
+		skip.undo(model);
+		assertEquals(2, model.guessesRemainingProperty().get());
 	}
 
 }
