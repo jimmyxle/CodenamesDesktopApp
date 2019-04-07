@@ -11,10 +11,12 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class GameStateTest {
     
     private GameState model;
+    private Supplier<Board> boardFunc;
 
     public GameStateTest() {
         List<CodenameWord> words = new ArrayList<>();
@@ -25,6 +27,7 @@ public class GameStateTest {
         }
         
         model = new GameState(new Board(words, Keycard.createRandomKeycard()));
+        model = new GameState(()->new Board(words, Keycard.createRandomKeycard()));
     }
     
     // card choosing
@@ -161,6 +164,45 @@ public class GameStateTest {
             new GameStep(new ChangeTurnAction(Team.RED), GameEvent.NONE, 0, 0, 0), 
             model.lastStepProperty().get()
         );
+    }
+    
+    @Test
+    public void requestNonNullPromise() {
+    	assertNotNull(model.requestOperativeInput());    	
+    }
+    
+    @Test
+    public void operativeInputPropertyNonNullPromise() {
+    	model.requestOperativeInput();
+    	assertNotNull(model.operativeInputProperty().get());
+    }
+    
+    @Test(expected=IllegalStateException.class)
+    public void failsOnRedundantInputRequest() {
+    	model.requestOperativeInput();
+    	model.requestOperativeInput();
+    }
+    
+    @Test
+    public void operativeInputPropertySetToNull() {
+    	model.requestOperativeInput();
+    	model.operativeInputProperty().get().finish(null);
+    	assertNull(model.operativeInputProperty().get());
+    }
+    
+    @Test
+    public void propertiesBackToDefault() {
+    	model.reset();
+    	boardFunc.get();
+    	assertSame(boardFunc.get(), boardFunc.get());
+    }
+    
+    @Test
+    public void boardPropertyAfterReset() {
+    	model.boardProperty();
+    	model.reset();
+    	boardFunc.get();
+    	assertNotSame(model.boardProperty().get(), boardFunc.get());
     }
     
     // helpers

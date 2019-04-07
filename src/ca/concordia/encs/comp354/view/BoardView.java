@@ -34,8 +34,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 
 
 /**
