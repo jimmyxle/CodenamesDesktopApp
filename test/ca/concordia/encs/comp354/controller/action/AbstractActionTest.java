@@ -17,11 +17,11 @@ import ca.concordia.encs.comp354.model.CodenameWord.AssociatedWord;
  * @author Mykyta Leonidov
  *
  */
-class AbstractActionTest {
+public class AbstractActionTest {
 
     protected GameState model;
     
-    AbstractActionTest() {
+    protected AbstractActionTest() {
         this(Keycard.createRandomKeycard());
     }
     
